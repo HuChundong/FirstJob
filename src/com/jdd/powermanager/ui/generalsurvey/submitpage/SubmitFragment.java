@@ -33,7 +33,7 @@ public class SubmitFragment extends Fragment
 	{
 		super.onCreate(savedInstanceState);
 		
-		mDisId = getArguments().getString("Districtid");
+		mDisId = getArguments().getString("DistrictId");
 		
 		mAdapter = new UnSubmitDataAdapter(getActivity());
 		
