@@ -1,0 +1,165 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        layout="@layout/topbar" />
+    
+    <View 
+        android:layout_below="@+id/topbar"
+        android:layout_width="match_parent"
+        android:background="@drawable/base_pub_background"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/device_no"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/topbar"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/device_number"
+        android:textColor="#000000" />
+
+    <EditText
+        android:id="@+id/device_no_edit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/device_no"
+        android:layout_alignBottom="@+id/device_no"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_toRightOf="@+id/device_no"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:enabled="false" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/user_no"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/device_no"
+        android:layout_below="@+id/device_no"
+        android:layout_marginTop="40dp"
+        android:text="@string/user_no"
+        android:textColor="#000000" />
+
+    <EditText
+        android:id="@+id/user_no_edit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/user_no"
+        android:layout_alignBottom="@+id/user_no"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/user_no"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#000000"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/user_passwd"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/user_no"
+        android:layout_below="@+id/user_no"
+        android:layout_marginTop="40dp"
+        android:text="@string/user_passwd"
+        android:textColor="#000000" />
+
+    <EditText
+        android:id="@+id/user_passwd_edit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/user_passwd"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/user_passwd"
+        android:layout_alignBaseline="@+id/user_passwd"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#000000"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:inputType="textPassword" >
+
+        <requestFocus />
+    </EditText>
+
+    <LinearLayout
+        android:id="@+id/radios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_passwd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp" >
+
+        <RadioButton
+            android:id="@+id/online_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:button="@drawable/radio_btn_selector"
+            android:text="@string/online_mode" />
+
+        <RadioButton
+            android:id="@+id/offline_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:text="@string/offline_mode"
+            android:button="@drawable/radio_btn_selector"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/user_passwd"
+        android:layout_alignRight="@+id/user_passwd_edit"
+        android:layout_below="@+id/radios"
+        android:layout_marginTop="30dp"
+        android:textColor="#000000"
+        android:text="@string/login"
+        android:background="@drawable/login_btn_selector"
+        android:onClick="login" />
+
+    <Button
+        android:id="@+id/exit"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/login"
+        android:layout_alignRight="@+id/login"
+        android:layout_below="@+id/login"
+        android:layout_marginTop="10dp"
+        android:textColor="#000000"
+        android:text="@string/exit"
+        android:background="@drawable/login_btn_selector"
+        android:onClick="exit" />
+
+    <RelativeLayout 
+        android:id="@+id/waiting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:clickable="true"
+        android:background="#66000000">
+        
+	     <ProgressBar
+	        android:id="@+id/progressBar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:clickable="false"
+	        android:layout_centerInParent="true" />
+    </RelativeLayout>
+</RelativeLayout>

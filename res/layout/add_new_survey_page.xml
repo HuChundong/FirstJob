@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F1ED" >
+
+    <include
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        android:layout_alignParentTop="true"
+        layout="@layout/topbar" />
+    
+    <LinearLayout
+        android:id="@+id/tab_btns"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:baselineAligned="false"
+        android:layout_below="@+id/topbar">
+        
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            
+            <TextView 
+		        android:id="@+id/tab_btn_box"
+		        android:layout_width="90dp"
+		        android:layout_height="30dp"
+		        android:textSize="13sp"
+		        android:textColor="@drawable/survey_tab_text_color_selector"
+		        android:gravity="center"
+		        android:background="@drawable/survey_tab_left_btn_selector"
+		        android:text="@string/box"/>
+            
+           <TextView
+                android:id="@+id/tab_btn_box_assets"
+                android:text="@string/box_assets"
+                android:layout_width="90dp"
+                android:layout_height="30dp"
+                android:background="@drawable/survey_tab_center_btn_selector"
+                android:textColor="@drawable/survey_tab_text_color_selector"
+                android:layout_marginLeft="-0.8dp"
+                android:layout_marginRight="-0.8dp"
+                android:gravity="center"
+                android:textSize="13sp" /> 
+            
+            <TextView 
+		        android:id="@+id/tab_btn_lock"
+		        android:layout_width="90dp"
+		        android:layout_height="30dp"
+		        android:background="@drawable/survey_tab_right_btn_selector"
+		        android:textColor="@drawable/survey_tab_text_color_selector"		        
+		        android:textSize="13sp"
+		        android:gravity="center"
+		        android:text="@string/lock"/>  
+		                    
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+   <View 
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@+id/tab_btns"
+        android:layout_marginTop="-1dp"
+        android:background="#66000000"/>
+    
+    <android.support.v4.view.ViewPager 
+        android:id="@+id/view_pager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/tab_btns"/>
+
+</RelativeLayout>
