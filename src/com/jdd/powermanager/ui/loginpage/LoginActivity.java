@@ -5,6 +5,7 @@ import com.jdd.powermanager.basic.BaseActivity;
 import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
 import com.jdd.powermanager.model.MeterSurvey.SurveyDataManager.OnInitedListener;
 import com.jdd.powermanager.ui.mainpage.MainPageActivity;
+import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class LoginActivity extends BaseActivity 
@@ -27,8 +27,6 @@ public class LoginActivity extends BaseActivity
 //	private EditText mUserNoEdit;
 	
 //	private EditText mUserPsdEdit;
-	
-	private RelativeLayout mWaiting;
 	
 	private boolean mIsIniting;
 	
@@ -83,7 +81,7 @@ public class LoginActivity extends BaseActivity
 	
 	public void login(View v)
 	{
-		mWaiting.setVisibility(View.VISIBLE);
+		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
 		
 		if( mIsIniting )
 		{
@@ -105,9 +103,9 @@ public class LoginActivity extends BaseActivity
 	@Override
 	public void onBackPressed() 
 	{
-		if(mWaiting.getVisibility() == View.VISIBLE)
+		if(FullScreenWaitBar.isShow())
 		{
-			mWaiting.setVisibility(View.INVISIBLE);
+			FullScreenWaitBar.hide();
 			
 			return;
 		}
@@ -129,7 +127,7 @@ public class LoginActivity extends BaseActivity
 			
 			mIsInitSuccess = true;
 			
-			if( mWaiting.getVisibility() == View.VISIBLE )
+			if(FullScreenWaitBar.isShow())
 			{
 				goHome();
 			}
@@ -170,8 +168,6 @@ public class LoginActivity extends BaseActivity
 		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		
 		mDeviceNoEdit.setText(tm.getDeviceId());
-		
-		mWaiting = (RelativeLayout) findViewById(R.id.waiting_layout);
 	}
 	
 	private void initTopbar()

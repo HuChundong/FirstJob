@@ -21,6 +21,7 @@ import com.jdd.powermanager.basic.BaseActivity;
 import com.jdd.powermanager.bean.District;
 import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
 import com.jdd.powermanager.ui.generalsurvey.SurveyActivity;
+import com.jdd.powermanager.ui.boxcombing.*;
 
 public class MainPageActivity extends BaseActivity 
 {
@@ -44,7 +45,7 @@ public class MainPageActivity extends BaseActivity
 					break;
 				case 1:
 					
-					showDistrictSelectDialog(R.string.area_comb,SurveyActivity.class);
+					showDistrictSelectDialog(R.string.area_comb,CombingActivity.class);
 					
 					break;
 				case 2:
