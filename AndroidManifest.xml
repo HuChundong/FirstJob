@@ -35,6 +35,8 @@
         <activity android:name=".ui.mainpage.MainPageActivity"></activity>
         <activity android:name=".ui.generalsurvey.SurveyActivity"></activity>
         <activity android:name="com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage.NewSurveyActivity"></activity>
+        <activity android:name=".ui.boxcombing.CombingActivity"></activity>
+        <activity android:name=".ui.boxcombing.newbox.NewBoxActivity"></activity>
     </application>
 
 </manifest>

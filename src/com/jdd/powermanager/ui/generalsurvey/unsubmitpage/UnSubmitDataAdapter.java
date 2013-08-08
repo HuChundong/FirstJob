@@ -115,7 +115,7 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		mSelectedSet = new ArrayList<HashMap<String, String>>();
 	}
 	
-	public void setDate(List<HashMap<String, String>> data)
+	public void setData(List<HashMap<String, String>> data)
 	{
 		mData = data;
 		
@@ -152,7 +152,7 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		
 		if( null == view )
 		{
-			view = LayoutInflater.from(mContext).inflate(R.layout.un_submit_item, null);
+			view = LayoutInflater.from(mContext).inflate(R.layout.survey_un_submit_item, null);
 			
 			h = new Holder();
 			

@@ -1,0 +1,110 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_above="@+id/bottom_btns"
+        android:layout_marginBottom="-1dp"
+        android:background="#66000000"/>
+	
+	<LinearLayout 
+	    android:id="@+id/bottom_btns"
+	    android:layout_width="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:gravity="center"
+	    android:layout_centerHorizontal="true"
+	    android:layout_marginTop="5dp"
+	    android:layout_marginBottom="5dp"
+	    android:layout_height="35dp">
+	    
+        <TextView 
+            android:id="@+id/add_new"
+            android:layout_height="30dp"
+            android:layout_width="70dp"
+    		android:textColor="@drawable/survey_bottom_text_color_selector"
+		    android:background="@drawable/survey_bottom_left_btn_selector"
+            android:gravity="center"
+            android:textSize="11sp"
+            android:text="@string/add_new"/>
+        
+        <TextView 
+            android:id="@+id/submit"
+            android:layout_height="30dp"
+            android:layout_width="70dp"
+            android:gravity="center"
+            android:textColor="@drawable/survey_bottom_text_color_selector"
+		    android:background="@drawable/survey_bottom_center_btn_selector"
+		    android:layout_marginLeft="-1dp"
+		    android:layout_marginRight="-1dp"
+		    android:textSize="11sp"
+            android:text="@string/batch_submit"/>
+                
+        <TextView 
+            android:id="@+id/del"
+            android:gravity="center"
+            android:layout_height="30dp"
+            android:layout_width="70dp"
+            android:textColor="@drawable/survey_bottom_text_color_selector"
+		    android:background="@drawable/survey_bottom_center_btn_selector"
+			android:layout_marginRight="-1dp"    
+			android:textSize="11sp"      
+            android:text="@string/del"/>
+        
+        <TextView 
+            android:id="@+id/back_btn"
+            android:textColor="@drawable/survey_bottom_text_color_selector"
+		    android:background="@drawable/survey_bottom_right_btn_selector"            
+            android:layout_height="30dp"
+            android:layout_width="70dp"
+            android:textSize="11sp"
+            android:gravity="center"
+            android:text="@string/back"/>
+	</LinearLayout>
+	
+	<HorizontalScrollView 
+        android:layout_above="@+id/bottom_btns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            
+            <include 
+		        android:id="@+id/title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="30dp"
+		        android:layout_alignParentTop="true"
+		        layout="@layout/combing_item"/>
+            
+		    <View 
+		        android:id="@+id/line"
+		        android:layout_width="wrap_content"
+		        android:layout_alignLeft="@+id/title"
+		        android:layout_alignRight="@+id/title"
+		        android:layout_height="0.1dp"
+		        android:layout_below="@+id/title"
+		        android:background="#66004E98"/>
+            
+            <LinearLayout 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/line"
+		        android:orientation="horizontal">
+		        
+		            <ListView 
+					    android:id="@+id/list_view"
+					    android:layout_width="wrap_content"
+					    android:divider="#66004E98"
+					    android:dividerHeight="0.1dp"
+					    android:layout_height="wrap_content"/>
+    		</LinearLayout>
+            
+        </RelativeLayout>
+        
+    </HorizontalScrollView>
+		
+</RelativeLayout>

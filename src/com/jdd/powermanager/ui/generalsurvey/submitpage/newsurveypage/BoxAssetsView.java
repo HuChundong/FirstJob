@@ -78,7 +78,7 @@ public class BoxAssetsView implements Pager
 	@Override
 	public View getView() 
 	{
-		mRoot = LayoutInflater.from(mContext).inflate(R.layout.box_assets_page, null);
+		mRoot = LayoutInflater.from(mContext).inflate(R.layout.survey_box_assets_page, null);
 		
 		initViews();
 		

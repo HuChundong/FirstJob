@@ -67,7 +67,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="30dp"
 		        android:layout_alignParentTop="true"
-		        layout="@layout/assets_detail_list_item"/>
+		        layout="@layout/combing_item"/>
             
 		    <View 
 		        android:id="@+id/line"
@@ -90,14 +90,10 @@
 					    android:divider="#66004E98"
 					    android:dividerHeight="0.1dp"
 					    android:layout_height="wrap_content"/>
-    </LinearLayout>
+    		</LinearLayout>
             
         </RelativeLayout>
         
-
-        
     </HorizontalScrollView>
-    
-
 
 </RelativeLayout>

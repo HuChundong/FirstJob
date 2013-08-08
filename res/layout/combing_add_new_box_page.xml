@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F1ED" >
+
+    <include
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        android:layout_alignParentTop="true"
+        layout="@layout/topbar" />
+    
+    <include 
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/combing_box_page"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

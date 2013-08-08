@@ -87,4 +87,15 @@
 	<string name="column_index">第%1$s列</string>
 	<string name="input_or_scan_barcode">扫描或输入条码</string>
 	<string name="input_meter_code">请输入电能表资产编号:</string>
+	<string name="box_combing">台区梳理</string>
+	<string name="combing_item_order">序号</string>
+	<string name="combing_system_id">业务系统id</string>
+	<string name="combing_address">安装位置</string>
+	<string name="combing_rows">行数</string>
+	<string name="combing_columns">列数</string>
+	<string name="combing_meter_count">表数</string>
+	<string name="combing_district_tag">台区标识</string>
+	<string name="combing_district_no">台区编号</string>
+	<string name="combing_box_barcode">资产编号</string>
+	<string name="meter_count">表数</string>
 </resources>

@@ -1,7 +1,5 @@
-package com.jdd.powermanager.ui.generalsurvey.assetspage;
+package com.jdd.powermanager.ui.boxcombing.allboxs;
 
-import java.util.HashMap;
-import java.util.List;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
@@ -40,16 +38,17 @@ public class AssetsDetailFragment extends Fragment
 		
 		mAdapter = new AssetsDataAdapter(getActivity() , mDistrictId);
 		
-		List<HashMap<String, String>> list = MeterSurveyDataManager.getInstance().getAllMetersInDistrict(mDistrictId);
-		
-		mAdapter.setData(list);
+		// TODO
+//		List<HashMap<String, String>> list = MeterSurveyDataManager.getInstance().getAllMetersInDistrict(mDistrictId);
+//		
+//		mAdapter.setData(list);
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) 
 	{
-		View v = inflater.inflate(R.layout.survey_assets_detail_page, null);
+		View v = inflater.inflate(R.layout.combing_assets_detail_page, null);
 		
 		mSpinner = (Spinner) v.findViewById(R.id.state_filter_selector);
 		
@@ -58,8 +57,8 @@ public class AssetsDetailFragment extends Fragment
 		String[] menus = 
 		{
 			getString(R.string.all) + "( " +  mAdapter.getAllCount() +" )" ,
-			getString(R.string.state_survey) + "( " +  mAdapter.getSurveyCount() +" )" ,
-			getString(R.string.state_un_survey) + "( " +  mAdapter.getUnSurveyCount() +" )" ,
+			getString(R.string.state_survey) + "( " +  mAdapter.getCombCount() +" )" ,
+			getString(R.string.state_un_survey) + "( " +  mAdapter.getUnCombCount() +" )" ,
 		};
 		
 		sa.setItems(menus);
@@ -133,11 +132,11 @@ public class AssetsDetailFragment extends Fragment
 		{
 			if( SurveyStateSelectorAdapter.isSurveyState(pos) )
 			{
-				mAdapter.switchData(AssetsDataAdapter.SURVEY);
+				mAdapter.switchData(AssetsDataAdapter.COMB);
 			}
 			else if( SurveyStateSelectorAdapter.isUnSurveyState(pos) )
 			{
-				mAdapter.switchData(AssetsDataAdapter.UN_SURVEY);
+				mAdapter.switchData(AssetsDataAdapter.UN_COMB);
 			}
 			else
 			{

@@ -30,7 +30,7 @@ public class LockView implements Pager
 	@Override
 	public View getView() 
 	{
-		mRoot = LayoutInflater.from(mContext).inflate(R.layout.lock_page, null);
+		mRoot = LayoutInflater.from(mContext).inflate(R.layout.survey_lock_page, null);
 		
 		initViews();
 		

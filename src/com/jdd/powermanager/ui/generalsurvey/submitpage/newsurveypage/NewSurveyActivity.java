@@ -39,7 +39,7 @@ public class NewSurveyActivity extends BaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.add_new_survey_page);
+		setContentView(R.layout.survey_add_new_survey_page);
 		
 		mDistrictId = getIntent().getStringExtra("DistrictId");
 		

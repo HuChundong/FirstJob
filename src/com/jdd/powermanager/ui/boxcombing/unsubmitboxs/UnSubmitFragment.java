@@ -1,10 +1,7 @@
-package com.jdd.powermanager.ui.generalsurvey.unsubmitpage;
+package com.jdd.powermanager.ui.boxcombing.unsubmitboxs;
 
-import java.util.HashMap;
-import java.util.List;
 import com.jdd.powermanager.R;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
-import com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage.NewSurveyActivity;
+import com.jdd.powermanager.ui.boxcombing.newbox.NewBoxActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,16 +38,17 @@ public class UnSubmitFragment extends Fragment
 		
 		mAdapter = new UnSubmitDataAdapter(getActivity());
 		
-		List<HashMap<String, String>> list = MeterSurveyDataManager.getInstance().getAllSurveyedBoxesInDistrict(mDisId,2);
+		// TODO
+//		List<HashMap<String, String>> list = MeterSurveyDataManager.getInstance().getAllSurveyedBoxesInDistrict(mDisId,2);
 		
-		mAdapter.setData(list);
+//		mAdapter.setData(list);
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) 
 	{
-		View v = inflater.inflate(R.layout.survey_un_submit_page, null);
+		View v = inflater.inflate(R.layout.combing_un_submit_page, null);
 		
 		mListView = (ListView) v.findViewById(R.id.list_view);
 		
@@ -79,7 +77,7 @@ public class UnSubmitFragment extends Fragment
 	{
 		Intent i = new Intent();
 		
-		i.setClass(getActivity(), NewSurveyActivity.class);
+		i.setClass(getActivity(), NewBoxActivity.class);
 		
 		i.putExtra("DistrictId", mDisId);
 		

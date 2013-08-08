@@ -1,4 +1,4 @@
-package com.jdd.powermanager.ui.generalsurvey.submitpage;
+package com.jdd.powermanager.ui.boxcombing.submitboxs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,15 +119,27 @@ public class SubmitDataAdapter extends BaseAdapter
 		
 		if( null == view )
 		{
-			view = LayoutInflater.from(mContext).inflate(R.layout.survey_un_submit_item, null);
+			view = LayoutInflater.from(mContext).inflate(R.layout.combing_item, null);
 			
 			h = new Holder();
 			
-			h.type = (TextView) view.findViewById(R.id.item_type);
+			h.order = (TextView) view.findViewById(R.id.order);
 			
-			h.code = (TextView) view.findViewById(R.id.item_code);
+			h.systemId = (TextView) view.findViewById(R.id.system_id);
 			
-			h.date = (TextView) view.findViewById(R.id.item_time);
+			h.address = (TextView) view.findViewById(R.id.address);
+			
+			h.rows = (TextView) view.findViewById(R.id.rows);
+			
+			h.columns = (TextView) view.findViewById(R.id.columns);
+			
+			h.meterCount = (TextView) view.findViewById(R.id.meters_count);
+			
+			h.disTag = (TextView) view.findViewById(R.id.district_tag);
+			
+			h.disId = (TextView) view.findViewById(R.id.district_id);
+			
+			h.barCode = (TextView) view.findViewById(R.id.box_barcode);
 			
 			view.setTag(h);
 		}
@@ -141,11 +153,12 @@ public class SubmitDataAdapter extends BaseAdapter
 		
 		if( null != data )
 		{
-			h.type.setText(data.get(MeterSurvey.SORT_CODE));
-			
-			h.code.setText(data.get(MeterSurvey.BAR_CODE));
-			
-			h.date.setText(data.get(MeterSurvey.SURVEY_TIME));
+			// TODO
+//			h.type.setText(data.get(MeterSurvey.SORT_CODE));
+//			
+//			h.code.setText(data.get(MeterSurvey.BAR_CODE));
+//			
+//			h.date.setText(data.get(MeterSurvey.SURVEY_TIME));
 		}
 		
 		view.setOnClickListener(new OnClickListener() 
@@ -182,10 +195,22 @@ public class SubmitDataAdapter extends BaseAdapter
 	
 	private class Holder
 	{
-		TextView type;
+		TextView order;
 		
-		TextView code;
+		TextView systemId;
 		
-		TextView date;
+		TextView address;
+		
+		TextView rows;
+		
+		TextView columns;
+		
+		TextView meterCount;
+		
+		TextView disTag;
+		
+		TextView disId;
+		
+		TextView barCode;
 	}
 }

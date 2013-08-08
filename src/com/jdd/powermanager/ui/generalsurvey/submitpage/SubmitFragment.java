@@ -39,14 +39,14 @@ public class SubmitFragment extends Fragment
 		
 		List<HashMap<String, String>> list = MeterSurveyDataManager.getInstance().getAllSurveyedBoxesInDistrict(mDisId,1);
 		
-		mAdapter.setDate(list);
+		mAdapter.setData(list);
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) 
 	{
-		View v = inflater.inflate(R.layout.submit_page, null);
+		View v = inflater.inflate(R.layout.survey_submit_page, null);
 		
 		mListView = (ListView) v.findViewById(R.id.list_view);
 		

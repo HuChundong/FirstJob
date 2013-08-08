@@ -1,13 +1,11 @@
-package com.jdd.powermanager.ui.generalsurvey.assetspage;
+package com.jdd.powermanager.ui.boxcombing.allboxs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import com.jdd.powermanager.R;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
 import com.jdd.powermanager.model.MeterSurvey.SurveyForm;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +16,9 @@ import android.widget.TextView;
 
 public class AssetsDataAdapter  extends BaseAdapter
 {
-	public static final int SURVEY = 1;
+	public static final int COMB = 1;
 	
-	public static final int UN_SURVEY = 2;
+	public static final int UN_COMB = 2;
 	
 	public static final int ALL = 0;
 	
@@ -30,9 +28,9 @@ public class AssetsDataAdapter  extends BaseAdapter
 	
 	private List<HashMap<String,String>> mFullList;
 	
-	private List<HashMap<String,String>> mSurveyList = new ArrayList<HashMap<String,String>>();
+	private List<HashMap<String,String>> mCombList = new ArrayList<HashMap<String,String>>();
 	
-	private List<HashMap<String,String>> munSurveyList= new ArrayList<HashMap<String,String>>();
+	private List<HashMap<String,String>> munCombList= new ArrayList<HashMap<String,String>>();
 	
 	/**
 	 * 1 已普查  2 未普查 0 all
@@ -50,14 +48,14 @@ public class AssetsDataAdapter  extends BaseAdapter
 		mDristritId = dis;
 	}
 	
-	public int getSurveyCount()
+	public int getCombCount()
 	{
-		return null == mSurveyList ? 0 : mSurveyList.size();
+		return null == mCombList ? 0 : mCombList.size();
 	}
 	
-	public int getUnSurveyCount()
+	public int getUnCombCount()
 	{
-		return null == munSurveyList ? 0 : munSurveyList.size();
+		return null == munCombList ? 0 : munCombList.size();
 	}
 	
 	public int getAllCount()
@@ -76,15 +74,15 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		switch(state)
 		{
-			case SURVEY:
+			case COMB:
 				
-				mCurList = mSurveyList;
+				mCurList = mCombList;
 				
 				break;
 				
-			case UN_SURVEY:
+			case UN_COMB:
 				
-				mCurList = munSurveyList;
+				mCurList = munCombList;
 				
 				break;
 				
@@ -107,9 +105,9 @@ public class AssetsDataAdapter  extends BaseAdapter
 			mSelectedSet.clear();
 		}
 		
-		mSurveyList .clear();
+		mCombList .clear();
 		
-		munSurveyList.clear();
+		munCombList.clear();
 		
 		if( null ==  mFullList)
 		{
@@ -118,6 +116,7 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		HashMap<String, String> m = null;
 		
+		// TODO
 		String survey = mContext.getString(R.string.state_survey);
 		
 		for( int i = 0; i < mFullList.size() ; i++ )
@@ -126,11 +125,11 @@ public class AssetsDataAdapter  extends BaseAdapter
 			
 			if( survey.equals(m.get(SurveyForm.SURVEY_STATUS)) )
 			{
-				mSurveyList.add(m);
+				mCombList.add(m);
 			}
 			else
 			{
-				munSurveyList.add(m);
+				munCombList.add(m);
 			}
 		}
 		
@@ -162,22 +161,27 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		if( null == view )
 		{
-			view = LayoutInflater.from(mContext).inflate(R.layout.survey_assets_detail_list_item, null);
+			view = LayoutInflater.from(mContext).inflate(R.layout.combing_item, null);
 			
 			h = new Holder();
 			
 			h.order = (TextView) view.findViewById(R.id.order);
-			h.userNO = (TextView) view.findViewById(R.id.user_number);
-			h.state = (TextView) view.findViewById(R.id.state);
-			h.measureNO = (TextView) view.findViewById(R.id.measure_no);
-			h.assetNO = (TextView) view.findViewById(R.id.asset_no);
-			h.rowNO = (TextView) view.findViewById(R.id.row_no);
-			h.columnNO = (TextView) view.findViewById(R.id.column_no);
-			h.userName = (TextView) view.findViewById(R.id.user_name);
+			
+			h.systemId = (TextView) view.findViewById(R.id.system_id);
+			
 			h.address = (TextView) view.findViewById(R.id.address);
-			h.dristrictId = (TextView) view.findViewById(R.id.dristrict_id);
-			h.userCategory = (TextView) view.findViewById(R.id.user_category);
-			h.wiring = (TextView) view.findViewById(R.id.wiring);
+			
+			h.rows = (TextView) view.findViewById(R.id.rows);
+			
+			h.columns = (TextView) view.findViewById(R.id.columns);
+			
+			h.meterCount = (TextView) view.findViewById(R.id.meters_count);
+			
+			h.disTag = (TextView) view.findViewById(R.id.district_tag);
+			
+			h.disId = (TextView) view.findViewById(R.id.district_id);
+			
+			h.barCode = (TextView) view.findViewById(R.id.box_barcode);
 			
 			view.setTag(h);
 		}
@@ -191,21 +195,22 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		if( null != data )
 		{
-			h.order.setText("          "); // 目前为空
-			h.userNO.setText(data.get(MeterSurvey.CONS_NO));
-			h.state.setText(data.get(SurveyForm.SURVEY_STATUS));
-			h.measureNO.setText(data.get(MeterSurvey.MP_NO));
-			h.assetNO.setText(data.get(MeterSurvey.D_ASSET_NO));
-			h.rowNO.setText(data.get(MeterSurvey.IN_ROW));
-			h.columnNO.setText(data.get(MeterSurvey.IN_COLUMN));
-			h.userName.setText(data.get(MeterSurvey.USER_NAME));
-			h.address.setText(data.get(MeterSurvey.USER_ADDRESS));
-			h.dristrictId.setText(mDristritId);
-			h.userCategory.setText(data.get(MeterSurvey.USER_TYPE));
-			h.wiring.setText(data.get(MeterSurvey.WIRING_METHOD));
+			// TODO
+//			h.order.setText("          "); // 目前为空
+//			h.userNO.setText(data.get(MeterSurvey.CONS_NO));
+//			h.state.setText(data.get(SurveyForm.SURVEY_STATUS));
+//			h.measureNO.setText(data.get(MeterSurvey.MP_NO));
+//			h.assetNO.setText(data.get(MeterSurvey.D_ASSET_NO));
+//			h.rowNO.setText(data.get(MeterSurvey.IN_ROW));
+//			h.columnNO.setText(data.get(MeterSurvey.IN_COLUMN));
+//			h.userName.setText(data.get(MeterSurvey.USER_NAME));
+//			h.address.setText(data.get(MeterSurvey.USER_ADDRESS));
+//			h.dristrictId.setText(mDristritId);
+//			h.userCategory.setText(data.get(MeterSurvey.USER_TYPE));
+//			h.wiring.setText(data.get(MeterSurvey.WIRING_METHOD));
 		}
 		
-		final String code = (String) h.assetNO.getText();
+		final String code = (String) h.barCode.getText();
 		
 		view.setOnClickListener(new OnClickListener() 
 		{
@@ -243,26 +248,20 @@ public class AssetsDataAdapter  extends BaseAdapter
 	{
 		TextView order;
 		
-		TextView userNO;
-		
-		TextView state;
-		
-		TextView measureNO;
-		
-		TextView assetNO;
-		
-		TextView rowNO;
-		
-		TextView columnNO;
-		
-		TextView userName;
+		TextView systemId;
 		
 		TextView address;
 		
-		TextView dristrictId;
+		TextView rows;
 		
-		TextView userCategory;
+		TextView columns;
 		
-		TextView wiring;
+		TextView meterCount;
+		
+		TextView disTag;
+		
+		TextView disId;
+		
+		TextView barCode;
 	}
 }

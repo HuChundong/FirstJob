@@ -1,11 +1,8 @@
-package com.jdd.powermanager.ui.generalsurvey.unsubmitpage;
+package com.jdd.powermanager.ui.boxcombing.submitboxs;
 
-import java.util.HashMap;
-import java.util.List;
 import com.jdd.powermanager.R;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
-import com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage.NewSurveyActivity;
-import android.content.Intent;
+import com.jdd.powermanager.ui.boxcombing.unsubmitboxs.UnSubmitDataAdapter;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,17 +13,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class UnSubmitFragment extends Fragment
+public class SubmitFragment extends Fragment
 {
 	private ListView mListView;
 	
 	private UnSubmitDataAdapter mAdapter;
 	
 	private String mDisId;
-	
-	private TextView mAddNew;
-	
-	private TextView mSubmit;
 	
 	private TextView mDel;
 	
@@ -41,30 +34,23 @@ public class UnSubmitFragment extends Fragment
 		
 		mAdapter = new UnSubmitDataAdapter(getActivity());
 		
-		List<HashMap<String, String>> list = MeterSurveyDataManager.getInstance().getAllSurveyedBoxesInDistrict(mDisId,2);
+		// TODO
+//		List<HashMap<String, String>> list = MeterSurveyDataManager.getInstance().getAllSurveyedBoxesInDistrict(mDisId,1);
 		
-		mAdapter.setData(list);
+//		mAdapter.setData(list);
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) 
 	{
-		View v = inflater.inflate(R.layout.survey_un_submit_page, null);
+		View v = inflater.inflate(R.layout.combing_submit_page, null);
 		
 		mListView = (ListView) v.findViewById(R.id.list_view);
-		
-		mAddNew = (TextView) v.findViewById(R.id.add_new);
-		
-		mSubmit = (TextView) v.findViewById(R.id.submit);
 		
 		mDel = (TextView) v.findViewById(R.id.del);
 		
 		mBack = (TextView) v.findViewById(R.id.back_btn);
-		
-		mAddNew.setOnClickListener(mOnClickLis);
-		
-		mSubmit.setOnClickListener(mOnClickLis);
 		
 		mDel.setOnClickListener(mOnClickLis);
 		
@@ -73,22 +59,6 @@ public class UnSubmitFragment extends Fragment
 		mListView.setAdapter(mAdapter);
 		
 		return v;
-	}
-	
-	private void addNew()
-	{
-		Intent i = new Intent();
-		
-		i.setClass(getActivity(), NewSurveyActivity.class);
-		
-		i.putExtra("DistrictId", mDisId);
-		
-		startActivity(i);
-	}
-	
-	private void submit()
-	{
-		mAdapter.submitSelected();
 	}
 	
 	private void del()
@@ -108,18 +78,6 @@ public class UnSubmitFragment extends Fragment
 		{
 			switch(v.getId())
 			{
-				case R.id.add_new:
-					
-					addNew();
-					
-					break;
-					
-				case R.id.submit:
-					
-					submit();
-					
-					break;
-					
 				case R.id.del:
 					
 					del();

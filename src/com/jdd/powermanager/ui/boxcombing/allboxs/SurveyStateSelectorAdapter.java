@@ -1,4 +1,4 @@
-package com.jdd.powermanager.ui.generalsurvey;
+package com.jdd.powermanager.ui.boxcombing.allboxs;
 
 import com.jdd.powermanager.R;
 

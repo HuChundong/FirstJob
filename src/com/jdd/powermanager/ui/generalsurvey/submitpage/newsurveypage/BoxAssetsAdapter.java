@@ -268,7 +268,7 @@ public class BoxAssetsAdapter extends BaseAdapter
 		
 		if( null == view )
 		{
-			view = LayoutInflater.from(mContext).inflate(R.layout.meter_item, null);
+			view = LayoutInflater.from(mContext).inflate(R.layout.survey_meter_item, null);
 			
 			h = new Holder();
 			

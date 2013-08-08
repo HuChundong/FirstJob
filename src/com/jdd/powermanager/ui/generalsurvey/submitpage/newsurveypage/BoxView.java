@@ -75,7 +75,7 @@ public class BoxView implements Pager
 	
 	public View getView()
 	{
-		mRoot = LayoutInflater.from(mContext).inflate(R.layout.box_page, null);
+		mRoot = LayoutInflater.from(mContext).inflate(R.layout.survey_box_page, null);
 		
 		initViews();
 		
