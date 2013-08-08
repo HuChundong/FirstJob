@@ -1,5 +1,8 @@
 package com.jdd.powermanager.model.MeterSurvey;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.apache.poi.hssf.usermodel.HSSFRow;
 
 import android.content.ContentValues;
@@ -65,6 +68,17 @@ public class BoxSurveyDataManager extends SurveyDataManager
 		}
 		
 		mBoxSurveyDBHelper.insertBoxSurveyTable(allContentValues);
+	}
+	
+	/**
+	 * 获取某台区内所有已普查的计量箱列表
+	 * @param districtID 台区id
+	 * @param commitStatus 提交状态	0：返回所有的表箱	1：返回已提交表箱	2：返回未提交表箱
+	 * @return 某台区内所有已普查计量箱列表,用hashmap表示计量箱对象
+	 */
+	public ArrayList<HashMap<String, String>> getAllSurveyedBoxesInDistrict(String districtID, int commitStatus)
+	{
+		return mBoxSurveyDBHelper.getAllSurveyedBoxesInDistrict(districtID, commitStatus);
 	}
 
 }
