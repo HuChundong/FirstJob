@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
+import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -215,6 +216,84 @@ public class BoxSurveyDBHelper extends SQLiteOpenHelper
 		}
         
         return districtList;  
+	}
+	
+	/**
+	 * 获取某台区内所有已普查的计量箱列表
+	 * @param districtID 台区id
+	 * @param commitStatus 提交状态	0：返回所有的表箱	1：返回已提交表箱	2：返回未提交表箱
+	 * @return 某台区内所有已普查计量箱列表,用hashmap表示计量箱对象
+	 */
+	public ArrayList<HashMap<String, String>> getAllSurveyedBoxesInDistrict(String districtID, int commitStatus)
+	{
+		String SQL = "SELECT DISTINCT ";
+		int boxColumnLength = BoxSurvey.DBToXLSColumnIndexBox.length;
+		for (int i = 0 ; i < boxColumnLength - 1 ; i ++)
+		{
+			SQL += BoxSurvey.DBToXLSColumnIndexBox[i] + COMMA_SEP;
+		}
+		SQL += BoxSurvey.DBToXLSColumnIndexBox[boxColumnLength - 1] +
+				" FROM " + BoxSurvey.TABLE_NAME +
+				" where " + BoxSurvey.DISTRICT_ID + " = \"" + districtID +"\""
+				+ " and " + SurveyForm.SURVEY_STATUS + " = \"" + SurveyForm.SURVEY_STATUS_SURVEYED + "\"";
+		
+		//增加是否已提交的条件逻辑
+		String commitStatusCondition = "";
+		
+		switch (commitStatus)
+		{
+			case 0:
+				commitStatusCondition = "";
+				break;
+			case 1:
+				commitStatusCondition = " and " + SurveyForm.COMMIT_STATUS + 
+										" = \"" + SurveyForm.COMMIT_STATUS_COMMITED + "\"";
+				
+				break;
+			case 2:
+				commitStatusCondition = " and " + SurveyForm.COMMIT_STATUS + 
+										" = \"" + SurveyForm.COMMIT_STATUS_UNCOMMITED + "\"";
+				
+				break;
+			default:
+				commitStatusCondition = "";
+				break;
+		}
+		
+		SQL += commitStatusCondition;
+		
+		SQLiteDatabase db = getWritableDatabase();
+		ArrayList<HashMap<String, String>> boxList = new ArrayList<HashMap<String, String>>();
+		Cursor c = null;
+		try
+		{
+			c = db.rawQuery(SQL, null);  
+	        while (c.moveToNext())
+	        {
+	        	HashMap<String, String> boxColumnMap = new HashMap<String, String>();
+	        	for (int i = 0; i < boxColumnLength; i ++)
+	        	{
+	        		boxColumnMap.put(BoxSurvey.DBToXLSColumnIndexBox[i], c.getString(i));	        		
+	        	}
+	        	boxList.add(boxColumnMap);
+	        }	
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c != null)
+			{
+				c.close();	
+			}
+			
+			db.close();
+				
+		}
+        
+        return boxList;  
 	}
 
 }

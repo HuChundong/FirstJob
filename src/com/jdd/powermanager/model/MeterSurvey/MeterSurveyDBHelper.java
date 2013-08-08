@@ -3,6 +3,7 @@ package com.jdd.powermanager.model.MeterSurvey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
 import com.jdd.powermanager.bean.District;
 
@@ -281,7 +282,7 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 		}
 		SQL += MeterSurvey.DBToXLSColumnIndexBox[boxColumnLength - 1] +
 				" FROM " + MeterSurvey.TABLE_NAME +
-				" where DISTRICT_ID = \"" + districtID +"\""
+				" where " + BoxSurvey.DISTRICT_ID + " = \"" + districtID +"\""
 				+ " and " + SurveyForm.SURVEY_STATUS + " = \"" + SurveyForm.SURVEY_STATUS_SURVEYED + "\"";
 		
 		//增加是否已提交的条件逻辑
@@ -310,19 +311,19 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 		SQL += commitStatusCondition;
 		
 		SQLiteDatabase db = getWritableDatabase();
-		ArrayList<HashMap<String, String>> meterList = new ArrayList<HashMap<String, String>>();
+		ArrayList<HashMap<String, String>> boxList = new ArrayList<HashMap<String, String>>();
 		Cursor c = null;
 		try
 		{
 			c = db.rawQuery(SQL, null);  
 	        while (c.moveToNext())
 	        {
-	        	HashMap<String, String> meterColumnMap = new HashMap<String, String>();
+	        	HashMap<String, String> boxColumnMap = new HashMap<String, String>();
 	        	for (int i = 0; i < boxColumnLength; i ++)
 	        	{
-	        		meterColumnMap.put(MeterSurvey.DBToXLSColumnIndexBox[i], c.getString(i));	        		
+	        		boxColumnMap.put(MeterSurvey.DBToXLSColumnIndexBox[i], c.getString(i));	        		
 	        	}
-	        	meterList.add(meterColumnMap);
+	        	boxList.add(boxColumnMap);
 	        }	
 		}
 		catch (Exception e)
@@ -340,7 +341,7 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 				
 		}
         
-        return meterList;  
+        return boxList;  
 	}
 	
 	
