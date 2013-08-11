@@ -30,7 +30,7 @@ public abstract class AbsAction  extends Thread
 		
 		if(!mIsCancel && null != mHandler)
 		{
-			mHandler.onResult(o);
+			mHandler.result(o);
 		}
 	}
 	

@@ -1,9 +1,9 @@
 package com.jdd.powermanager.ui.mainpage;
 
+import java.util.HashMap;
 import java.util.List;
-
 import com.jdd.powermanager.R;
-import com.jdd.powermanager.bean.District;
+import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
@@ -13,27 +13,27 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-public class DistrictsAdapter implements ListAdapter
+public class DistrictsAdapter2 implements ListAdapter
 {
 	public interface onItemClickListener
 	{
-		void onClick(String id);
+		void onClick(String id,String logo);
 	}
 	
-	private List<District> mList;
+	private List<HashMap<String, String>> mList;
 	
 	private Context mContext;
 	
 	private onItemClickListener mLis;
 	
-	public DistrictsAdapter(Context context,onItemClickListener lis)
+	public DistrictsAdapter2(Context context,onItemClickListener lis)
 	{
 		mContext = context;
 		
 		mLis = lis;
 	}
 	
-	public void setList(List<District> l)
+	public void setList(List<HashMap<String, String>> l)
 	{
 		mList = l;
 	}
@@ -52,9 +52,16 @@ public class DistrictsAdapter implements ListAdapter
 	
 	public String getDistrictId(int pos)
 	{
-		District d = (District) getItem(pos);
+		HashMap<String, String> d = null == mList ? null : mList.get(pos);
 		
-		return null == d ? null : d.getID();
+		return null == d ? null : d.get(BoxSurvey.DISTRICT_ID);
+	}
+	
+	public String getDistrictLogo(int pos)
+	{
+		HashMap<String, String> d = null == mList ? null : mList.get(pos);
+		
+		return null == d ? null : d.get(BoxSurvey.DISTRICT_LOGO);
 	}
 
 	@Override
@@ -76,11 +83,13 @@ public class DistrictsAdapter implements ListAdapter
 		
 		if( null == view )
 		{
-			view = LayoutInflater.from(mContext).inflate(R.layout.district_list_item, null);
+			view = LayoutInflater.from(mContext).inflate(R.layout.district_list_item_2, null);
 			
 			h = new Holder();
 			
-			h.context = (TextView) view.findViewById(R.id.district_id);
+			h.id = (TextView) view.findViewById(R.id.district_id);
+			
+			h.logo = (TextView) view.findViewById(R.id.district_logo);
 			
 			view.setTag(h);
 		}
@@ -89,9 +98,13 @@ public class DistrictsAdapter implements ListAdapter
 			h = (Holder) view.getTag();
 		}
 		
-		final District d = (District) getItem(pos);
+		final String id = getDistrictId(pos);
 		
-		h.context.setText(d.getID());
+		final String logo = getDistrictLogo(pos);
+		
+		h.id.setText(id);
+		
+		h.logo.setText(getDistrictLogo(pos));
 		
 		view.setOnClickListener(new OnClickListener() {
 			
@@ -99,7 +112,7 @@ public class DistrictsAdapter implements ListAdapter
 			{
 				if( null != mLis )
 				{
-					mLis.onClick(d.getID());
+					mLis.onClick(id,logo);
 				}
 			}
 		});
@@ -149,6 +162,8 @@ public class DistrictsAdapter implements ListAdapter
 	
 	class Holder
 	{
-		TextView context;
+		TextView id;
+		
+		TextView logo;
 	}
 }
