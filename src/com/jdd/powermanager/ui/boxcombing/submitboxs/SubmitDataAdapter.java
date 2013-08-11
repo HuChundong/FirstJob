@@ -3,11 +3,9 @@ package com.jdd.powermanager.ui.boxcombing.submitboxs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
+import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +51,7 @@ public class SubmitDataAdapter extends BaseAdapter
 			
 			if( null != temp )
 			{
-				code = temp.get(MeterSurvey.BAR_CODE);
+				code = temp.get(BoxSurvey.ASSET_NO);
 				
 				if( null != code && !code.equals("") )
 				{
@@ -66,7 +64,9 @@ public class SubmitDataAdapter extends BaseAdapter
 		
 		idList.toArray(del);
 		
-		MeterSurveyDataManager.getInstance().deleteCommitedBox(del);
+//		MeterSurveyDataManager.getInstance().deleteCommitedBox(del);
+		
+		// TODO
 		
 		String sTip = String.format(mContext.getString(R.string.del_success_tip), ""+size);
 		
@@ -153,12 +153,23 @@ public class SubmitDataAdapter extends BaseAdapter
 		
 		if( null != data )
 		{
-			// TODO
-//			h.type.setText(data.get(MeterSurvey.SORT_CODE));
-//			
-//			h.code.setText(data.get(MeterSurvey.BAR_CODE));
-//			
-//			h.date.setText(data.get(MeterSurvey.SURVEY_TIME));
+			h.order.setText(data.get(BoxSurvey.NO));
+			
+			h.systemId.setText(data.get(BoxSurvey.SYSTEM_ID));
+			
+			h.address.setText(data.get(BoxSurvey.INST_LOC));
+			
+			h.rows.setText(data.get(BoxSurvey.BOX_ROWS));
+			
+			h.columns.setText(data.get(BoxSurvey.BOX_COLS));
+			
+			h.meterCount.setText(data.get(BoxSurvey.METER_NUM));
+			
+			h.disTag.setText(data.get(BoxSurvey.DISTRICT_LOGO));
+			
+			h.disId.setText(data.get(BoxSurvey.DISTRICT_ID));
+			
+			h.barCode.setText(data.get(BoxSurvey.ASSET_NO));
 		}
 		
 		view.setOnClickListener(new OnClickListener() 

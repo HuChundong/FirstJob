@@ -10,7 +10,7 @@ public class BarCodeHelper
 	
 	private BarcodeManager mBm;
 	
-	private GetBarCodeListener mLis;
+	private OnBarCodeScanedListener mLis;
 	
 	private static BarCodeHelper mInstance = new BarCodeHelper();
 	
@@ -33,30 +33,21 @@ public class BarCodeHelper
 		mInstance.mBf.setBarcodeOpenAll();
 		
 		mInstance.mBm = new BarcodeManager(context);
-		
-		mInstance.mLis = new GetBarCodeListener(mInstance.mBm);
-		
-		mInstance.mBm.addListener(mInstance.mLis);
 	}
 	
 	public static void addListener(OnBarCodeScanedListener bl)
 	{
-		mInstance.mLis.addLis(bl);
-	}
-	
-	public static void removeListener(OnBarCodeScanedListener bl)
-	{
-		mInstance.mLis.removeLis(bl);
+		mInstance.mLis = bl;
 	}
 	
 	public static void clearListener()
 	{
-		mInstance.mLis.clear();
+		mInstance.mLis = null;
 	}
 	
 	public static void release()
 	{
-		mInstance.mLis.clear();
+		clearListener();
 		
 		mInstance.mBm.dismiss();
 	}

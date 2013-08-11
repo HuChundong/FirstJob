@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
+import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,14 +39,18 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		
 		HashMap<String, String> box ;
 		
+		List<String> ids = new ArrayList<String>();
+		
 		while( mSelectedSet.size() > 0)
 		{
 			box = mSelectedSet.remove(0);
 			
 			mData.remove(box);
 			
-			MeterSurveyDataManager.getInstance().commitOneBoxMeterSurvey(box.get(MeterSurvey.BAR_CODE));
+			ids.add(box.get(BoxSurvey.ASSET_NO));
 		}
+		
+// TODO
 		
 		String successTip = String.format(mContext.getString(R.string.submit_success_tip), ""+size);
 		
@@ -85,7 +88,7 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			
 			if( null != temp )
 			{
-				code = temp.get(MeterSurvey.BAR_CODE);
+				code = temp.get(BoxSurvey.ASSET_NO);
 				
 				if( null != code && !code.equals("") )
 				{
@@ -98,7 +101,9 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		
 		idList.toArray(del);
 		
-		MeterSurveyDataManager.getInstance().deleteUncommitedBox(del);
+//		MeterSurveyDataManager.getInstance().deleteUncommitedBox(del);
+		
+		// TODO
 		
 		String sTip = String.format(mContext.getString(R.string.del_success_tip), ""+size);
 		
@@ -185,13 +190,23 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		
 		if( null != data )
 		{
+			h.order.setText(data.get(BoxSurvey.NO));
 			
-			// TODO
-//			h.type.setText(data.get(MeterSurvey.SORT_CODE));
-//			
-//			h.code.setText(data.get(MeterSurvey.BAR_CODE));
-//			
-//			h.date.setText(data.get(MeterSurvey.SURVEY_TIME));
+			h.systemId.setText(data.get(BoxSurvey.SYSTEM_ID));
+			
+			h.address.setText(data.get(BoxSurvey.INST_LOC));
+			
+			h.rows.setText(data.get(BoxSurvey.BOX_ROWS));
+			
+			h.columns.setText(data.get(BoxSurvey.BOX_COLS));
+			
+			h.meterCount.setText(data.get(BoxSurvey.METER_NUM));
+			
+			h.disTag.setText(data.get(BoxSurvey.DISTRICT_LOGO));
+			
+			h.disId.setText(data.get(BoxSurvey.DISTRICT_ID));
+			
+			h.barCode.setText(data.get(BoxSurvey.ASSET_NO));
 		}
 		
 		view.setOnClickListener(new OnClickListener() 

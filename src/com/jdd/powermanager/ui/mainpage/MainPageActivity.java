@@ -17,10 +17,12 @@ import android.widget.Toast;
 import com.jdd.common.utils.barcode.BarCodeHelper;
 import com.jdd.common.utils.gps.GpsHelper;
 import com.jdd.powermanager.R;
+import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.survey.SurveyActions;
 import com.jdd.powermanager.basic.BaseActivity;
 import com.jdd.powermanager.bean.District;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
 import com.jdd.powermanager.ui.generalsurvey.SurveyActivity;
+import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import com.jdd.powermanager.ui.boxcombing.*;
 
 public class MainPageActivity extends BaseActivity 
@@ -59,46 +61,58 @@ public class MainPageActivity extends BaseActivity
 		}
 	};
 	
-	private void showDistrictSelectDialog(int resid, final Class<?> classz)
+	private void showDistrictSelectDialog(final int resid, final Class<?> classz)
 	{
-		String title = getString(R.string.please_select_district);
+		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
 		
-		title = String.format(title, getString(resid));
-		
-		DistrictsAdapter.onItemClickListener lis = new DistrictsAdapter.onItemClickListener() 
+		SurveyActions.getAllDistrict(new AbsCallback() 
 		{
-			public void onClick(String id) 
+			@Override
+			public void onResult(Object o) 
 			{
-				if( null != mDialog )
+				FullScreenWaitBar.hide();
+				
+				String title = getString(R.string.please_select_district);
+				
+				title = String.format(title, getString(resid));
+				
+				DistrictsAdapter.onItemClickListener lis = new DistrictsAdapter.onItemClickListener() 
 				{
-					mDialog.dismiss();
+					public void onClick(String id) 
+					{
+						if( null != mDialog )
+						{
+							mDialog.dismiss();
+						}
+						
+						loadActivity(classz, id);
+					}
+				};
+				
+				DistrictsAdapter da = new DistrictsAdapter(MainPageActivity.this,lis);
+				
+				@SuppressWarnings("unchecked")
+				List<District> list = null == o ? null : (List<District>) o;
+				
+				if( null == list || list.size() <= 0 )
+				{
+					String msg = getString(R.string.no_districts);
+					
+					msg = String.format(msg, getString(resid));
+					
+					Toast.makeText(MainPageActivity.this,msg , Toast.LENGTH_LONG).show();
+					
+					return;
 				}
 				
-				loadActivity(classz, id);
+				da.setList(list);
+				
+				final Builder b = new  AlertDialog.Builder(MainPageActivity.this).setCancelable(true).
+						setTitle(title).setSingleChoiceItems(da, -1, null);
+				
+				mDialog = b.show();
 			}
-		};
-		
-		DistrictsAdapter da = new DistrictsAdapter(this,lis);
-		
-		List<District> list = MeterSurveyDataManager.getInstance().getAllDistrict();
-		
-		if( null == list || list.size() <= 0 )
-		{
-			String msg = getString(R.string.no_districts);
-			
-			msg = String.format(msg, getString(resid));
-			
-			Toast.makeText(this,msg , Toast.LENGTH_LONG).show();
-			
-			return;
-		}
-		
-		da.setList(list);
-		
-		final Builder b = new  AlertDialog.Builder(this).setCancelable(true).
-				setTitle(title).setSingleChoiceItems(da, -1, null);
-		
-		mDialog = b.show();
+		});
 	}
 	
 	@Override
@@ -114,7 +128,7 @@ public class MainPageActivity extends BaseActivity
 		// 每次获取的地理位置有效时长为2分钟
 		GpsHelper.setLocationEffectiveTime(120 * 1000);
 		
-		BarCodeHelper.init(getApplicationContext());
+//		BarCodeHelper.init(getApplicationContext());
 		
 		initTopbar();
 		

@@ -2,6 +2,7 @@ package com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -9,10 +10,12 @@ import android.view.View;
 import android.widget.TextView;
 import com.jdd.common.utils.barcode.BarCodeHelper;
 import com.jdd.powermanager.R;
+import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.survey.SurveyActions;
 import com.jdd.powermanager.basic.BaseActivity;
 import com.jdd.powermanager.basic.MyViewPagerAdapter;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
 import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
+import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 
 public class NewSurveyActivity extends BaseActivity 
 {
@@ -97,7 +100,20 @@ public class NewSurveyActivity extends BaseActivity
 		
 		String boxid = box.get(MeterSurvey.BAR_CODE);
 		
-		MeterSurveyDataManager.getInstance().commitOneBoxMeterSurvey(boxid);
+		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
+		
+		List<String> ids = new ArrayList<String>();
+		
+		ids.add(boxid);
+		
+		SurveyActions.commitOneBoxMeterSurvey(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o) 
+			{
+				FullScreenWaitBar.hide();
+			}
+		}, ids);
 	}
 	
 	public void save()
@@ -120,7 +136,16 @@ public class NewSurveyActivity extends BaseActivity
 		
 		box.put(MeterSurvey.LOCKER_NO, null == lock ? "" : lock);
 		
-		MeterSurveyDataManager.getInstance().saveOneBoxMeterSurvey(box, meters,mDistrictId );
+		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
+		
+		SurveyActions.saveOneBoxMeterSurvey(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o) 
+			{
+				FullScreenWaitBar.hide();
+			}
+		}, box, meters, mDistrictId);
 	}
 	
 	private OnPageChangeListener mOnPageChangeLis = new OnPageChangeListener()

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.model.MeterSurvey.SurveyForm;
+import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,7 +118,6 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		HashMap<String, String> m = null;
 		
-		// TODO
 		String survey = mContext.getString(R.string.state_survey);
 		
 		for( int i = 0; i < mFullList.size() ; i++ )
@@ -195,19 +196,23 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		if( null != data )
 		{
-			// TODO
-//			h.order.setText("          "); // Ä¿Ç°Îª¿Õ
-//			h.userNO.setText(data.get(MeterSurvey.CONS_NO));
-//			h.state.setText(data.get(SurveyForm.SURVEY_STATUS));
-//			h.measureNO.setText(data.get(MeterSurvey.MP_NO));
-//			h.assetNO.setText(data.get(MeterSurvey.D_ASSET_NO));
-//			h.rowNO.setText(data.get(MeterSurvey.IN_ROW));
-//			h.columnNO.setText(data.get(MeterSurvey.IN_COLUMN));
-//			h.userName.setText(data.get(MeterSurvey.USER_NAME));
-//			h.address.setText(data.get(MeterSurvey.USER_ADDRESS));
-//			h.dristrictId.setText(mDristritId);
-//			h.userCategory.setText(data.get(MeterSurvey.USER_TYPE));
-//			h.wiring.setText(data.get(MeterSurvey.WIRING_METHOD));
+			h.order.setText(data.get(BoxSurvey.NO));
+			
+			h.systemId.setText(data.get(BoxSurvey.SYSTEM_ID));
+			
+			h.address.setText(data.get(BoxSurvey.INST_LOC));
+			
+			h.rows.setText(data.get(BoxSurvey.BOX_ROWS));
+			
+			h.columns.setText(data.get(BoxSurvey.BOX_COLS));
+			
+			h.meterCount.setText(data.get(BoxSurvey.METER_NUM));
+			
+			h.disTag.setText(data.get(BoxSurvey.DISTRICT_LOGO));
+			
+			h.disId.setText(mDristritId);
+			
+			h.barCode.setText(data.get(BoxSurvey.ASSET_NO));
 		}
 		
 		final String code = (String) h.barCode.getText();
