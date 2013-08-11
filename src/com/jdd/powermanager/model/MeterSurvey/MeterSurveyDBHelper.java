@@ -503,7 +503,7 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 		String SQL = "update " + MeterSurvey.TABLE_NAME + " set ";
 		SQL += SurveyForm.SURVEY_STATUS + " = \"" + SurveyForm.SURVEY_STATUS_UNSURVEYED + "\"";
 		SQL += COMMA_SEP + SurveyForm.SURVEY_RELATION + " = \"" + SurveyForm.SURVEY_RELATION_ABNORMAL + "\"";
-		SQL += " where " + MeterSurvey.BAR_CODE + " in " + createBoxIdsString(boxIds);
+		SQL += " where " + MeterSurvey.BAR_CODE + " in " + SurveyForm.parseIdArray2SQLIds(boxIds);
 		SQL += " and " + SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_UNCOMMITED +"\"";
 		
 		executeNoDataSetSQL(SQL);
@@ -518,30 +518,10 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 	{
 		String SQL = "update " + MeterSurvey.TABLE_NAME + " set ";
 		SQL += SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_UNCOMMITED + "\"";
-		SQL += " where " + MeterSurvey.BAR_CODE + " in " + createBoxIdsString(boxIds);
+		SQL += " where " + MeterSurvey.BAR_CODE + " in " + SurveyForm.parseIdArray2SQLIds(boxIds);
 		SQL += " and " + SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_COMMITED +"\"";
 		
 		executeNoDataSetSQL(SQL);
-	}
-	
-	/**
-	 * 将box id数组转成(id,id,id...)格式
-	 * @param boxIds 将box id数组
-	 * @return (id,id,id...)格式字符串
-	 */
-	private String createBoxIdsString(String[] boxIds)
-	{
-		String ids = "(";
-		
-		for (int i = 0; i < boxIds.length; i ++)
-		{
-			ids += boxIds[i] + COMMA_SEP;
-		}
-		//去掉最后的逗号
-		ids = ids.substring(0, ids.length() - 1);
-		ids += ")";
-		
-		return ids;
 	}
 	
 	/**

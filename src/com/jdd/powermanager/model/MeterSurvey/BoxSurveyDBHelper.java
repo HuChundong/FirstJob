@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class BoxSurveyDBHelper extends SQLiteOpenHelper
 {
@@ -28,6 +29,8 @@ public class BoxSurveyDBHelper extends SQLiteOpenHelper
 
 	private static final String SQL_DELETE_ENTRIES =
 	    "DROP TABLE IF EXISTS " + BoxSurvey.TABLE_NAME;
+
+	private static final String TAG = "BoxSurveyDBHelper";
 	
 	
 	public BoxSurveyDBHelper(Context context) 
@@ -294,6 +297,242 @@ public class BoxSurveyDBHelper extends SQLiteOpenHelper
 		}
         
         return boxList;  
+	}
+	
+	/**
+	 * 根据传入的计量箱列表，构建计量箱("id,id,id...")字符串
+	 * @param boxList 计量箱列表
+	 * @return 计量箱("id,id,id...")字符串
+	 */
+	private String createBoxIdsListString(ArrayList<HashMap<String, String>> boxList)
+	{
+		int boxListSize = boxList.size();
+		String boxIdsString = "(";
+		for (int i = 0; i < boxListSize - 1; i ++)
+		{
+			boxIdsString += "\"" + boxList.get(i).get(BoxSurvey.ASSET_NO) + "\"" + COMMA_SEP;
+		}
+		
+		boxIdsString += "\"" + boxList.get(boxListSize - 1).get(BoxSurvey.ASSET_NO) + "\")";
+		
+		return boxIdsString;
+	}
+	
+	/**
+	 * 根据传入的id集合字符串，构建update语句。
+	 * 原数据库中已有的计量箱：已普查、是、未提交
+	 * @param district 台区信息
+	 * @param boxIdsString 计量箱("id,id,id...")字符串
+	 * @return update语句
+	 */
+	private String createUpdateBoxInIdSetSQL(HashMap<String, String> district,
+			String boxIdsString) 
+	{
+		String updateSql = "UPDATE " + BoxSurvey.TABLE_NAME +	" SET ";
+		
+		int districtColumnLength = BoxSurvey.DBToXLSColumnIndexDistrict.length;
+		String districtColumnValue = null;
+		for (int i = 0 ; i < districtColumnLength ; i ++)
+		{
+			districtColumnValue = district.get(BoxSurvey.DBToXLSColumnIndexDistrict[i]);
+			if (null == districtColumnValue)
+			{
+				districtColumnValue = "";
+			}
+			
+			updateSql += BoxSurvey.DBToXLSColumnIndexDistrict[i] + " = \"" +
+						districtColumnValue + "\"" + COMMA_SEP;
+		}
+		
+		updateSql += SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_UNCOMMITED + "\"" + COMMA_SEP;
+		updateSql += SurveyForm.SURVEY_STATUS + " = \"" + SurveyForm.SURVEY_STATUS_SURVEYED + "\"" + COMMA_SEP;
+		updateSql += SurveyForm.SURVEY_RELATION + " = \"" + SurveyForm.SURVEY_RELATION_YES + "\"";
+		
+		updateSql += " WHERE " + BoxSurvey.ASSET_NO + " IN " + boxIdsString;
+		
+		Log.d(TAG, "updateSql is: " + updateSql);
+		
+		return updateSql;
+	}
+	
+	/**
+	 * 根据传入的id集合字符串，构建select语句
+	 * @param boxIdsString 计量箱("id,id,id...")字符串
+	 * @return select语句
+	 */
+	private String createSelectBoxInIdSet(String boxIdsString) 
+	{
+		String selectSql = "SELECT " + BoxSurvey.ASSET_NO + 
+							" FROM " + BoxSurvey.TABLE_NAME + 
+							" WHERE " + BoxSurvey.ASSET_NO + 
+							" IN " + boxIdsString;
+		return selectSql;
+	}
+	
+	/**
+	 * 获取不在数据库中的计量箱列表
+	 * @param boxList 计量箱列表
+	 * @param boxIdsString 计量箱("id,id,id...")字符串
+	 * @return 获取不在数据库中的计量箱列表
+	 */
+	private ArrayList<HashMap<String, String>> getBoxesNotInDB(ArrayList<HashMap<String, String>> boxList
+																							,String boxIdsString)
+	{
+		ArrayList<HashMap<String, String>> boxesNotInDBList = new ArrayList<HashMap<String, String>>();
+		
+		//先将所有数据加入的数组中
+		for (int i = 0; i < boxList.size(); i ++)
+		{
+			boxesNotInDBList.add(boxList.get(i));
+		}
+		
+		String selectSql = createSelectBoxInIdSet(boxIdsString);
+		
+		SQLiteDatabase db = getWritableDatabase();
+		Cursor c = null;
+		try
+		{
+			c = db.rawQuery(selectSql, null);  
+	        while (c.moveToNext())
+	        {
+	        	//从列表中移除数据库中已存在的项
+	        	for (int i = 0; i < boxesNotInDBList.size(); i ++)
+	        	{
+	        		if (c.getString(0).equals(boxesNotInDBList.get(i).get(BoxSurvey.ASSET_NO)))
+	        		{
+	        			boxesNotInDBList.remove(i);
+	        			
+	        			break;
+	        		}
+	        	}
+	        }	
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c != null)
+			{
+				c.close();	
+			}
+			
+			db.close();
+				
+		}
+		
+		return boxesNotInDBList;
+	}
+	
+	
+	/**
+	 * 根据传入的id集合字符串，构建insert语句。
+	 * 原数据库中已有的电表：已普查、新增、未提交
+	 * 所有列的已DBToXLSColumnIndexAll数组为准，数据从box和台区中取
+	 * DBToXLSColumnIndexBox、DBToXLSColumnIndexDistrict
+	 * @param district 台区信息
+	 * @param boxList 待插入的计量箱列表
+	 * @return insert语句
+	 */
+	private String[] createInsertBoxInIdSetSQL(HashMap<String, String> district,
+			ArrayList<HashMap<String, String>> boxList) 
+	{
+		int boxListSize = boxList.size();
+		String[] insertStrings = new String[boxListSize];
+		
+		int allColumnLength = BoxSurvey.DBToXLSColumnIndexAll.length;
+		String columnName = null;
+		String columnValue = null;
+		HashMap<String, String> box = null;
+		
+		for (int j = 0 ; j < boxListSize; j ++)
+		{
+			box = boxList.get(j);
+			insertStrings[j] = "INSERT INTO " + BoxSurvey.TABLE_NAME + " values(";
+			
+			for (int i = 0 ; i < allColumnLength ; i ++)
+			{
+				columnName = BoxSurvey.DBToXLSColumnIndexAll[i];
+				
+				//已普查、新增、未提交
+				if (SurveyForm.COMMIT_STATUS.equals(columnName))
+				{
+					columnValue = SurveyForm.COMMIT_STATUS_UNCOMMITED;
+				}
+				else if (SurveyForm.SURVEY_STATUS.equals(columnName))
+				{
+					columnValue = SurveyForm.SURVEY_STATUS_SURVEYED;
+				}
+				else if (SurveyForm.SURVEY_RELATION.equals(columnName))
+				{
+					columnValue = SurveyForm.SURVEY_RELATION_NEW;
+				}
+				else
+				{
+					//台区的列名不可能跟box的列名重复，故先再台区里面找，找的了则认为就是正确的值。
+					columnValue = district.get(columnName);
+					if (null == columnValue)
+					{
+						columnValue = box.get(columnName);
+						
+						if (null == columnValue)
+						{
+							columnValue = "";
+						}
+					}
+				}
+				
+				insertStrings[j] += "\"" + columnValue + "\"" + COMMA_SEP;
+			}
+			
+			//去掉最后一个逗号
+			insertStrings[j] = insertStrings[j].substring(0, insertStrings[j].length() - 1) + ")";
+		}
+		
+		return insertStrings;
+	}
+	
+	
+	/**
+	 * 更新台区梳理任务中表箱对应的台区信息，并将电表列表中原数据库中不存在的电表插入到数据库中
+	 * 原数据库中已有的电表：已普查、是、未提交
+	 * 原数据库中不存在的电表：已普查、新增、未提交
+	 * @param box
+	 * @param meterList
+	 */
+	private void updateAndInsertBoxesToDB(HashMap<String, String> district,
+			ArrayList<HashMap<String, String>> boxList) 
+	{
+		String boxIdsString = createBoxIdsListString(boxList);
+		
+		//必须先执行update，否则会造成把后insert的记录的普查关系也变更成“是”
+		String updateSql = createUpdateBoxInIdSetSQL(district, boxIdsString);
+		executeNoDataSetSQL(updateSql);
+		
+		//将新的电表数据插入数据库
+		ArrayList<HashMap<String, String>> boxesNotInDB = getBoxesNotInDB(boxList, boxIdsString);
+		String insertSQLStrings[] = createInsertBoxInIdSetSQL(district, boxesNotInDB);
+		
+		for (int i = 0; i < insertSQLStrings.length; i ++)
+		{
+			executeNoDataSetSQL(insertSQLStrings[i]);
+		}
+	}
+	
+	/**
+	 * “保存”一个计量箱数据。
+	 * 根据传入的新的计量箱列表，或更新数据库中已有的计量箱数据，或新增一条计量箱数据
+	 * @param district 台区信息
+	 * @param boxList 计量箱列表
+	 */
+	public void saveBoxSurvey(HashMap<String, String> district,
+							ArrayList<HashMap<String, String>> boxList)
+	{
+		if (boxList.size() > 0)
+		{
+			updateAndInsertBoxesToDB(district, boxList);	
+		}
 	}
 
 }

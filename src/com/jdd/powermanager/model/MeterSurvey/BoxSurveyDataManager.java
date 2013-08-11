@@ -80,5 +80,17 @@ public class BoxSurveyDataManager extends SurveyDataManager
 	{
 		return mBoxSurveyDBHelper.getAllSurveyedBoxesInDistrict(districtID, commitStatus);
 	}
+	
+	/**
+	 * “保存”一个计量箱数据。
+	 * 根据传入的新的计量箱列表，或更新数据库中已有的计量箱数据，或新增一条计量箱数据
+	 * @param district 台区信息
+	 * @param boxList 计量箱列表
+	 */
+	public void saveBoxSurvey(HashMap<String, String> district,
+							ArrayList<HashMap<String, String>> boxList)
+	{
+		mBoxSurveyDBHelper.saveBoxSurvey(district, boxList);
+	}
 
 }

@@ -30,5 +30,27 @@ public class SurveyForm
 	 * 普查关系
 	 */
 	public static final String SURVEY_RELATION = "SURVEY_RELATION";
+	
+	public static final String COMMA_SEP = ",";
+	
+	/**
+	 * 将id数组转成(id,id,id...)格式
+	 * @param idArray 将 id数组
+	 * @return (id,id,id...)格式字符串
+	 */
+	public static String parseIdArray2SQLIds(String[] idArray)
+	{
+		String ids = "(";
+		
+		for (int i = 0; i < idArray.length; i ++)
+		{
+			ids += idArray[i] + COMMA_SEP;
+		}
+		//去掉最后的逗号
+		ids = ids.substring(0, ids.length() - 1);
+		ids += ")";
+		
+		return ids;
+	}
 
 }
