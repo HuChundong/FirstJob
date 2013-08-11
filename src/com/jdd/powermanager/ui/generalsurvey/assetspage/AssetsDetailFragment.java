@@ -55,6 +55,19 @@ public class AssetsDetailFragment extends Fragment
 				List<HashMap<String, String>> list = null == o ? null : (List<HashMap<String, String>>)o;
 				
 				mAdapter.setData(list);
+				
+				SurveyStateSelectorAdapter sa = new SurveyStateSelectorAdapter(getActivity());
+				
+				String[] menus = 
+				{
+					getString(R.string.all) + "( " +  mAdapter.getAllCount() +" )" ,
+					getString(R.string.state_survey) + "( " +  mAdapter.getSurveyCount() +" )" ,
+					getString(R.string.state_un_survey) + "( " +  mAdapter.getUnSurveyCount() +" )" ,
+				};
+				
+				sa.setItems(menus);
+				
+				mSpinner.setAdapter(sa);
 			}
 		}, mDistrictId);
 	}
@@ -111,10 +124,10 @@ public class AssetsDetailFragment extends Fragment
 				FullScreenWaitBar.hide();
 				
 				ToastHelper.showToastShort(getActivity(), getActivity().getString(R.string.complete_sucess));
+				
+				back();
 			}
 		}, mDistrictId);
-		
-		back();
 	}
 	
 	private void back()

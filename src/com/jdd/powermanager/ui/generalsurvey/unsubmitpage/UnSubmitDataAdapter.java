@@ -111,7 +111,7 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			}
 		}
 		
-		String[] del = new String[]{};
+		String[] del = new String[idList.size()];
 		
 		idList.toArray(del);
 		

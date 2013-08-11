@@ -55,7 +55,7 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			ids.add(box.get(BoxSurvey.ASSET_NO));
 		}
 		
-		String[] cs = new String[]{};
+		String[] cs = new String[ids.size()];
 		
 		ids.toArray(cs);
 		

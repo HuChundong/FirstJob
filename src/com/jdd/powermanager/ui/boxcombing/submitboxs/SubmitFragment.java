@@ -2,11 +2,9 @@ package com.jdd.powermanager.ui.boxcombing.submitboxs;
 
 import java.util.HashMap;
 import java.util.List;
-
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.action.combing.CombingActions;
-import com.jdd.powermanager.ui.boxcombing.unsubmitboxs.UnSubmitDataAdapter;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +20,7 @@ public class SubmitFragment extends Fragment
 {
 	private ListView mListView;
 	
-	private UnSubmitDataAdapter mAdapter;
+	private SubmitDataAdapter mAdapter;
 	
 	private String mDisId;
 	
@@ -37,7 +35,7 @@ public class SubmitFragment extends Fragment
 		
 		mDisId = getArguments().getString("DistrictId");
 		
-		mAdapter = new UnSubmitDataAdapter(getActivity());
+		mAdapter = new SubmitDataAdapter(getActivity());
 		
 		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		

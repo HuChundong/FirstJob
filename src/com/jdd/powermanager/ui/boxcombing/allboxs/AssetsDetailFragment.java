@@ -2,13 +2,11 @@ package com.jdd.powermanager.ui.boxcombing.allboxs;
 
 import java.util.HashMap;
 import java.util.List;
-
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.action.combing.CombingActions;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -57,6 +55,19 @@ public class AssetsDetailFragment extends Fragment
 				List<HashMap<String, String>> list = null == o ? null : (List<HashMap<String, String>>)o;
 				
 				mAdapter.setData(list);
+				
+				SurveyStateSelectorAdapter sa = new SurveyStateSelectorAdapter(getActivity());
+				
+				String[] menus = 
+				{
+					getString(R.string.all) + "( " +  mAdapter.getAllCount() +" )" ,
+					getString(R.string.state_survey) + "( " +  mAdapter.getCombCount() +" )" ,
+					getString(R.string.state_un_survey) + "( " +  mAdapter.getUnCombCount() +" )" ,
+				};
+				
+				sa.setItems(menus);
+				
+				mSpinner.setAdapter(sa);
 			}
 		}, mDistrictId, 0);
 	}

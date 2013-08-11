@@ -27,6 +27,8 @@ public class CombingActivity extends BaseFragmentActivity
 	
 	private String mDistrictLogo;
 	
+	private int mTab;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -62,6 +64,33 @@ public class CombingActivity extends BaseFragmentActivity
 		mOnClickLis.onClick(mBtn_tab_un_submit);
 	}
 	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+		
+		switch( mTab )
+		{
+			case 0:
+				
+				mOnClickLis.onClick(mBtn_tab_un_submit);;
+				
+				break;
+				
+			case 1:
+				
+				mOnClickLis.onClick(mBbtn_tab_submit);
+				
+				break;
+				
+			case 2:
+				
+				mOnClickLis.onClick(mBtn_tab_assets);
+				
+				break;
+		}
+	}
+	
 	private OnClickListener mOnClickLis = new OnClickListener()
 	{
 		public void onClick(View v) 
@@ -69,6 +98,8 @@ public class CombingActivity extends BaseFragmentActivity
 			switch(v.getId())
 			{
 				case R.id.tab_btn_un_submit:
+					
+					mTab = 0;
 					
 					mBtn_tab_un_submit.setSelected(true);
 					mBbtn_tab_submit.setSelected(false);
@@ -80,6 +111,8 @@ public class CombingActivity extends BaseFragmentActivity
 					
 				case R.id.tab_btn_submit:
 					
+					mTab = 1;
+					
 					mBtn_tab_un_submit.setSelected(false);
 					mBbtn_tab_submit.setSelected(true);
 					mBtn_tab_assets.setSelected(false);
@@ -89,6 +122,8 @@ public class CombingActivity extends BaseFragmentActivity
 					break;
 					
 				case R.id.tab_btn_assets:
+					
+					mTab = 2;
 					
 					mBtn_tab_un_submit.setSelected(false);
 					mBbtn_tab_submit.setSelected(false);

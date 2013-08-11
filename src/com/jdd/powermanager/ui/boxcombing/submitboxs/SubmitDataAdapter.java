@@ -66,7 +66,7 @@ public class SubmitDataAdapter extends BaseAdapter
 			}
 		}
 		
-		String[] del = null;
+		String[] del = new String[idList.size()];
 		
 		idList.toArray(del);
 		
@@ -93,7 +93,7 @@ public class SubmitDataAdapter extends BaseAdapter
 		mSelectedSet = new ArrayList<HashMap<String, String>>();
 	}
 	
-	public void setDate(List<HashMap<String, String>> data)
+	public void setData(List<HashMap<String, String>> data)
 	{
 		mData = data;
 		

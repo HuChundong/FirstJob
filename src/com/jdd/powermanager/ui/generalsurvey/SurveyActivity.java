@@ -25,6 +25,8 @@ public class SurveyActivity extends BaseFragmentActivity
 	
 	private String mDistrictId;
 	
+	private int mTab;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -54,8 +56,33 @@ public class SurveyActivity extends BaseFragmentActivity
 		mBbtn_tab_submit.setOnClickListener(mOnClickLis);
 		
 		mBtn_tab_assets.setOnClickListener(mOnClickLis);
+	}
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
 		
-		mOnClickLis.onClick(mBtn_tab_un_submit);
+		switch( mTab )
+		{
+			case 0:
+				
+				mOnClickLis.onClick(mBtn_tab_un_submit);;
+				
+				break;
+				
+			case 1:
+				
+				mOnClickLis.onClick(mBbtn_tab_submit);
+				
+				break;
+				
+			case 2:
+				
+				mOnClickLis.onClick(mBtn_tab_assets);
+				
+				break;
+		}
 	}
 	
 	private OnClickListener mOnClickLis = new OnClickListener()
@@ -65,6 +92,8 @@ public class SurveyActivity extends BaseFragmentActivity
 			switch(v.getId())
 			{
 				case R.id.tab_btn_un_submit:
+					
+					mTab = 0;
 					
 					mBtn_tab_un_submit.setSelected(true);
 					mBbtn_tab_submit.setSelected(false);
@@ -76,6 +105,8 @@ public class SurveyActivity extends BaseFragmentActivity
 					
 				case R.id.tab_btn_submit:
 					
+					mTab = 1;
+					
 					mBtn_tab_un_submit.setSelected(false);
 					mBbtn_tab_submit.setSelected(true);
 					mBtn_tab_assets.setSelected(false);
@@ -85,6 +116,8 @@ public class SurveyActivity extends BaseFragmentActivity
 					break;
 					
 				case R.id.tab_btn_assets:
+					
+					mTab = 2;
 					
 					mBtn_tab_un_submit.setSelected(false);
 					mBbtn_tab_submit.setSelected(false);
