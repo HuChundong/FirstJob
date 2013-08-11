@@ -92,5 +92,14 @@ public class BoxSurveyDataManager extends SurveyDataManager
 	{
 		mBoxSurveyDBHelper.saveBoxSurvey(district, boxList);
 	}
+	
+	/**
+	 * 获取任务内所有台区对象
+	 * @return 获取任务内所有台区对象
+	 */
+	public ArrayList<HashMap<String, String>> getAllDistrict()
+	{
+		return mBoxSurveyDBHelper.getAllDistrict();
+	}
 
 }

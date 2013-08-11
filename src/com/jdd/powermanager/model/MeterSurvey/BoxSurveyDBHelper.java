@@ -182,25 +182,40 @@ public class BoxSurveyDBHelper extends SQLiteOpenHelper
 	}
 	
 	/**
-	 * 获取任务内所有已普查的台区ID列表
-	 * @return 已普查的台区ID列表
+	 * 获取任务内所有台区对象
+	 * @return 获取任务内所有台区对象
 	 */
-	public ArrayList<String> getAllSurveyedDistrict()
+	public ArrayList<HashMap<String, String>> getAllDistrict()
 	{
-		String SQL = "SELECT DISTINCT " + BoxSurvey.DISTRICT_ID;
+		String SQL = "SELECT DISTINCT ";
+		
+		int districtColumnLength = BoxSurvey.DBToXLSColumnIndexDistrict.length;		
+		for (int i = 0; i < districtColumnLength - 1; i ++)
+		{
+			SQL += BoxSurvey.DBToXLSColumnIndexDistrict[i] + COMMA_SEP;
+		}		
+		SQL += BoxSurvey.DBToXLSColumnIndexDistrict[districtColumnLength - 1];
+			
 		SQL += " FROM " + BoxSurvey.TABLE_NAME +
 				" where" + SurveyForm.SURVEY_STATUS + " = \"" + 
 				SurveyForm.SURVEY_STATUS_SURVEYED + "\"";
 		
 		SQLiteDatabase db = getWritableDatabase();
-		ArrayList<String> districtList = new ArrayList<String>();
+		
+    	ArrayList<HashMap<String, String>> districtList = new ArrayList<HashMap<String, String>>();
 		Cursor c = null;
 		try
 		{
-			c = db.rawQuery(SQL, null);  
+			c = db.rawQuery(SQL, null);
 	        while (c.moveToNext())
 	        {
-	        	districtList.add(c.getString(0));
+	        	HashMap<String, String> districtColumnMap = new HashMap<String, String>();
+	        	for (int i = 0; i < districtColumnLength; i ++)
+	        	{
+	        		districtColumnMap.put(BoxSurvey.DBToXLSColumnIndexDistrict[i], c.getString(i));	        		
+	        	}
+	        	
+	        	districtList.add(districtColumnMap);
 	        }	
 		}
 		catch (Exception e)
