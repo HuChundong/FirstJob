@@ -148,4 +148,16 @@ public class BoxSurveyDataManager extends SurveyDataManager
 			mBoxSurveyDBHelper.deleteCommitedBox(boxIds);
 		}
 	}
+	
+	/**
+	 * 提交台区内所有未提交、已普查的表箱
+	 * @param districtId 台区id
+	 */
+	public void commitAllUncommitedBoxSurveyInDistrict(String districtId)
+	{
+		synchronized(instance)
+		{
+			mBoxSurveyDBHelper.commitAllUncommitedBoxSurveyInDistrict(districtId);
+		}
+	}
 }

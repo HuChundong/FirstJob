@@ -594,4 +594,19 @@ public class BoxSurveyDBHelper extends SQLiteOpenHelper
 		
 		executeNoDataSetSQL(SQL);
 	}
+	
+	/**
+	 * 提交台区内所有未提交、已普查的表箱
+	 * @param districtId 台区id
+	 */
+	public void commitAllUncommitedBoxSurveyInDistrict(String districtId)
+	{
+		String SQL = "update " + BoxSurvey.TABLE_NAME + " set ";
+		SQL += SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_COMMITED + "\"";
+		SQL += " where " + BoxSurvey.DISTRICT_ID + " = \"" + districtId +"\"";
+		SQL += " and " + SurveyForm.SURVEY_STATUS + " = \"" + SurveyForm.SURVEY_STATUS_SURVEYED +"\"";
+		SQL += " and " + SurveyForm.COMMIT_STATUS + " != \"" + SurveyForm.COMMIT_STATUS_COMMITED +"\"";
+		
+		executeNoDataSetSQL(SQL);
+	}
 }
