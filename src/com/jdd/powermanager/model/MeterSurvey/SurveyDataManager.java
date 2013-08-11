@@ -12,19 +12,12 @@ import android.os.Environment;
 
 public class SurveyDataManager 
 {
-	public interface OnInitedListener
-	{
-		void onInitedSucess();
-	}
-	
 	protected static final String SD = Environment.
 			getExternalStorageDirectory().getAbsolutePath();
 	
 	protected static final String FOLDER = "/survey";
 	
 	protected Context mContext = null;
-	
-	protected OnInitedListener mOnInitedListener;
 	
 	protected void initSurveyTask()
 	{
@@ -35,28 +28,12 @@ public class SurveyDataManager
 	 * 模块初始化
 	 * @param context 上下文
 	 */
-	public void init(Context context, OnInitedListener listener)
+	public void init(Context context)
 	{
 		mContext = context;
 		
-		mOnInitedListener = listener;
-		
-		new Thread(mInitRunnable).start();
+		initSurveyTask();
 	}
-	
-	protected Runnable mInitRunnable = new Runnable() 
-	{
-		@Override
-		public void run() 
-		{
-			initSurveyTask();
-			
-			if( null != mOnInitedListener )
-			{
-				mOnInitedListener.onInitedSucess();
-			}
-		}
-	};
 	
 	/**
 	 * 将excel的行对象解析成数据库使用的ContentValues

@@ -1,8 +1,14 @@
 package com.jdd.powermanager.ui.boxcombing.allboxs;
 
+import java.util.HashMap;
+import java.util.List;
+
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
+import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.combing.CombingActions;
+import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -38,10 +44,21 @@ public class AssetsDetailFragment extends Fragment
 		
 		mAdapter = new AssetsDataAdapter(getActivity() , mDistrictId);
 		
-		// TODO
-//		List<HashMap<String, String>> list = MeterSurveyDataManager.getInstance().getAllMetersInDistrict(mDistrictId);
-//		
-//		mAdapter.setData(list);
+		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
+		
+		CombingActions.getAllSurveyedBoxesInDistrict(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o)
+			{
+				FullScreenWaitBar.hide();
+				
+				@SuppressWarnings("unchecked")
+				List<HashMap<String, String>> list = null == o ? null : (List<HashMap<String, String>>)o;
+				
+				mAdapter.setData(list);
+			}
+		}, mDistrictId, 0);
 	}
 	
 	@Override
@@ -86,7 +103,9 @@ public class AssetsDetailFragment extends Fragment
 	{
 		ToastHelper.showToastShort(getActivity(), getActivity().getString(R.string.complete_wait_tip));
 		
-		MeterSurveyDataManager.getInstance().commitAllUncommitedBoxMeterSurveyInDistrict(mDistrictId);
+//		MeterSurveyDataManager.getInstance().commitAllUncommitedBoxMeterSurveyInDistrict(mDistrictId);
+		
+		// TODO
 		
 		ToastHelper.showToastShort(getActivity(), getActivity().getString(R.string.complete_sucess));
 		

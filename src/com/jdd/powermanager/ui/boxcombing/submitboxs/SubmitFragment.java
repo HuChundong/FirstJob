@@ -1,8 +1,13 @@
 package com.jdd.powermanager.ui.boxcombing.submitboxs;
 
-import com.jdd.powermanager.R;
-import com.jdd.powermanager.ui.boxcombing.unsubmitboxs.UnSubmitDataAdapter;
+import java.util.HashMap;
+import java.util.List;
 
+import com.jdd.powermanager.R;
+import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.combing.CombingActions;
+import com.jdd.powermanager.ui.boxcombing.unsubmitboxs.UnSubmitDataAdapter;
+import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -34,10 +39,21 @@ public class SubmitFragment extends Fragment
 		
 		mAdapter = new UnSubmitDataAdapter(getActivity());
 		
-		// TODO
-//		List<HashMap<String, String>> list = MeterSurveyDataManager.getInstance().getAllSurveyedBoxesInDistrict(mDisId,1);
+		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		
-//		mAdapter.setData(list);
+		CombingActions.getAllSurveyedBoxesInDistrict(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o)
+			{
+				FullScreenWaitBar.hide();
+				
+				@SuppressWarnings("unchecked")
+				List<HashMap<String, String>> list = null == o ? null : (List<HashMap<String, String>>)o;
+				
+				mAdapter.setData(list);
+			}
+		}, mDisId, 1);
 	}
 	
 	@Override

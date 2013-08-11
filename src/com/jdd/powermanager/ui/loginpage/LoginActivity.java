@@ -1,9 +1,9 @@
 package com.jdd.powermanager.ui.loginpage;
 
 import com.jdd.powermanager.R;
+import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.survey.SurveyActions;
 import com.jdd.powermanager.basic.BaseActivity;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
-import com.jdd.powermanager.model.MeterSurvey.SurveyDataManager.OnInitedListener;
 import com.jdd.powermanager.ui.mainpage.MainPageActivity;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.content.Context;
@@ -97,7 +97,7 @@ public class LoginActivity extends BaseActivity
 		
 		mIsIniting = true;
 		
-		MeterSurveyDataManager.getInstance().init(getApplication(),mInitedLis);
+		SurveyActions.init(this, mInitedLis);
 	}
 	
 	@Override
@@ -118,10 +118,10 @@ public class LoginActivity extends BaseActivity
 		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 	
-	private OnInitedListener mInitedLis = new OnInitedListener()
+	private AbsCallback mInitedLis = new AbsCallback()
 	{
 		@Override
-		public void onInitedSucess() 
+		public void onResult(Object o) 
 		{
 			mIsIniting = false;
 			

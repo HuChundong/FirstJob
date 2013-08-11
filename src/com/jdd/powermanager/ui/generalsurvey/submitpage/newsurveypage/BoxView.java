@@ -468,7 +468,7 @@ public class BoxView implements Pager
 		
 		if( null != mBarCodeLis )
 		{
-			BarCodeHelper.removeListener(mBarCodeLis);
+			BarCodeHelper.clearListener();
 		}
 		
 	}
