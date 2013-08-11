@@ -2,6 +2,7 @@ package com.jdd.powermanager.ui.loginpage;
 
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.combing.CombingActions;
 import com.jdd.powermanager.action.survey.SurveyActions;
 import com.jdd.powermanager.basic.BaseActivity;
 import com.jdd.powermanager.ui.mainpage.MainPageActivity;
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -27,10 +29,6 @@ public class LoginActivity extends BaseActivity
 //	private EditText mUserNoEdit;
 	
 //	private EditText mUserPsdEdit;
-	
-	private boolean mIsIniting;
-	
-	private boolean mIsInitSuccess;
 	
 	/**
 	 * ÊÇ·ñÔÚÏßµÇÂ½
@@ -83,34 +81,7 @@ public class LoginActivity extends BaseActivity
 	{
 		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
 		
-		if( mIsIniting )
-		{
-			return;
-		}
-		
-		if( mIsInitSuccess )
-		{
-			goHome();
-			
-			return;
-		}
-		
-		mIsIniting = true;
-		
 		SurveyActions.init(this, mInitedLis);
-	}
-	
-	@Override
-	public void onBackPressed() 
-	{
-		if(FullScreenWaitBar.isShow())
-		{
-			FullScreenWaitBar.hide();
-			
-			return;
-		}
-		
-		super.onBackPressed();
 	}
 	
 	public void exit(View v)
@@ -123,14 +94,20 @@ public class LoginActivity extends BaseActivity
 		@Override
 		public void onResult(Object o) 
 		{
-			mIsIniting = false;
+			Log.d("", "zhou -- SurveyActions -- init sucess !");
 			
-			mIsInitSuccess = true;
+			CombingActions.init(getApplicationContext(), mInitedLis2);
+		}
+	};
+	
+	private AbsCallback mInitedLis2 = new AbsCallback()
+	{
+		@Override
+		public void onResult(Object o) 
+		{
+			Log.d("", "zhou -- CombingActions -- init sucess !");
 			
-			if(FullScreenWaitBar.isShow())
-			{
-				goHome();
-			}
+			goHome();
 		}
 	};
 	
@@ -143,6 +120,17 @@ public class LoginActivity extends BaseActivity
 		startActivity(i);
 		
 		finish();
+	}
+	
+	@Override
+	public void onBackPressed() 
+	{
+		if( FullScreenWaitBar.isShow() )
+		{
+			return;
+		}
+		
+		super.onBackPressed();
 	}
 	
 	private void initViews()

@@ -18,6 +18,7 @@ import com.jdd.common.utils.barcode.BarCodeHelper;
 import com.jdd.common.utils.gps.GpsHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.combing.CombingActions;
 import com.jdd.powermanager.action.survey.SurveyActions;
 import com.jdd.powermanager.basic.BaseActivity;
 import com.jdd.powermanager.bean.District;
@@ -42,17 +43,17 @@ public class MainPageActivity extends BaseActivity
 			{
 				case 0:
 					
-					showDistrictSelectDialog(R.string.general_survey,SurveyActivity.class);
+					showDistrictSelectDialog(0,R.string.general_survey,SurveyActivity.class);
 					
 					break;
 				case 1:
 					
-					showDistrictSelectDialog(R.string.area_comb,CombingActivity.class);
+					showDistrictSelectDialog(1,R.string.area_comb,CombingActivity.class);
 					
 					break;
 				case 2:
 					
-					showDistrictSelectDialog(R.string.exception_deal,SurveyActivity.class);
+					showDistrictSelectDialog(2,R.string.exception_deal,SurveyActivity.class);
 					
 					break;
 				default:
@@ -61,58 +62,112 @@ public class MainPageActivity extends BaseActivity
 		}
 	};
 	
-	private void showDistrictSelectDialog(final int resid, final Class<?> classz)
+	private void showDistrictSelectDialog(int index,final int resid, final Class<?> classz)
 	{
 		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
 		
-		SurveyActions.getAllDistrict(new AbsCallback() 
+		if( 0 == index )
 		{
-			@Override
-			public void onResult(Object o) 
+			SurveyActions.getAllDistrict(new AbsCallback() 
 			{
-				FullScreenWaitBar.hide();
-				
-				String title = getString(R.string.please_select_district);
-				
-				title = String.format(title, getString(resid));
-				
-				DistrictsAdapter.onItemClickListener lis = new DistrictsAdapter.onItemClickListener() 
+				@Override
+				public void onResult(Object o) 
 				{
-					public void onClick(String id) 
+					FullScreenWaitBar.hide();
+					
+					String title = getString(R.string.please_select_district);
+					
+					title = String.format(title, getString(resid));
+					
+					DistrictsAdapter.onItemClickListener lis = new DistrictsAdapter.onItemClickListener() 
 					{
-						if( null != mDialog )
+						public void onClick(String id) 
 						{
-							mDialog.dismiss();
+							if( null != mDialog )
+							{
+								mDialog.dismiss();
+							}
+							
+							loadActivity(classz, id);
 						}
+					};
+					
+					DistrictsAdapter da = new DistrictsAdapter(MainPageActivity.this,lis);
+					
+					@SuppressWarnings("unchecked")
+					List<District> list = null == o ? null : (List<District>) o;
+					
+					if( null == list || list.size() <= 0 )
+					{
+						String msg = getString(R.string.no_districts);
 						
-						loadActivity(classz, id);
+						msg = String.format(msg, getString(resid));
+						
+						Toast.makeText(MainPageActivity.this,msg , Toast.LENGTH_LONG).show();
+						
+						return;
 					}
-				};
-				
-				DistrictsAdapter da = new DistrictsAdapter(MainPageActivity.this,lis);
-				
-				@SuppressWarnings("unchecked")
-				List<District> list = null == o ? null : (List<District>) o;
-				
-				if( null == list || list.size() <= 0 )
-				{
-					String msg = getString(R.string.no_districts);
 					
-					msg = String.format(msg, getString(resid));
+					da.setList(list);
 					
-					Toast.makeText(MainPageActivity.this,msg , Toast.LENGTH_LONG).show();
+					final Builder b = new  AlertDialog.Builder(MainPageActivity.this).setCancelable(true).
+							setTitle(title).setSingleChoiceItems(da, -1, null);
 					
-					return;
+					mDialog = b.show();
 				}
-				
-				da.setList(list);
-				
-				final Builder b = new  AlertDialog.Builder(MainPageActivity.this).setCancelable(true).
-						setTitle(title).setSingleChoiceItems(da, -1, null);
-				
-				mDialog = b.show();
-			}
-		});
+			});
+		}
+		else
+		{
+			CombingActions.getAllDistrict(new AbsCallback() 
+			{
+				@Override
+				public void onResult(Object o) 
+				{
+					FullScreenWaitBar.hide();
+					
+					String title = getString(R.string.please_select_district);
+					
+					title = String.format(title, getString(resid));
+					
+					DistrictsAdapter2.onItemClickListener lis = new DistrictsAdapter2.onItemClickListener() 
+					{
+						public void onClick(String id,String logo) 
+						{
+							if( null != mDialog )
+							{
+								mDialog.dismiss();
+							}
+							
+							loadActivity(classz, id ,logo);
+						}
+					};
+					
+					DistrictsAdapter2 da = new DistrictsAdapter2(MainPageActivity.this,lis);
+					
+					@SuppressWarnings("unchecked")
+					List<HashMap<String, String>> list = null == o ? null : (List<HashMap<String, String>>) o;
+					
+					if( null == list || list.size() <= 0 )
+					{
+						String msg = getString(R.string.no_districts);
+						
+						msg = String.format(msg, getString(resid));
+						
+						Toast.makeText(MainPageActivity.this,msg , Toast.LENGTH_LONG).show();
+						
+						return;
+					}
+					
+					da.setList(list);
+					
+					final Builder b = new  AlertDialog.Builder(MainPageActivity.this).setCancelable(true).
+							setTitle(title).setSingleChoiceItems(da, -1, null);
+					
+					mDialog = b.show();
+				}
+			});
+		}
 	}
 	
 	@Override
@@ -184,6 +239,19 @@ public class MainPageActivity extends BaseActivity
 		i.setClass(getApplication(), classz);
 		
 		i.putExtra("DistrictId", districtId);
+		
+		startActivity(i);
+	}
+	
+	private void loadActivity(Class<?> classz, String districtId, String logo)
+	{
+		Intent i = new Intent();
+		
+		i.setClass(getApplication(), classz);
+		
+		i.putExtra("DistrictId", districtId);
+		
+		i.putExtra("DistrictLogo", logo);
 		
 		startActivity(i);
 	}

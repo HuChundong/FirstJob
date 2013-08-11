@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
+import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.combing.CombingActions;
 import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
+import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +34,9 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			return;
 		}
 		
-		int size = mSelectedSet.size();
+		FullScreenWaitBar.show(mContext, R.layout.full_screen_wait_bar);
+		
+		final int size = mSelectedSet.size();
 		
 		String waitTip = String.format(mContext.getString(R.string.submit_wait_tip), ""+size);
 		
@@ -50,13 +55,24 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			ids.add(box.get(BoxSurvey.ASSET_NO));
 		}
 		
-// TODO
+		String[] cs = new String[]{};
 		
-		String successTip = String.format(mContext.getString(R.string.submit_success_tip), ""+size);
+		ids.toArray(cs);
 		
-		ToastHelper.showToastShort(mContext, successTip);
-		
-		notifyDataSetChanged();
+		CombingActions.commitBoxesSurvey(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o) 
+			{
+				FullScreenWaitBar.hide();
+				
+				String successTip = String.format(mContext.getString(R.string.submit_success_tip), ""+size);
+				
+				ToastHelper.showToastShort(mContext, successTip);
+				
+				notifyDataSetChanged();
+			}
+		}, cs);
 	}
 	
 	public void delSelected()
@@ -68,7 +84,9 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			return;
 		}
 		
-		int size = mSelectedSet.size();
+		FullScreenWaitBar.show(mContext, R.layout.full_screen_wait_bar);
+		
+		final int size = mSelectedSet.size();
 		
 		String waitTip = String.format(mContext.getString(R.string.del_box_wait_tip), ""+size);
 		
@@ -101,15 +119,20 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		
 		idList.toArray(del);
 		
-//		MeterSurveyDataManager.getInstance().deleteUncommitedBox(del);
-		
-		// TODO
-		
-		String sTip = String.format(mContext.getString(R.string.del_success_tip), ""+size);
-		
-		ToastHelper.showToastShort(mContext, sTip);
-		
-		notifyDataSetChanged();
+		CombingActions.deleteUncommitedBox(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o) 
+			{
+				FullScreenWaitBar.hide();
+				
+				String successTip = String.format(mContext.getString(R.string.del_success_tip), ""+size);
+				
+				ToastHelper.showToastShort(mContext, successTip);
+				
+				notifyDataSetChanged();
+			}
+		}, del);
 	}
 	
 	public UnSubmitDataAdapter(Context context)

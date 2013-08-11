@@ -1,5 +1,7 @@
 package com.jdd.powermanager.ui.boxcombing.newbox;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -9,13 +11,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
+import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.combing.CombingActions;
 import com.jdd.powermanager.basic.BaseActivity;
+import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
+import com.jdd.powermanager.model.MeterSurvey.SurveyForm;
+import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 
 public class NewBoxActivity extends BaseActivity 
 {
-	private String mDistrictId;
-	
 	private EditText mBarCodeEdit;
 	
 	private EditText mAddressEdit;
@@ -38,6 +45,8 @@ public class NewBoxActivity extends BaseActivity
 	
 	private String mExceptionInfo;
 	
+	private HashMap<String,String> mDistrict;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -45,7 +54,13 @@ public class NewBoxActivity extends BaseActivity
 		
 		setContentView(R.layout.combing_add_new_box_page);
 		
-		mDistrictId = getIntent().getStringExtra("DistrictId");
+		mDistrict = new HashMap<String,String>();
+		
+		String id = getIntent().getStringExtra("DistrictId");
+		String logo = getIntent().getStringExtra("DistrictLogo");
+		
+		mDistrict.put(BoxSurvey.DISTRICT_ID, id);
+		mDistrict.put(BoxSurvey.DISTRICT_LOGO, logo);
 		
 		initViews();
 	}
@@ -85,14 +100,70 @@ public class NewBoxActivity extends BaseActivity
 	
 	public void submit()
 	{
+		String barcode = mBarCodeEdit.getText().toString();
+		
+		if( null == barcode || barcode.equals("") )
+		{
+			ToastHelper.showToastShort(this, getString(R.string.barcode_is_null));
+			
+			return;
+		}
+		
 		save();
 		
-		// TODO
+		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
+		
+		String[] ids = {mBarCodeEdit.getText().toString()};
+		
+		CombingActions.commitBoxesSurvey(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o) 
+			{
+				FullScreenWaitBar.hide();
+			}
+		} , ids);
 	}
 	
 	public void save()
 	{
-		// TODO
+		String barcode = mBarCodeEdit.getText().toString();
+		
+		if( null == barcode || barcode.equals("") )
+		{
+			ToastHelper.showToastShort(this, getString(R.string.barcode_is_null));
+			
+			return;
+		}
+		
+		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
+		
+		ArrayList<HashMap<String, String>> boxList = new ArrayList<HashMap<String, String>>();
+		
+		HashMap<String, String> box = new HashMap<String, String>();
+		
+		box.put(BoxSurvey.ASSET_NO, mBarCodeEdit.getText().toString());
+		
+		box.put(BoxSurvey.INST_LOC, mAddressEdit.getText().toString());
+		
+		box.put(BoxSurvey.BOX_ROWS, mRowEdit.getText().toString());
+		
+		box.put(BoxSurvey.BOX_COLS, mColumnEdit.getText().toString());
+		
+		box.put(BoxSurvey.METER_NUM, mMeterCountEdit.getText().toString());
+		
+		box.put(SurveyForm.ABNORMAL_COMMENT, mExceptionInfo);
+		
+		boxList.add(box);
+		
+		CombingActions.saveBoxSurvey(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o) 
+			{
+				FullScreenWaitBar.hide();
+			}
+		}, mDistrict, boxList);
 	}
 	
 	private void exc()

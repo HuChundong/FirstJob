@@ -103,13 +103,20 @@ public class AssetsDetailFragment extends Fragment
 	{
 		ToastHelper.showToastShort(getActivity(), getActivity().getString(R.string.complete_wait_tip));
 		
-//		MeterSurveyDataManager.getInstance().commitAllUncommitedBoxMeterSurveyInDistrict(mDistrictId);
+		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		
-		// TODO
-		
-		ToastHelper.showToastShort(getActivity(), getActivity().getString(R.string.complete_sucess));
-		
-		back();
+		CombingActions.commitAllUncommitedBoxSurveyInDistrict(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o) 
+			{
+				FullScreenWaitBar.hide();
+				
+				ToastHelper.showToastShort(getActivity(), getActivity().getString(R.string.complete_sucess));
+				
+				back();
+			}
+		}, mDistrictId);
 	}
 	
 	private void back()

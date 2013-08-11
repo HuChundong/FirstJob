@@ -49,4 +49,72 @@ public class CombingActions
 			}
 		}.start();
 	}
+	
+	public static void getAllDistrict(AbsCallback cb)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				return BoxSurveyDataManager.getInstance().getAllDistrict();
+			}
+		}.start();
+	}
+	
+	public static void commitBoxesSurvey(AbsCallback cb, final String[] ids)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				BoxSurveyDataManager.getInstance().commitBoxesSurvey(ids);
+				
+				return null;
+			}
+		}.start();
+	}
+	
+	public static void deleteUncommitedBox(AbsCallback cb, final String[] ids)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				BoxSurveyDataManager.getInstance().deleteUncommitedBox(ids);
+				
+				return null;
+			}
+		}.start();
+	}
+	
+	public static void deleteCommitedBox(AbsCallback cb, final String[] ids)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				BoxSurveyDataManager.getInstance().deleteCommitedBox(ids);
+				
+				return null;
+			}
+		}.start();
+	}
+	
+	public static void commitAllUncommitedBoxSurveyInDistrict(AbsCallback cb,final String id)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				BoxSurveyDataManager.getInstance().commitAllUncommitedBoxSurveyInDistrict(id);
+				
+				return null;
+			}
+		}.start();	
+	}
 }

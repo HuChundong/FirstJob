@@ -26,6 +26,8 @@ public class UnSubmitFragment extends Fragment
 	
 	private String mDisId;
 	
+	private String mDisLogo;
+	
 	private TextView mAddNew;
 	
 	private TextView mSubmit;
@@ -40,6 +42,8 @@ public class UnSubmitFragment extends Fragment
 		super.onCreate(savedInstanceState);
 		
 		mDisId = getArguments().getString("DistrictId");
+		
+		mDisLogo = getArguments().getString("DistrictLogo");
 		
 		mAdapter = new UnSubmitDataAdapter(getActivity());
 		
@@ -96,6 +100,8 @@ public class UnSubmitFragment extends Fragment
 		i.setClass(getActivity(), NewBoxActivity.class);
 		
 		i.putExtra("DistrictId", mDisId);
+		
+		i.putExtra("DistrictLogo", mDisLogo);
 		
 		startActivity(i);
 	}

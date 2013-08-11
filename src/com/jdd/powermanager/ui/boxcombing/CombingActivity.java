@@ -25,6 +25,8 @@ public class CombingActivity extends BaseFragmentActivity
 	
 	private String mDistrictId;
 	
+	private String mDistrictLogo;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -33,6 +35,8 @@ public class CombingActivity extends BaseFragmentActivity
 		setContentView(R.layout.combing_page);
 		
 		mDistrictId = (String) getIntent().getCharSequenceExtra("DistrictId");
+		
+		mDistrictLogo = (String) getIntent().getCharSequenceExtra("DistrictLogo");
 		
 		initViews();
 	}
@@ -121,6 +125,8 @@ public class CombingActivity extends BaseFragmentActivity
 		Bundle b = new Bundle();
 		
 		b.putCharSequence("DistrictId", mDistrictId);
+		
+		b.putCharSequence("DistrictLogo", mDistrictLogo);
 		
 		f.setArguments(b);
 		
