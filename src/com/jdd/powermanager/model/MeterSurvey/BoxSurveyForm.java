@@ -45,6 +45,7 @@ public final class BoxSurveyForm extends SurveyForm
 									DISTRICT_LOGO,
 									DISTRICT_ID,
 									ASSET_NO,
+									SurveyForm.ABNORMAL_COMMENT,
 									SurveyForm.COMMIT_STATUS,
 									SurveyForm.SURVEY_STATUS,
 									SurveyForm.SURVEY_RELATION
@@ -65,6 +66,7 @@ public final class BoxSurveyForm extends SurveyForm
 				BOX_COLS,
 				METER_NUM,
 				ASSET_NO,
+				SurveyForm.ABNORMAL_COMMENT,
 				SurveyForm.COMMIT_STATUS,
 				SurveyForm.SURVEY_STATUS,
 				SurveyForm.SURVEY_RELATION
