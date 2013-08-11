@@ -140,7 +140,10 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	 */
 	public ArrayList<District> getAllDistrict()
 	{
-		return mMeterSurveyDBHelper.getAllDistrict();
+		synchronized(instance)
+		{
+			return mMeterSurveyDBHelper.getAllDistrict();
+		}
 	}
 	
 	/**
@@ -149,7 +152,10 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	 */
 	public ArrayList<HashMap<String, String>> getAllBoxesInDistrict(String districtID)
 	{
-		return mMeterSurveyDBHelper.getAllBoxesInDistrict(districtID);
+		synchronized(instance)
+		{
+			return mMeterSurveyDBHelper.getAllBoxesInDistrict(districtID);
+		}
 	}
 	
 	/**
@@ -162,9 +168,12 @@ public class MeterSurveyDataManager extends SurveyDataManager
 							ArrayList<HashMap<String, String>> meterList,
 							String districtId)
 	{
-		mMeterSurveyDBHelper.saveOneBoxMeterSurvey(box, meterList, districtId);
+		synchronized(instance)
+		{
+			mMeterSurveyDBHelper.saveOneBoxMeterSurvey(box, meterList, districtId);
 		
-		parseDBToXLS();
+			parseDBToXLS();
+		}
 	}
 	
 	/**
@@ -173,9 +182,12 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	 */
 	public void commitOneBoxMeterSurvey(String boxId)
 	{
-		mMeterSurveyDBHelper.commitOneBoxMeterSurvey(boxId);
+		synchronized(instance)
+		{
+			mMeterSurveyDBHelper.commitOneBoxMeterSurvey(boxId);
 		
-		parseDBToXLS();
+			parseDBToXLS();
+		}
 	}
 	
 	/**
@@ -184,7 +196,10 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	 */
 	public ArrayList<HashMap<String, String>> getAllMetersInDistrict(String districtID)
 	{
-		return mMeterSurveyDBHelper.getAllMetersInDistrict(districtID);
+		synchronized(instance)
+		{
+			return mMeterSurveyDBHelper.getAllMetersInDistrict(districtID);
+		}
 	}
 	
 	/**
@@ -193,9 +208,12 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	 */
 	public void commitAllUncommitedBoxMeterSurveyInDistrict(String districtId)
 	{
-		mMeterSurveyDBHelper.commitAllUncommitedBoxMeterSurveyInDistrict(districtId);
+		synchronized(instance)
+		{
+			mMeterSurveyDBHelper.commitAllUncommitedBoxMeterSurveyInDistrict(districtId);
 		
-		parseDBToXLS();
+			parseDBToXLS();
+		}
 	}
 	
 	/**
@@ -205,9 +223,12 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	 */
 	public void deleteUncommitedBox(String[] boxIds)
 	{
-		mMeterSurveyDBHelper.deleteUncommitedBox(boxIds);
+		synchronized(instance)
+		{
+			mMeterSurveyDBHelper.deleteUncommitedBox(boxIds);
 		
-		parseDBToXLS();
+			parseDBToXLS();
+		}
 	}
 	
 	/**
@@ -217,9 +238,12 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	 */
 	public void deleteCommitedBox(String[] boxIds)
 	{
-		mMeterSurveyDBHelper.deleteCommitedBox(boxIds);
+		synchronized(instance)
+		{
+			mMeterSurveyDBHelper.deleteCommitedBox(boxIds);
 		
-		parseDBToXLS();
+			parseDBToXLS();
+		}
 	}
 	
 	
@@ -230,7 +254,10 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	 */
 	public void addBoxAbnormalComment(String boxId, String comment)
 	{
-		mMeterSurveyDBHelper.addBoxAbnormalComment(boxId, comment);
+		synchronized(instance)
+		{
+			mMeterSurveyDBHelper.addBoxAbnormalComment(boxId, comment);
+		}
 	}
 	
 	/**
@@ -240,7 +267,10 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	 */
 	public void addBoxSurveyTime(String boxId, String time)
 	{
-		mMeterSurveyDBHelper.addBoxSurveyTime(boxId, time);
+		synchronized(instance)
+		{
+			mMeterSurveyDBHelper.addBoxSurveyTime(boxId, time);
+		}
 	}
 	
 	/**
@@ -251,7 +281,10 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	 */
 	public ArrayList<HashMap<String, String>> getAllSurveyedBoxesInDistrict(String districtID, int commitStatus)
 	{
-		return mMeterSurveyDBHelper.getAllSurveyedBoxesInDistrict(districtID, commitStatus);
+		synchronized(instance)
+		{
+			return mMeterSurveyDBHelper.getAllSurveyedBoxesInDistrict(districtID, commitStatus);
+		}
 	}
 	
 	///////////////////////////////////////////UT test begin/////////////////////////////////////

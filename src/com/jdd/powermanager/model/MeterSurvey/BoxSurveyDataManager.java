@@ -78,7 +78,10 @@ public class BoxSurveyDataManager extends SurveyDataManager
 	 */
 	public ArrayList<HashMap<String, String>> getAllSurveyedBoxesInDistrict(String districtID, int commitStatus)
 	{
-		return mBoxSurveyDBHelper.getAllSurveyedBoxesInDistrict(districtID, commitStatus);
+		synchronized(instance)
+		{
+			return mBoxSurveyDBHelper.getAllSurveyedBoxesInDistrict(districtID, commitStatus);
+		}
 	}
 	
 	/**
@@ -90,7 +93,10 @@ public class BoxSurveyDataManager extends SurveyDataManager
 	public void saveBoxSurvey(HashMap<String, String> district,
 							ArrayList<HashMap<String, String>> boxList)
 	{
-		mBoxSurveyDBHelper.saveBoxSurvey(district, boxList);
+		synchronized(instance)
+		{
+			mBoxSurveyDBHelper.saveBoxSurvey(district, boxList);	
+		}
 	}
 	
 	/**
@@ -99,7 +105,10 @@ public class BoxSurveyDataManager extends SurveyDataManager
 	 */
 	public ArrayList<HashMap<String, String>> getAllDistrict()
 	{
-		return mBoxSurveyDBHelper.getAllDistrict();
+		synchronized(instance)
+		{
+			return mBoxSurveyDBHelper.getAllDistrict();
+		}
 	}
 	
 	/**
@@ -108,7 +117,10 @@ public class BoxSurveyDataManager extends SurveyDataManager
 	 */
 	public void commitBoxesSurvey(String[] boxIds)
 	{
-		mBoxSurveyDBHelper.commitBoxesSurvey(boxIds);
+		synchronized(instance)
+		{
+			mBoxSurveyDBHelper.commitBoxesSurvey(boxIds);
+		}
 	}
 	
 	/**
@@ -118,7 +130,10 @@ public class BoxSurveyDataManager extends SurveyDataManager
 	 */
 	public void deleteUncommitedBox(String[] boxIds)
 	{
-		mBoxSurveyDBHelper.deleteUncommitedBox(boxIds);
+		synchronized(instance)
+		{
+			mBoxSurveyDBHelper.deleteUncommitedBox(boxIds);
+		}
 	}
 	
 	/**
@@ -128,8 +143,9 @@ public class BoxSurveyDataManager extends SurveyDataManager
 	 */
 	public void deleteCommitedBox(String[] boxIds)
 	{
-		mBoxSurveyDBHelper.deleteCommitedBox(boxIds);
+		synchronized(instance)
+		{
+			mBoxSurveyDBHelper.deleteCommitedBox(boxIds);
+		}
 	}
-	
-
 }
