@@ -196,9 +196,7 @@ public class BoxSurveyDBHelper extends SQLiteOpenHelper
 		}		
 		SQL += BoxSurvey.DBToXLSColumnIndexDistrict[districtColumnLength - 1];
 			
-		SQL += " FROM " + BoxSurvey.TABLE_NAME +
-				" where" + SurveyForm.SURVEY_STATUS + " = \"" + 
-				SurveyForm.SURVEY_STATUS_SURVEYED + "\"";
+		SQL += " FROM " + BoxSurvey.TABLE_NAME;
 		
 		SQLiteDatabase db = getWritableDatabase();
 		
