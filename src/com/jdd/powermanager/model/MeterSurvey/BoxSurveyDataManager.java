@@ -101,5 +101,35 @@ public class BoxSurveyDataManager extends SurveyDataManager
 	{
 		return mBoxSurveyDBHelper.getAllDistrict();
 	}
+	
+	/**
+	 * 提交一组计量箱的普查数据
+	 * @param boxIds 计量箱id组
+	 */
+	public void commitBoxesSurvey(String[] boxIds)
+	{
+		mBoxSurveyDBHelper.commitBoxesSurvey(boxIds);
+	}
+	
+	/**
+	 * 批量删除未提交的表箱
+	 * 关系变为异常，普查状态改成未普查
+	 * @param boxIds 待删除的计量箱id数组
+	 */
+	public void deleteUncommitedBox(String[] boxIds)
+	{
+		mBoxSurveyDBHelper.deleteUncommitedBox(boxIds);
+	}
+	
+	/**
+	 * 批量删除已提交的表箱
+	 * 仅修改提交状态为未提交
+	 * @param boxIds 待删除的计量箱id数组
+	 */
+	public void deleteCommitedBox(String[] boxIds)
+	{
+		mBoxSurveyDBHelper.deleteCommitedBox(boxIds);
+	}
+	
 
 }

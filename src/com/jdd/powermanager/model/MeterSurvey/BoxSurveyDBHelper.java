@@ -550,4 +550,48 @@ public class BoxSurveyDBHelper extends SQLiteOpenHelper
 		}
 	}
 
+	/**
+	 * 提交一组计量箱的普查数据
+	 * @param boxIds 计量箱id组
+	 */
+	public void commitBoxesSurvey(String[] boxIds)
+	{
+		String SQL = "update " + BoxSurvey.TABLE_NAME + " set ";
+		SQL += SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_COMMITED + "\"";
+		SQL += " where " + BoxSurvey.ASSET_NO + " in " + SurveyForm.parseIdArray2SQLIds(boxIds);
+		
+		executeNoDataSetSQL(SQL);
+	}
+	
+	
+	/**
+	 * 批量删除未提交的表箱
+	 * 关系变为异常，普查状态改成未普查
+	 * @param boxIds 待删除的计量箱id数组
+	 */
+	public void deleteUncommitedBox(String[] boxIds)
+	{
+		String SQL = "update " + BoxSurvey.TABLE_NAME + " set ";
+		SQL += SurveyForm.SURVEY_STATUS + " = \"" + SurveyForm.SURVEY_STATUS_UNSURVEYED + "\"";
+		SQL += COMMA_SEP + SurveyForm.SURVEY_RELATION + " = \"" + SurveyForm.SURVEY_RELATION_ABNORMAL + "\"";
+		SQL += " where " + BoxSurvey.ASSET_NO + " in " + SurveyForm.parseIdArray2SQLIds(boxIds);
+		SQL += " and " + SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_UNCOMMITED +"\"";
+		
+		executeNoDataSetSQL(SQL);
+	}
+	
+	/**
+	 * 批量删除已提交的表箱
+	 * 仅修改提交状态为未提交
+	 * @param boxIds 待删除的计量箱id数组
+	 */
+	public void deleteCommitedBox(String[] boxIds)
+	{
+		String SQL = "update " + BoxSurvey.TABLE_NAME + " set ";
+		SQL += SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_UNCOMMITED + "\"";
+		SQL += " where " + BoxSurvey.ASSET_NO + " in " + SurveyForm.parseIdArray2SQLIds(boxIds);
+		SQL += " and " + SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_COMMITED +"\"";
+		
+		executeNoDataSetSQL(SQL);
+	}
 }
