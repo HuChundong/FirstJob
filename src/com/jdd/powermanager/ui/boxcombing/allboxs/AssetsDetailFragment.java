@@ -48,7 +48,7 @@ public class AssetsDetailFragment extends Fragment
 		
 		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		
-		CombingActions.getAllSurveyedBoxesInDistrict(new AbsCallback() 
+		CombingActions.getAllBoxesInDistrict(new AbsCallback() 
 		{
 			@Override
 			public void onResult(Object o)
@@ -73,7 +73,7 @@ public class AssetsDetailFragment extends Fragment
 				
 				mSpinner.setAdapter(sa);
 			}
-		}, mDistrictId, 0);
+		}, mDistrictId);
 	}
 	
 	@Override

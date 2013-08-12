@@ -50,6 +50,18 @@ public class CombingActions
 		}.start();
 	}
 	
+	public static void getAllBoxesInDistrict(AbsCallback cb,final String districtID)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				return BoxSurveyDataManager.getInstance().getAllBoxesInDistrict(districtID);
+			}
+		}.start();
+	}
+	
 	public static void getAllDistrict(AbsCallback cb)
 	{
 		new AbsAction(cb) 
