@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
@@ -102,30 +101,23 @@ public class NewBoxActivity extends BaseActivity
 	{
 		String barcode = mBarCodeEdit.getText().toString();
 		
-		if( null == barcode || barcode.equals("") )
-		{
-			ToastHelper.showToastShort(this, getString(R.string.barcode_is_null));
-			
-			return;
-		}
-		
-		save();
-		
-		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
-		
-		String[] ids = {mBarCodeEdit.getText().toString()};
+		String[] ids = {barcode};
 		
 		CombingActions.commitBoxesSurvey(new AbsCallback() 
 		{
 			@Override
 			public void onResult(Object o) 
 			{
+				ToastHelper.showToastShort(NewBoxActivity.this, getString(R.string.commit_sucess));
+				
 				FullScreenWaitBar.hide();
+				
+				back();
 			}
 		} , ids);
 	}
 	
-	public void save()
+	public void save(final boolean isSubmit)
 	{
 		String barcode = mBarCodeEdit.getText().toString();
 		
@@ -161,7 +153,18 @@ public class NewBoxActivity extends BaseActivity
 			@Override
 			public void onResult(Object o) 
 			{
-				FullScreenWaitBar.hide();
+				if(isSubmit)
+				{
+					submit();
+				}
+				else
+				{
+					ToastHelper.showToastShort(NewBoxActivity.this, getString(R.string.save_sucess));
+					
+					FullScreenWaitBar.hide();
+					
+					back();
+				}
 			}
 		}, mDistrict, boxList);
 	}
@@ -196,13 +199,13 @@ public class NewBoxActivity extends BaseActivity
 					
 				case R.id.save:
 					
-					save();
+					save(false);
 					
 					break;
 					
 				case R.id.submit:
 					
-					submit();
+					save(true);
 					
 					break;
 					

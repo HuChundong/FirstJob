@@ -59,7 +59,7 @@ public class LockView implements Pager
 	{
 		NewSurveyActivity a = (NewSurveyActivity) mContext;
 		
-		a.save();
+		a.save(false);
 	}
 	
 	private void back()

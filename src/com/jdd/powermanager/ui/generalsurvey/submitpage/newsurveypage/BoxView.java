@@ -324,7 +324,7 @@ public class BoxView implements Pager
 			return;
 		}
 		
-		((NewSurveyActivity)mContext).save();
+		((NewSurveyActivity)mContext).save(false);
 	}
 	
 	private void submit()
@@ -338,7 +338,7 @@ public class BoxView implements Pager
 			return;
 		}
 		
-		((NewSurveyActivity)mContext).submit();
+		((NewSurveyActivity)mContext).save(true);
 	}
 	
 	private void exc()

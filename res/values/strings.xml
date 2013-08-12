@@ -98,4 +98,6 @@
 	<string name="combing_district_no">台区编号</string>
 	<string name="combing_box_barcode">资产编号</string>
 	<string name="meter_count">表数</string>
+	<string name="commit_sucess">提交成功!</string>
+	<string name="save_sucess">保存成功！</string>
 </resources>

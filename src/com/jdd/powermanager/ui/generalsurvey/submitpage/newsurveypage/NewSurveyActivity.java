@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.widget.TextView;
 import com.jdd.common.utils.barcode.BarCodeHelper;
+import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.action.survey.SurveyActions;
@@ -92,15 +93,11 @@ public class NewSurveyActivity extends BaseActivity
 		mOnPageChangeLis.onPageSelected(0);
 	}
 	
-	public void submit()
+	private void submit()
 	{
-		save();
-		
 		HashMap<String, String> box = bv.getBoxInfo();
 		
 		String boxid = box.get(MeterSurvey.BAR_CODE);
-		
-		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
 		
 		List<String> ids = new ArrayList<String>();
 		
@@ -111,12 +108,16 @@ public class NewSurveyActivity extends BaseActivity
 			@Override
 			public void onResult(Object o) 
 			{
+				ToastHelper.showToastShort(NewSurveyActivity.this, getString(R.string.commit_sucess));
+				
 				FullScreenWaitBar.hide();
+				
+				finish();
 			}
 		}, ids);
 	}
 	
-	public void save()
+	public void save(final boolean isSubmit)
 	{
 		HashMap<String, String> box = bv.getBoxInfo();
 		
@@ -143,7 +144,18 @@ public class NewSurveyActivity extends BaseActivity
 			@Override
 			public void onResult(Object o) 
 			{
-				FullScreenWaitBar.hide();
+				if(isSubmit)
+				{
+					submit();
+				}
+				else
+				{
+					ToastHelper.showToastShort(NewSurveyActivity.this, getString(R.string.save_sucess));
+					
+					FullScreenWaitBar.hide();
+					
+					finish();
+				}
 			}
 		}, box, meters, mDistrictId);
 	}
