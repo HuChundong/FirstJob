@@ -1,5 +1,7 @@
 package com.jdd.powermanager.model.MeterSurvey;
 
+import java.util.HashMap;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.Cell;
@@ -86,5 +88,38 @@ public class SurveyDataManager
 		}
 			
 		return values;
+	}
+	
+	/**
+	 * 将数据库中一条记录的的所有列写入到HSSFRow对象中
+	 * @param row 
+	 * @param meterRowMap 数据库中一条记录
+	 * @param columnDefine 数据库列定义数组
+	 */
+	protected void setRowHashMapToHSSFRow(HSSFRow row, HashMap<String, String> meterRowMap,
+												String[] columnDefine)
+	{
+		HSSFCell cell = null;
+		for (int i = 0; i < columnDefine.length; i ++)
+		{
+			cell = row.getCell(i);
+	        if (cell == null) 
+	        {
+	            cell = row.createCell(i);
+	        }
+			
+			String value = meterRowMap.get(columnDefine[i]);
+			if ( value != null)
+			{
+				//均以字符串方式写入数据，防止出现科学计数法
+				cell.setCellType(Cell.CELL_TYPE_STRING);
+				
+				cell.setCellValue(value);
+			}
+			else
+			{
+				cell.setCellValue("");
+			}
+		}
 	}
 }
