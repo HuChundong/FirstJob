@@ -60,8 +60,6 @@ public class CombingActivity extends BaseFragmentActivity
 		mBbtn_tab_submit.setOnClickListener(mOnClickLis);
 		
 		mBtn_tab_assets.setOnClickListener(mOnClickLis);
-		
-		mOnClickLis.onClick(mBtn_tab_un_submit);
 	}
 	
 	@Override

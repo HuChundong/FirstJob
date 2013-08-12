@@ -10,6 +10,7 @@ import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 
 public class UnSubmitFragment extends Fragment
 {
+	private static final String TAG = " Combing UnSubmitFragment";
+	
 	private ListView mListView;
 	
 	private UnSubmitDataAdapter mAdapter;
@@ -46,6 +49,9 @@ public class UnSubmitFragment extends Fragment
 		mDisLogo = getArguments().getString("DistrictLogo");
 		
 		mAdapter = new UnSubmitDataAdapter(getActivity());
+		
+		Log.d(TAG, "zhou -- UnSubmitFragment --  mDisId " + mDisId);
+		Log.d(TAG, "zhou -- UnSubmitFragment --  mDisLogo " + mDisLogo);
 		
 		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		
