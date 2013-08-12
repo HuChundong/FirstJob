@@ -160,4 +160,16 @@ public class BoxSurveyDataManager extends SurveyDataManager
 			mBoxSurveyDBHelper.commitAllUncommitedBoxSurveyInDistrict(districtId);
 		}
 	}
+	
+	/**
+	 * 获取某台区内所有计量箱对象列表
+	 * @return 某台区内所有计量箱对象列表,用hashmap表示电表对象
+	 */
+	public ArrayList<HashMap<String, String>> getAllBoxesInDistrict(String districtID)
+	{
+		synchronized(instance)
+		{
+			return mBoxSurveyDBHelper.getAllBoxesInDistrict(districtID);
+		}
+	}
 }

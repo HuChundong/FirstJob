@@ -607,4 +607,54 @@ public class BoxSurveyDBHelper extends SQLiteOpenHelper
 		
 		executeNoDataSetSQL(SQL);
 	}
+	
+	/**
+	 * 获取某台区内所有计量箱对象列表
+	 * @return 某台区内所有计量箱对象列表,用hashmap表示电表对象
+	 */
+	public ArrayList<HashMap<String, String>> getAllBoxesInDistrict(String districtID)
+	{
+		String SQL = "SELECT ";
+		int boxColumnLength = BoxSurvey.DBToXLSColumnIndexBox.length;
+		for (int i = 0 ; i < boxColumnLength - 1 ; i ++)
+		{
+			SQL += BoxSurvey.DBToXLSColumnIndexBox[i] + COMMA_SEP;
+		}
+		SQL += BoxSurvey.DBToXLSColumnIndexBox[boxColumnLength - 1] +
+				" FROM " + BoxSurvey.TABLE_NAME +
+				" where " + BoxSurvey.DISTRICT_ID + " = \"" + districtID +"\"";
+		
+		SQLiteDatabase db = getWritableDatabase();
+		ArrayList<HashMap<String, String>> boxList = new ArrayList<HashMap<String, String>>();
+		Cursor c = null;
+		try
+		{
+			c = db.rawQuery(SQL, null);  
+	        while (c.moveToNext())
+	        {
+	        	HashMap<String, String> boxColumnMap = new HashMap<String, String>();
+	        	for (int i = 0; i < boxColumnLength; i ++)
+	        	{
+	        		boxColumnMap.put(BoxSurvey.DBToXLSColumnIndexBox[i], c.getString(i));	        		
+	        	}
+	        	boxList.add(boxColumnMap);
+	        }	
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c != null)
+			{
+				c.close();	
+			}
+			
+			db.close();
+				
+		}
+        
+        return boxList;  
+	}
 }
