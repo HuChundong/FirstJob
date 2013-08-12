@@ -25,6 +25,10 @@ public class UnSubmitDataAdapter extends BaseAdapter
 	
 	private List<HashMap<String, String>> mSelectedSet;
 	
+	private String mDistrictId;
+	
+	private String mDristritLogo;
+	
 	public void submitSelected()
 	{
 		if( null == mSelectedSet || mSelectedSet.size() == 0 )
@@ -135,9 +139,13 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		}, del);
 	}
 	
-	public UnSubmitDataAdapter(Context context)
+	public UnSubmitDataAdapter(Context context,String id,String logo)
 	{
 		mContext = context;
+		
+		mDistrictId = id;
+		
+		mDristritLogo = logo;
 		
 		mSelectedSet = new ArrayList<HashMap<String, String>>();
 	}
@@ -225,9 +233,9 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			
 			h.meterCount.setText(data.get(BoxSurvey.METER_NUM));
 			
-			h.disTag.setText(data.get(BoxSurvey.DISTRICT_LOGO));
+			h.disTag.setText(mDristritLogo);
 			
-			h.disId.setText(data.get(BoxSurvey.DISTRICT_ID));
+			h.disId.setText(mDistrictId);
 			
 			h.barCode.setText(data.get(BoxSurvey.ASSET_NO));
 		}

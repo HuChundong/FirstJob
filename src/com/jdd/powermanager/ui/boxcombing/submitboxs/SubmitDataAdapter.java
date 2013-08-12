@@ -26,6 +26,10 @@ public class SubmitDataAdapter extends BaseAdapter
 	
 	private List<HashMap<String, String>> mSelectedSet;
 	
+	private String mDistrictId;
+	
+	private String mDristritLogo;
+	
 	public void delSelected()
 	{
 		if( null == mSelectedSet || mSelectedSet.size() == 0 )
@@ -86,9 +90,13 @@ public class SubmitDataAdapter extends BaseAdapter
 		}, del);
 	}
 	
-	public SubmitDataAdapter(Context context)
+	public SubmitDataAdapter(Context context,String id,String logo)
 	{
 		mContext = context;
+		
+		mDistrictId = id;
+		
+		mDristritLogo = logo;
 		
 		mSelectedSet = new ArrayList<HashMap<String, String>>();
 	}
@@ -176,9 +184,9 @@ public class SubmitDataAdapter extends BaseAdapter
 			
 			h.meterCount.setText(data.get(BoxSurvey.METER_NUM));
 			
-			h.disTag.setText(data.get(BoxSurvey.DISTRICT_LOGO));
+			h.disTag.setText(mDristritLogo);
 			
-			h.disId.setText(data.get(BoxSurvey.DISTRICT_ID));
+			h.disId.setText(mDistrictId);
 			
 			h.barCode.setText(data.get(BoxSurvey.ASSET_NO));
 		}

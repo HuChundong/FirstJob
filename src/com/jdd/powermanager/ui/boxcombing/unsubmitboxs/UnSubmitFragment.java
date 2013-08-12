@@ -48,7 +48,7 @@ public class UnSubmitFragment extends Fragment
 		
 		mDisLogo = getArguments().getString("DistrictLogo");
 		
-		mAdapter = new UnSubmitDataAdapter(getActivity());
+		mAdapter = new UnSubmitDataAdapter(getActivity(),mDisId,mDisLogo);
 		
 		Log.d(TAG, "zhou -- UnSubmitFragment --  mDisId " + mDisId);
 		Log.d(TAG, "zhou -- UnSubmitFragment --  mDisLogo " + mDisLogo);

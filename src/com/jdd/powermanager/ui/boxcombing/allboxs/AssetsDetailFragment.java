@@ -25,6 +25,8 @@ public class AssetsDetailFragment extends Fragment
 	
 	private String mDistrictId;
 	
+	private String mDristritLogo;
+	
 	private AssetsDataAdapter mAdapter;
 	
 	private ListView mListView;
@@ -40,7 +42,9 @@ public class AssetsDetailFragment extends Fragment
 		
 		mDistrictId = getArguments().getString("DistrictId");
 		
-		mAdapter = new AssetsDataAdapter(getActivity() , mDistrictId);
+		mDristritLogo = getArguments().getString("DistrictLogo");
+		
+		mAdapter = new AssetsDataAdapter(getActivity() , mDistrictId, mDristritLogo);
 		
 		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		

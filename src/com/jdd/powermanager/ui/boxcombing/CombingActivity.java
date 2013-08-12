@@ -146,6 +146,8 @@ public class CombingActivity extends BaseFragmentActivity
 		
 		b.putCharSequence("DistrictId", mDistrictId);
 		
+		b.putCharSequence("DistrictLogo", mDistrictLogo);
+		
 		f.setArguments(b);
 		
 		showFragment(f);
@@ -173,6 +175,8 @@ public class CombingActivity extends BaseFragmentActivity
 		Bundle b = new Bundle();
 		
 		b.putCharSequence("DistrictId", mDistrictId);
+		
+		b.putCharSequence("DistrictLogo", mDistrictLogo);
 		
 		f.setArguments(b);
 		

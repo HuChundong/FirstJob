@@ -24,6 +24,8 @@ public class SubmitFragment extends Fragment
 	
 	private String mDisId;
 	
+	private String mDisLogo;
+	
 	private TextView mDel;
 	
 	private TextView mBack;
@@ -35,7 +37,9 @@ public class SubmitFragment extends Fragment
 		
 		mDisId = getArguments().getString("DistrictId");
 		
-		mAdapter = new SubmitDataAdapter(getActivity());
+		mDisLogo = getArguments().getString("DistrictLogo");
+		
+		mAdapter = new SubmitDataAdapter(getActivity(),mDisId,mDisLogo);
 		
 		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		

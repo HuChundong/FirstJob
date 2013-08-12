@@ -32,11 +32,11 @@ public class BarCodeHelper
 //		mInstance.mBf.setBarcodeAll(new byte[] { 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,0, 0 , 0 });
 		
 		// 开启所有支持的条码
-		mInstance.mBf.setBarcodeOpenAll();
-		
-		mInstance.mBm = new BarcodeManager(context);
-		
-		mInstance.mBm.addListener(mInstance.mBarcodeLis);
+//		mInstance.mBf.setBarcodeOpenAll();
+//		
+//		mInstance.mBm = new BarcodeManager(context);
+//		
+//		mInstance.mBm.addListener(mInstance.mBarcodeLis);
 	}
 	
 	private BarcodeListener mBarcodeLis = new BarcodeListener()
@@ -72,8 +72,8 @@ public class BarCodeHelper
 	{
 		clearListener();
 		
-		mInstance.mBm.removeListener(mInstance.mBarcodeLis);
+//		mInstance.mBm.removeListener(mInstance.mBarcodeLis);
 		
-		mInstance.mBm.dismiss();
+//		mInstance.mBm.dismiss();
 	}
 }

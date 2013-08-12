@@ -43,11 +43,15 @@ public class AssetsDataAdapter  extends BaseAdapter
 	
 	private String mDristritId;
 	
-	public AssetsDataAdapter(Context context,String dis)
+	private String mDristritLogo;
+	
+	public AssetsDataAdapter(Context context,String dis,String logo)
 	{
 		mContext = context;
 		
 		mDristritId = dis;
+		
+		mDristritLogo = logo;
 	}
 	
 	public int getCombCount()
@@ -208,7 +212,7 @@ public class AssetsDataAdapter  extends BaseAdapter
 			
 			h.meterCount.setText(data.get(BoxSurvey.METER_NUM));
 			
-			h.disTag.setText(data.get(BoxSurvey.DISTRICT_LOGO));
+			h.disTag.setText(mDristritLogo);
 			
 			h.disId.setText(mDristritId);
 			
