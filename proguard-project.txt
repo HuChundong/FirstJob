@@ -18,3 +18,13 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-libraryjars libs/poi-3.9-20121203.jar
+-dontwarn org.apache.**
+-keep class org.apache.** { *;}
+
+-libraryjars libs/android-support-v4.jar 
+-dontwarn android.support.v4.** 
+-keep class android.support.v4.** { *; } 
+-keep public class * extends android.support.v4.** 
+-keep public class * extends android.app.Fragment 
