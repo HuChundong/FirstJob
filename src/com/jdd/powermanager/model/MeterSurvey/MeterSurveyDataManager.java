@@ -96,44 +96,12 @@ public class MeterSurveyDataManager extends SurveyDataManager
 		for (int i = 0; i < allDBRows.size(); i ++)
 		{
 			row = xls.getRow(sheet,i + 1);
-			setMeterRowHashMapToHSSFRow(row, allDBRows.get(i));
+			setRowHashMapToHSSFRow(row, allDBRows.get(i), MeterSurvey.DBToXLSColumnIndexAll);
 		}
 		
 		xls.saveToXlsFile();
 	}
 
-	/**
-	 * 将数据库中一条记录的的所有列写入到HSSFRow对象中
-	 * @param row 
-	 * @param meterRowMap 数据库中一条记录
-	 */
-	private void setMeterRowHashMapToHSSFRow(HSSFRow row, HashMap<String, String> meterRowMap)
-	{
-		HSSFCell cell = null;
-		for (int i = 0; i < MeterSurvey.DBToXLSColumnIndexAll.length; i ++)
-		{
-			cell = row.getCell(i);
-	        if (cell == null) 
-	        {
-	            cell = row.createCell(i);
-	        }
-			
-			String value = meterRowMap.get(MeterSurvey.DBToXLSColumnIndexAll[i]);
-			if ( value != null)
-			{
-				//均以字符串方式写入数据，防止出现科学计数法
-				cell.setCellType(Cell.CELL_TYPE_STRING);
-				
-				cell.setCellValue(value);
-			}
-			else
-			{
-				cell.setCellValue("");
-			}
-		}
-	}
-	
-	
 	/**
 	 * 获取所有台区对象列表
 	 * @return 所有的台区对象

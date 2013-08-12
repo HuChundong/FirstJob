@@ -3,12 +3,16 @@ package com.jdd.powermanager.model.MeterSurvey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
 
 import android.content.ContentValues;
 
 import com.jdd.common.utils.Excel.XLS;
 import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
+import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
 
 public class BoxSurveyDataManager extends SurveyDataManager 
 {
@@ -95,7 +99,9 @@ public class BoxSurveyDataManager extends SurveyDataManager
 	{
 		synchronized(instance)
 		{
-			mBoxSurveyDBHelper.saveBoxSurvey(district, boxList);	
+			mBoxSurveyDBHelper.saveBoxSurvey(district, boxList);
+			
+			parseDBToXLS();
 		}
 	}
 	
@@ -120,6 +126,8 @@ public class BoxSurveyDataManager extends SurveyDataManager
 		synchronized(instance)
 		{
 			mBoxSurveyDBHelper.commitBoxesSurvey(boxIds);
+			
+			parseDBToXLS();
 		}
 	}
 	
@@ -133,6 +141,8 @@ public class BoxSurveyDataManager extends SurveyDataManager
 		synchronized(instance)
 		{
 			mBoxSurveyDBHelper.deleteUncommitedBox(boxIds);
+			
+			parseDBToXLS();
 		}
 	}
 	
@@ -146,6 +156,8 @@ public class BoxSurveyDataManager extends SurveyDataManager
 		synchronized(instance)
 		{
 			mBoxSurveyDBHelper.deleteCommitedBox(boxIds);
+			
+			parseDBToXLS();
 		}
 	}
 	
@@ -158,6 +170,8 @@ public class BoxSurveyDataManager extends SurveyDataManager
 		synchronized(instance)
 		{
 			mBoxSurveyDBHelper.commitAllUncommitedBoxSurveyInDistrict(districtId);
+			
+			parseDBToXLS();
 		}
 	}
 	
@@ -171,5 +185,25 @@ public class BoxSurveyDataManager extends SurveyDataManager
 		{
 			return mBoxSurveyDBHelper.getAllBoxesInDistrict(districtID);
 		}
+	}
+	
+	/**
+	 * 将数据库中的数据加载到excel
+	 */
+	private void parseDBToXLS()
+	{
+		XLS xls = new XLS(getBoxSurveyTaskFilePath());
+		HSSFSheet sheet = xls.getSheet(0);
+		HSSFRow row = null;
+		
+		ArrayList<HashMap<String, String>> allDBRows = mBoxSurveyDBHelper.getAllDatas();
+		
+		for (int i = 0; i < allDBRows.size(); i ++)
+		{
+			row = xls.getRow(sheet,i + 1);
+			setRowHashMapToHSSFRow(row, allDBRows.get(i), BoxSurvey.DBToXLSColumnIndexAll);
+		}
+		
+		xls.saveToXlsFile();
 	}
 }
