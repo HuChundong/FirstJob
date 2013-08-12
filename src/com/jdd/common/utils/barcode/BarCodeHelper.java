@@ -2,6 +2,8 @@ package com.jdd.common.utils.barcode;
 
 import android.content.Context;
 import mexxen.mx5010.barcode.BarcodeConfig;
+import mexxen.mx5010.barcode.BarcodeEvent;
+import mexxen.mx5010.barcode.BarcodeListener;
 import mexxen.mx5010.barcode.BarcodeManager;
 
 public class BarCodeHelper 
@@ -33,7 +35,28 @@ public class BarCodeHelper
 		mInstance.mBf.setBarcodeOpenAll();
 		
 		mInstance.mBm = new BarcodeManager(context);
+		
+		mInstance.mBm.addListener(mInstance.mBarcodeLis);
 	}
+	
+	private BarcodeListener mBarcodeLis = new BarcodeListener()
+	{
+		@Override
+		public void barcodeEvent(BarcodeEvent event) 
+		{
+			// 当条码事件的命令为“SCANNER_READ”时，进行操作
+			if (event.getOrder().equals("SCANNER_READ"))
+			{
+				// 调用 getBarcode()方法读取条码信息
+				String barcode = mInstance.mBm.getBarcode();
+				
+				if( null  !=  mInstance.mLis )
+				{
+					mInstance.mLis.onScaned(barcode);
+				}
+			}
+		}
+	};
 	
 	public static void addListener(OnBarCodeScanedListener bl)
 	{
@@ -48,6 +71,8 @@ public class BarCodeHelper
 	public static void release()
 	{
 		clearListener();
+		
+		mInstance.mBm.removeListener(mInstance.mBarcodeLis);
 		
 		mInstance.mBm.dismiss();
 	}
