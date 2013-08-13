@@ -21,6 +21,10 @@ public final class BoxSurveyForm extends SurveyForm
 		
 		public static final String INST_LOC = "INST_LOC";
 		
+		public static final String LONGITUDE = "LONGITUDE";
+		
+		public static final String LATITUDE = "LATITUDE";
+		
 		public static final String BOX_ROWS = "BOX_ROWS";
 		
 		public static final String BOX_COLS = "BOX_COLS";
@@ -39,6 +43,8 @@ public final class BoxSurveyForm extends SurveyForm
 									NO,
 									SYSTEM_ID,
 									INST_LOC,
+									LONGITUDE,
+									LATITUDE,									
 									BOX_ROWS,
 									BOX_COLS,
 									METER_NUM,
@@ -62,6 +68,8 @@ public final class BoxSurveyForm extends SurveyForm
 				NO,
 				SYSTEM_ID,
 				INST_LOC,
+				LONGITUDE,
+				LATITUDE,
 				BOX_ROWS,
 				BOX_COLS,
 				METER_NUM,
