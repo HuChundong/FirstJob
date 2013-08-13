@@ -180,7 +180,7 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 		}
 		SQL += MeterSurvey.DBToXLSColumnIndexMeter[meterColumnLength - 1] +
 				" FROM " + MeterSurvey.TABLE_NAME +
-				" where DISTRICT_ID = \"" + districtID +"\"";
+				" where " + MeterSurvey.DISTRICT_ID + " = \"" + districtID +"\"";
 		
 		SQLiteDatabase db = getWritableDatabase();
 		ArrayList<HashMap<String, String>> meterList = new ArrayList<HashMap<String, String>>();
