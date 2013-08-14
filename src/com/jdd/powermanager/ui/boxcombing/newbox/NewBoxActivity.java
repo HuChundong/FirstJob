@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.jdd.common.utils.barcode.BarCodeHelper;
+import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
@@ -95,7 +98,18 @@ public class NewBoxActivity extends BaseActivity
 		mSubmitBtn.setOnClickListener(mOnClickLis);
 		mExcBtn.setOnClickListener(mOnClickLis);
 		mBackBtn.setOnClickListener(mOnClickLis);
+		
+		BarCodeHelper.addListener(mBarCodeLis);
 	}
+	
+	private OnBarCodeScanedListener mBarCodeLis = new OnBarCodeScanedListener() 
+	{
+		@Override
+		public void onScaned(String code) 
+		{
+			mBarCodeEdit.setText(code);
+		}
+	};
 	
 	public void submit()
 	{
@@ -177,6 +191,14 @@ public class NewBoxActivity extends BaseActivity
 	private void back()
 	{
 		finish();
+	}
+	
+	@Override
+	public void finish() 
+	{
+		super.finish();
+		
+		BarCodeHelper.clearListener();
 	}
 	
 	private void addNew()

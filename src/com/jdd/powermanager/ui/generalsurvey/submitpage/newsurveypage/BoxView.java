@@ -20,6 +20,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -144,8 +145,6 @@ public class BoxView implements Pager
 		mSubmitBtn.setOnClickListener(mOnClickLis);
 		mExcBtn.setOnClickListener(mOnClickLis);
 		mBackBtn.setOnClickListener(mOnClickLis);
-		
-		BarCodeHelper.addListener(mBarCodeLis);
 	}
 	
 	private String[] getConfigs(String s)
@@ -356,6 +355,8 @@ public class BoxView implements Pager
 		@Override
 		public void onScaned(String code) 
 		{
+			Log.d("", "zhou -- boxview -- barcode " + code);
+			
 			mBarCodeEdit.setText(code);
 		}
 	};
@@ -444,6 +445,7 @@ public class BoxView implements Pager
 	@Override
 	public void onSelected() 
 	{
+		BarCodeHelper.addListener(mBarCodeLis);
 	}
 
 	@Override
@@ -466,10 +468,6 @@ public class BoxView implements Pager
 		
 		mRunnable = null;
 		
-		if( null != mBarCodeLis )
-		{
-			BarCodeHelper.clearListener();
-		}
-		
+		BarCodeHelper.clearListener();
 	}
 }

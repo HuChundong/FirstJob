@@ -2,6 +2,9 @@ package com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.jdd.common.utils.barcode.BarCodeHelper;
+import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.basic.Pager;
@@ -110,16 +113,23 @@ public class BoxAssetsView implements Pager
 		mBackBtn.setOnClickListener(mOnClickLis);
 	}
 	
+	private OnBarCodeScanedListener mBarCodeLis = new OnBarCodeScanedListener() 
+	{
+		@Override
+		public void onScaned(String code) 
+		{
+			ok(code);
+		}
+	};
+	
 	private void block()
 	{
 		mAdapter.setSelectedBlock();
 	}
 	
-	private void ok()
+	private void ok(String code)
 	{
-//		mAdapter.setSelectedOk(code);
-		
-		// TODO
+		mAdapter.setSelectedOk(code);
 	}
 	
 	private void del()
@@ -175,6 +185,7 @@ public class BoxAssetsView implements Pager
 	@Override
 	public void onSelected() 
 	{
+		BarCodeHelper.addListener(mBarCodeLis);
 	}
 
 	@Override
@@ -188,5 +199,7 @@ public class BoxAssetsView implements Pager
 		mContext = null;
 		
 		mRoot = null;
+		
+		BarCodeHelper.clearListener();
 	}
 }

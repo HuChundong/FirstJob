@@ -1,5 +1,7 @@
 package com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage;
 
+import com.jdd.common.utils.barcode.BarCodeHelper;
+import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.basic.Pager;
 
@@ -55,6 +57,15 @@ public class LockView implements Pager
 		mSavebtn.setOnClickListener(mOnClickLis);
 	}
 	
+	private OnBarCodeScanedListener mBarCodeLis = new OnBarCodeScanedListener() 
+	{
+		@Override
+		public void onScaned(String code) 
+		{
+			mBarCodeEdit.setText(code);
+		}
+	};
+	
 	private void save()
 	{
 		NewSurveyActivity a = (NewSurveyActivity) mContext;
@@ -94,6 +105,7 @@ public class LockView implements Pager
 	@Override
 	public void onSelected() 
 	{
+		BarCodeHelper.addListener(mBarCodeLis);
 	}
 
 	@Override
@@ -107,5 +119,7 @@ public class LockView implements Pager
 		mContext = null;
 		
 		mRoot = null;
+		
+		BarCodeHelper.clearListener();
 	}
 }

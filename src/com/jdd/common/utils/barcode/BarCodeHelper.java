@@ -1,6 +1,7 @@
 package com.jdd.common.utils.barcode;
 
 import android.content.Context;
+import android.util.Log;
 import mexxen.mx5010.barcode.BarcodeConfig;
 import mexxen.mx5010.barcode.BarcodeEvent;
 import mexxen.mx5010.barcode.BarcodeListener;
@@ -32,11 +33,11 @@ public class BarCodeHelper
 //		mInstance.mBf.setBarcodeAll(new byte[] { 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,0, 0 , 0 });
 		
 		// 开启所有支持的条码
-//		mInstance.mBf.setBarcodeOpenAll();
-//		
-//		mInstance.mBm = new BarcodeManager(context);
-//		
-//		mInstance.mBm.addListener(mInstance.mBarcodeLis);
+		mInstance.mBf.setBarcodeOpenAll();
+		
+		mInstance.mBm = new BarcodeManager(context);
+		
+		mInstance.mBm.addListener(mInstance.mBarcodeLis);
 	}
 	
 	private BarcodeListener mBarcodeLis = new BarcodeListener()
@@ -50,8 +51,12 @@ public class BarCodeHelper
 				// 调用 getBarcode()方法读取条码信息
 				String barcode = mInstance.mBm.getBarcode();
 				
+				Log.d("", "zhou -- barcodeEvent -- barcode = " + barcode);
+				
 				if( null  !=  mInstance.mLis )
 				{
+					Log.d("", "zhou -- barcodeEvent -- mLis = " + mLis);
+					
 					mInstance.mLis.onScaned(barcode);
 				}
 			}
@@ -72,8 +77,8 @@ public class BarCodeHelper
 	{
 		clearListener();
 		
-//		mInstance.mBm.removeListener(mInstance.mBarcodeLis);
+		mInstance.mBm.removeListener(mInstance.mBarcodeLis);
 		
-//		mInstance.mBm.dismiss();
+		mInstance.mBm.dismiss();
 	}
 }
