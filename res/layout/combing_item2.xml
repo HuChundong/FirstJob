@@ -1,0 +1,157 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:clickable="true"
+    android:layout_height="wrap_content"
+    android:minHeight="30dp">
+
+    <TextView 
+        android:id="@+id/order"
+	    android:layout_width="70dp"
+	    android:layout_height="wrap_content"
+	    android:textSize="12sp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:text="@string/combing_item_order"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/system_id"
+        android:layout_width="80dp"
+        android:textSize="12sp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/combing_system_id"/>
+        
+	<View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>	
+	
+    <TextView 
+        android:id="@+id/address"
+        android:layout_width="120dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="@string/combing_address"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/lo"
+        android:layout_width="50dp"
+        android:textSize="12sp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/combing_longitude"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/la"
+        android:layout_width="50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="@string/combing_latitude"/>
+    
+   <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/rows"
+        android:layout_width="50dp"
+        android:textSize="12sp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/combing_rows"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/columns"
+        android:layout_width="50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="@string/combing_columns"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/meters_count"
+        android:layout_width="50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="@string/combing_meter_count"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/district_tag"
+        android:layout_width="100dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="@string/combing_district_tag"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/district_id"
+        android:layout_width="100dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="@string/combing_district_no"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/box_barcode"
+        android:layout_width="100dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="@string/combing_box_barcode"/>
+    
+</LinearLayout>
