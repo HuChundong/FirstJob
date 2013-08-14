@@ -168,6 +168,8 @@ public class BoxView implements Pager
 			
 			mGpsBtn.setClickable(true);
 			
+			mGpsBtn.setText(R.string.btn_get);
+			
 			LocationInfo li = null == msg.obj ? null :  (LocationInfo) msg.obj;
 			
 			if( null != li )
@@ -233,6 +235,8 @@ public class BoxView implements Pager
 		mIsGPSing = true;
 		
 		mGpsBtn.setClickable(false);
+		
+		mGpsBtn.setText(R.string.get_gps);
 		
 		mRunnable.mIsCancelGps = false;
 		
