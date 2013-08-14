@@ -14,9 +14,11 @@ import android.os.Environment;
 
 public class SurveyDataManager 
 {
-	protected static final String SD = Environment.
-			getExternalStorageDirectory().getAbsolutePath();
+//	protected static final String SD = Environment.
+//			getExternalStorageDirectory().getAbsolutePath();
 	
+	protected static final String SD = "/mnt/sdcard-ext";
+
 	protected static final String FOLDER = "/survey";
 	
 	protected Context mContext = null;
