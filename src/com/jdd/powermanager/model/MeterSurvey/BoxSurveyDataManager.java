@@ -206,4 +206,16 @@ public class BoxSurveyDataManager extends SurveyDataManager
 		
 		xls.saveToXlsFile();
 	}
+	
+	/**
+	 * 获取某计量箱对象信息
+	 * @return 获取某计量箱对象信息,用hashmap表示
+	 */
+	public HashMap<String, String> getBoxWithAssetNo(String assetNo)
+	{
+		synchronized(instance)
+		{
+			return mBoxSurveyDBHelper.getBoxWithAssetNo(assetNo);
+		}
+	}
 }

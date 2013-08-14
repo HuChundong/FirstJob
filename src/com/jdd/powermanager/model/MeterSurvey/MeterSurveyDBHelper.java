@@ -168,7 +168,7 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 	
 	/**
 	 * 获取某台区内所有电表对象列表
-	 * @return 某台区内所有电表对象列表,用hashmap表示电表对象
+	 * @return 某台区内所有电表对象列表,用hashmap表示电表对象(并且包含表箱资产编号信息)
 	 */
 	public ArrayList<HashMap<String, String>> getAllMetersInDistrict(String districtID)
 	{
@@ -178,7 +178,8 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 		{
 			SQL += MeterSurvey.DBToXLSColumnIndexMeter[i] + COMMA_SEP;
 		}
-		SQL += MeterSurvey.DBToXLSColumnIndexMeter[meterColumnLength - 1] +
+		SQL += MeterSurvey.DBToXLSColumnIndexMeter[meterColumnLength - 1] + COMMA_SEP +
+				MeterSurvey.ASSET_NO +
 				" FROM " + MeterSurvey.TABLE_NAME +
 				" where " + MeterSurvey.DISTRICT_ID + " = \"" + districtID +"\"";
 		
@@ -191,10 +192,13 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 	        while (c.moveToNext())
 	        {
 	        	HashMap<String, String> meterColumnMap = new HashMap<String, String>();
-	        	for (int i = 0; i < meterColumnLength; i ++)
+	        	int i = 0;
+	        	for (i = 0; i < meterColumnLength; i ++)
 	        	{
 	        		meterColumnMap.put(MeterSurvey.DBToXLSColumnIndexMeter[i], c.getString(i));	        		
 	        	}
+	        	meterColumnMap.put(MeterSurvey.ASSET_NO, c.getString(i));
+	        	
 	        	meterList.add(meterColumnMap);
 	        }	
 		}

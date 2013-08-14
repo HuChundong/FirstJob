@@ -657,4 +657,52 @@ public class BoxSurveyDBHelper extends SQLiteOpenHelper
         
         return boxList;  
 	}
+	
+	/**
+	 * 获取某计量箱对象信息
+	 * @return 获取某计量箱对象信息,用hashmap表示
+	 */
+	public HashMap<String, String> getBoxWithAssetNo(String assetNo)
+	{
+		String SQL = "SELECT ";
+		int boxColumnLength = BoxSurvey.DBToXLSColumnIndexBox.length;
+		for (int i = 0 ; i < boxColumnLength - 1 ; i ++)
+		{
+			SQL += BoxSurvey.DBToXLSColumnIndexBox[i] + COMMA_SEP;
+		}
+		SQL += BoxSurvey.DBToXLSColumnIndexBox[boxColumnLength - 1] +
+				" FROM " + BoxSurvey.TABLE_NAME +
+				" where " + BoxSurvey.ASSET_NO + " = \"" + assetNo +"\"";
+		
+		SQLiteDatabase db = getWritableDatabase();
+		Cursor c = null;
+		HashMap<String, String> boxColumnMap = new HashMap<String, String>();
+		try
+		{
+			c = db.rawQuery(SQL, null);  
+	        while (c.moveToNext())
+	        {
+	        	for (int i = 0; i < boxColumnLength; i ++)
+	        	{
+	        		boxColumnMap.put(BoxSurvey.DBToXLSColumnIndexBox[i], c.getString(i));	        		
+	        	}
+	        }	
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c != null)
+			{
+				c.close();	
+			}
+			
+			db.close();
+				
+		}
+        
+        return boxColumnMap;  
+	}
 }
