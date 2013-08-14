@@ -19,6 +19,7 @@
     <string name="un_submit_data">未提交信息</string>
     <string name="submit_data">已提交信息</string>
     <string name="assets_details">资产明细</string>
+    <string name="combing_assets_details">计量箱资产明细</string>
     <string name="device_type">设备类型</string>
     <string name="device_code">条形码</string>
     <string name="query_date">普查时间</string>
@@ -98,7 +99,9 @@
 	<string name="combing_meter_count">表数</string>
 	<string name="combing_district_tag">台区标识</string>
 	<string name="combing_district_no">台区编号</string>
-	<string name="combing_box_barcode">资产编号</string>
+	<string name="combing_box_barcode">计量箱资产编号</string>
+	<string name="combing_longitude">经度</string>
+    <string name="combing_latitude">纬度</string>
 	<string name="meter_count">表数</string>
 	<string name="commit_sucess">提交成功!</string>
 	<string name="save_sucess">保存成功！</string>

@@ -88,6 +88,7 @@ public class AssetsDetailFragment extends Fragment
 			getString(R.string.all) + "( " +  mAdapter.getAllCount() +" )" ,
 			getString(R.string.state_survey) + "( " +  mAdapter.getSurveyCount() +" )" ,
 			getString(R.string.state_un_survey) + "( " +  mAdapter.getUnSurveyCount() +" )" ,
+			getString(R.string.state_new) + "( " +  mAdapter.getNewSurveyCount() +" )" 
 		};
 		
 		sa.setItems(menus);

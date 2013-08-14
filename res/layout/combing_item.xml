@@ -33,6 +33,20 @@
         android:layout_height="match_parent"
         android:background="#66004E98"/>
     
+	<TextView 
+	    android:id="@+id/state"
+	    android:layout_width="50dp"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_vertical"
+	    android:text="@string/state"
+	    android:textSize="12sp"
+ 		android:gravity="center"/>
+    
+	<View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>	
+	
     <TextView 
         android:id="@+id/address"
         android:layout_width="120dp"
@@ -41,6 +55,34 @@
         android:textSize="12sp"
         android:gravity="center"
         android:text="@string/combing_address"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/lo"
+        android:layout_width="50dp"
+        android:textSize="12sp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/combing_longitude"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/la"
+        android:layout_width="50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="@string/combing_latitude"/>
     
    <View 
         android:layout_width="0.1dp"
