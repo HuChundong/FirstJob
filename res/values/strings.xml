@@ -31,10 +31,12 @@
     <string name="state">状态</string>
     <string name="state_survey">已普查</string>
     <string name="state_un_survey">未普查</string>
+    <string name="state_new">新增</string>
     <string name="survey_order">抄表顺序号</string>
     <string name="user_number">用户编号</string>
     <string name="measure_no">计量点编号</string>
-    <string name="asset_no">电表资产号</string>
+    <string name="meter_asset_no">电表资产号</string>
+    <string name="box_asset_no">计量箱资产号</string>
     <string name="row_no">所在行</string>
     <string name="column_no">所在列</string>
     <string name="bar_code">条形码</string>
@@ -100,4 +102,5 @@
 	<string name="meter_count">表数</string>
 	<string name="commit_sucess">提交成功!</string>
 	<string name="save_sucess">保存成功！</string>
+	<string name="new_meter">新增</string>
 </resources>

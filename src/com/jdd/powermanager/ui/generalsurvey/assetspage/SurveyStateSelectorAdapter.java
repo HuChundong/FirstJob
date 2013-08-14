@@ -36,6 +36,11 @@ public class SurveyStateSelectorAdapter implements SpinnerAdapter
 		return i == 2;
 	}
 	
+	public static boolean isNewState(int i)
+	{
+		return i == 3;
+	}
+	
 	@Override
 	public int getCount() 
 	{
