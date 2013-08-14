@@ -183,7 +183,7 @@ public class MainPageActivity extends BaseActivity
 		// 每次获取的地理位置有效时长为2分钟
 		GpsHelper.setLocationEffectiveTime(120 * 1000);
 		
-//		BarCodeHelper.init(getApplicationContext());
+		BarCodeHelper.init(getApplicationContext());
 		
 		initTopbar();
 		

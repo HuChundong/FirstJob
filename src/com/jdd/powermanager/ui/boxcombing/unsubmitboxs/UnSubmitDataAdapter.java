@@ -187,7 +187,7 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		
 		if( null == view )
 		{
-			view = LayoutInflater.from(mContext).inflate(R.layout.combing_item, null);
+			view = LayoutInflater.from(mContext).inflate(R.layout.combing_item2, null);
 			
 			h = new Holder();
 			
@@ -196,6 +196,10 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			h.systemId = (TextView) view.findViewById(R.id.system_id);
 			
 			h.address = (TextView) view.findViewById(R.id.address);
+			
+			h.lo =  (TextView) view.findViewById(R.id.lo);
+			
+			h.la =  (TextView) view.findViewById(R.id.la);
 			
 			h.rows = (TextView) view.findViewById(R.id.rows);
 			
@@ -226,6 +230,10 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			h.systemId.setText(data.get(BoxSurvey.SYSTEM_ID));
 			
 			h.address.setText(data.get(BoxSurvey.INST_LOC));
+			
+			h.lo.setText(data.get(BoxSurvey.LONGITUDE));
+			
+			h.la.setText(data.get(BoxSurvey.LATITUDE));
 			
 			h.rows.setText(data.get(BoxSurvey.BOX_ROWS));
 			
@@ -279,6 +287,10 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		TextView systemId;
 		
 		TextView address;
+		
+		TextView lo;
+		
+		TextView la;
 		
 		TextView rows;
 		

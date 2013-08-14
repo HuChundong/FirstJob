@@ -2,15 +2,23 @@ package com.jdd.powermanager.ui.boxcombing.newbox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.jdd.common.utils.barcode.BarCodeHelper;
+import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
+import com.jdd.common.utils.gps.GpsHelper;
+import com.jdd.common.utils.gps.LocationInfo;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
@@ -41,6 +49,12 @@ public class NewBoxActivity extends BaseActivity
 	private TextView mExcBtn;
 	
 	private TextView mBackBtn;
+	
+	private EditText mLoEdit;
+	
+	private EditText mLaEdit;
+	
+	private Button mGpsBtn;
 	
 	private String mExceptionInfo;
 	
@@ -90,12 +104,115 @@ public class NewBoxActivity extends BaseActivity
 		
 		mBackBtn = (TextView) findViewById(R.id.back_btn);
 		
+		mLoEdit = (EditText) findViewById(R.id.lo_edit);
+		
+		mLaEdit = (EditText) findViewById(R.id.la_edit);
+		
+		mGpsBtn = (Button) findViewById(R.id.gps_btn);
+		
+		mGpsBtn.setOnClickListener(mOnClickLis);
+		
 		mNewBtn.setOnClickListener(mOnClickLis);
 		mSaveBtn.setOnClickListener(mOnClickLis);
 		mSubmitBtn.setOnClickListener(mOnClickLis);
 		mExcBtn.setOnClickListener(mOnClickLis);
 		mBackBtn.setOnClickListener(mOnClickLis);
+		
+		BarCodeHelper.addListener(mBarCodeLis);
 	}
+	
+	@SuppressLint("HandlerLeak")
+	private Handler mHander = new Handler()
+	{
+		public void handleMessage(android.os.Message msg) 
+		{
+			mIsGPSing = false;
+			
+			mGpsBtn.setClickable(true);
+			
+			mGpsBtn.setText(R.string.btn_get);
+			
+			LocationInfo li = null == msg.obj ? null :  (LocationInfo) msg.obj;
+			
+			if( null != li )
+			{
+				mLoEdit.setText(""+li.getLongitude());
+				
+				mLaEdit.setText(""+li.getLatitude());
+			}
+		};
+	};
+	
+	private boolean mIsGPSing;
+	
+	private class GpsRunnable implements Runnable
+	{
+		private boolean mIsCancelGps;
+		
+		public void run() 
+		{
+			LocationInfo li = GpsHelper.getCurLocation();
+			
+			while( null == li  && !mIsCancelGps )
+			{
+				try 
+				{
+					Thread.sleep(5000);
+				} 
+				catch (InterruptedException e) 
+				{
+					e.printStackTrace();
+				}
+				
+				if(mIsCancelGps)
+				{
+					break;
+				}
+				
+				li = GpsHelper.getCurLocation();
+				
+				Log.d("", "zhou  -- boxview -- gps = " + li);
+			}
+			
+			if( !mIsCancelGps && null != mHander )
+			{
+				mHander.obtainMessage(0, li).sendToTarget();
+			}
+		};
+	}
+	
+	private GpsRunnable mRunnable = new GpsRunnable();
+	
+	private void gps()
+	{
+		if(mIsGPSing)
+		{
+			ToastHelper.showToastShort(this, this.getString(R.string.gps_get_location_wait_tip));
+			
+			return;
+		}
+		
+		ToastHelper.showToastShort(this, this.getString(R.string.gps_get_location_wait_tip));
+		
+		mIsGPSing = true;
+		
+		mGpsBtn.setClickable(false);
+		
+		mGpsBtn.setText(R.string.get_gps);
+		
+		mRunnable.mIsCancelGps = false;
+		
+		new Thread(mRunnable).start();
+	}
+	
+	private OnBarCodeScanedListener mBarCodeLis = new OnBarCodeScanedListener() 
+	{
+		@Override
+		public void onScaned(String code) 
+		{
+			mBarCodeEdit.setText(code);
+		}
+	};
 	
 	public void submit()
 	{
@@ -144,6 +261,10 @@ public class NewBoxActivity extends BaseActivity
 		
 		box.put(BoxSurvey.METER_NUM, mMeterCountEdit.getText().toString());
 		
+		box.put(BoxSurvey.LONGITUDE, mLoEdit.getText().toString());
+		
+		box.put(BoxSurvey.LATITUDE, mLaEdit.getText().toString());
+		
 		box.put(SurveyForm.ABNORMAL_COMMENT, mExceptionInfo);
 		
 		boxList.add(box);
@@ -179,6 +300,22 @@ public class NewBoxActivity extends BaseActivity
 		finish();
 	}
 	
+	@Override
+	public void finish() 
+	{
+		super.finish();
+		
+		mRunnable.mIsCancelGps = true;
+		
+		mHander.removeCallbacksAndMessages(null);
+		
+		mHander = null;
+		
+		mRunnable = null;
+		
+		BarCodeHelper.clearListener();
+	}
+	
 	private void addNew()
 	{
 		mBarCodeEdit.setText("");
@@ -191,6 +328,12 @@ public class NewBoxActivity extends BaseActivity
 		{
 			switch(v.getId())
 			{
+				case R.id.gps_btn:
+					
+					gps();
+					
+					break;
+			
 				case R.id.add_new:
 					
 					addNew();

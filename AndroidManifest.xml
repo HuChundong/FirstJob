@@ -25,6 +25,7 @@
         android:label="@string/app_name" >
         <activity
             android:name="com.jdd.powermanager.ui.loginpage.LoginActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,11 +33,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.mainpage.MainPageActivity"></activity>
-        <activity android:name=".ui.generalsurvey.SurveyActivity"></activity>
-        <activity android:name="com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage.NewSurveyActivity"></activity>
-        <activity android:name=".ui.boxcombing.CombingActivity"></activity>
-        <activity android:name=".ui.boxcombing.newbox.NewBoxActivity"></activity>
+        <activity android:name=".ui.mainpage.MainPageActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.generalsurvey.SurveyActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage.NewSurveyActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.boxcombing.CombingActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.boxcombing.newbox.NewBoxActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

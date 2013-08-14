@@ -22,6 +22,8 @@ public class AssetsDataAdapter  extends BaseAdapter
 	
 	public static final int UN_COMB = 2;
 	
+	public static final int NEW = 3;
+	
 	public static final int ALL = 0;
 	
 	private Context mContext;
@@ -33,6 +35,8 @@ public class AssetsDataAdapter  extends BaseAdapter
 	private List<HashMap<String,String>> mCombList = new ArrayList<HashMap<String,String>>();
 	
 	private List<HashMap<String,String>> munCombList= new ArrayList<HashMap<String,String>>();
+	
+	private List<HashMap<String,String>> mNewList= new ArrayList<HashMap<String,String>>();
 	
 	/**
 	 * 1 ÒÑÆÕ²é  2 Î´ÆÕ²é 0 all
@@ -62,6 +66,11 @@ public class AssetsDataAdapter  extends BaseAdapter
 	public int getUnCombCount()
 	{
 		return null == munCombList ? 0 : munCombList.size();
+	}
+	
+	public int getNewCount()
+	{
+		return null == mNewList ? 0 : mNewList.size();
 	}
 	
 	public int getAllCount()
@@ -97,6 +106,12 @@ public class AssetsDataAdapter  extends BaseAdapter
 				mCurList = mFullList;
 				
 				break;
+				
+			case NEW:
+				
+				mCurList = mNewList;
+				
+				break;
 		}
 		
 		notifyDataSetChanged();
@@ -115,6 +130,8 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		munCombList.clear();
 		
+		mNewList.clear();
+		
 		if( null ==  mFullList)
 		{
 			return;
@@ -124,11 +141,17 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		String survey = mContext.getString(R.string.state_survey);
 		
+		String stateNew = SurveyForm.SURVEY_RELATION_NEW;
+		
 		for( int i = 0; i < mFullList.size() ; i++ )
 		{
 			m = mFullList.get(i);
 			
-			if( survey.equals(m.get(SurveyForm.SURVEY_STATUS)) )
+			if( stateNew.equals(m.get(SurveyForm.SURVEY_RELATION))  )
+			{
+				mNewList.add(m);
+			}
+			else if( survey.equals(m.get(SurveyForm.SURVEY_STATUS)) )
 			{
 				mCombList.add(m);
 			}
@@ -174,7 +197,13 @@ public class AssetsDataAdapter  extends BaseAdapter
 			
 			h.systemId = (TextView) view.findViewById(R.id.system_id);
 			
+			h.state =  (TextView) view.findViewById(R.id.state);
+			
 			h.address = (TextView) view.findViewById(R.id.address);
+			
+			h.lo =  (TextView) view.findViewById(R.id.lo);
+			
+			h.la =  (TextView) view.findViewById(R.id.la);
 			
 			h.rows = (TextView) view.findViewById(R.id.rows);
 			
@@ -203,6 +232,17 @@ public class AssetsDataAdapter  extends BaseAdapter
 			h.order.setText(data.get(BoxSurvey.NO));
 			
 			h.systemId.setText(data.get(BoxSurvey.SYSTEM_ID));
+			
+			h.state.setText(data.get(SurveyForm.SURVEY_STATUS));
+			
+			if( mNewList.contains(data))
+			{
+				h.state.setText(SurveyForm.SURVEY_RELATION_NEW);
+			}
+			
+			h.lo.setText(data.get(BoxSurvey.LONGITUDE));
+			
+			h.la.setText(data.get(BoxSurvey.LATITUDE));
 			
 			h.address.setText(data.get(BoxSurvey.INST_LOC));
 			
@@ -259,7 +299,13 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		TextView systemId;
 		
+		TextView state;
+		
 		TextView address;
+		
+		TextView lo;
+		
+		TextView la;
 		
 		TextView rows;
 		

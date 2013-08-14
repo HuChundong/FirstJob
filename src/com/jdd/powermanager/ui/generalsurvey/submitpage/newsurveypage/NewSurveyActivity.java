@@ -165,8 +165,6 @@ public class NewSurveyActivity extends BaseActivity
 		@Override
 		public void onPageSelected(int p) 
 		{
-			BarCodeHelper.clearListener();
-			
 			if( 1 == p )
 			{
 				bav.setRowAndColumn(bv.getRow(), bv.getColumn());
@@ -174,18 +172,24 @@ public class NewSurveyActivity extends BaseActivity
 				mTabBoxBtn.setSelected(false);
 				mTabAssetsBtn.setSelected(true);
 				mTabLockBtn.setSelected(false);
+				
+				bav.onSelected();
 			}
 			else if( 2 == p)
 			{
 				mTabBoxBtn.setSelected(false);
 				mTabAssetsBtn.setSelected(false);
 				mTabLockBtn.setSelected(true);
+				
+				lv.onSelected();
 			}
 			else
 			{
 				mTabBoxBtn.setSelected(true);
 				mTabAssetsBtn.setSelected(false);
 				mTabLockBtn.setSelected(false);
+				
+				bv.onSelected();
 			}
 		}
 		
@@ -231,6 +235,8 @@ public class NewSurveyActivity extends BaseActivity
 	protected void onDestroy() 
 	{
 		super.onDestroy();
+		
+		BarCodeHelper.clearListener();
 		
 		if( null != bv )
 		{

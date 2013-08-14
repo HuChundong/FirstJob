@@ -22,6 +22,8 @@ public class AssetsDataAdapter  extends BaseAdapter
 	
 	public static final int UN_SURVEY = 2;
 	
+	public static final int NEW = 3;
+	
 	public static final int ALL = 0;
 	
 	private Context mContext;
@@ -34,8 +36,10 @@ public class AssetsDataAdapter  extends BaseAdapter
 	
 	private List<HashMap<String,String>> munSurveyList= new ArrayList<HashMap<String,String>>();
 	
+	private List<HashMap<String,String>> mNewList= new ArrayList<HashMap<String,String>>();
+	
 	/**
-	 * 1 已普查  2 未普查 0 all
+	 * 1 已普查  2 未普查 0 all 3 新增
 	 */
 	private int mState;
 	
@@ -58,6 +62,11 @@ public class AssetsDataAdapter  extends BaseAdapter
 	public int getUnSurveyCount()
 	{
 		return null == munSurveyList ? 0 : munSurveyList.size();
+	}
+	
+	public int getNewSurveyCount()
+	{
+		return null == mNewList ? 0 : mNewList.size();
 	}
 	
 	public int getAllCount()
@@ -93,6 +102,12 @@ public class AssetsDataAdapter  extends BaseAdapter
 				mCurList = mFullList;
 				
 				break;
+				
+			case NEW:
+				
+				mCurList = mNewList;
+				
+				break;
 		}
 		
 		notifyDataSetChanged();
@@ -111,6 +126,8 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		munSurveyList.clear();
 		
+		mNewList.clear();
+		
 		if( null ==  mFullList)
 		{
 			return;
@@ -118,13 +135,19 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		HashMap<String, String> m = null;
 		
-		String survey = mContext.getString(R.string.state_survey);
+		String survey = SurveyForm.SURVEY_STATUS_SURVEYED;
+		
+		String stateNew = SurveyForm.SURVEY_RELATION_NEW;
 		
 		for( int i = 0; i < mFullList.size() ; i++ )
 		{
 			m = mFullList.get(i);
 			
-			if( survey.equals(m.get(SurveyForm.SURVEY_STATUS)) )
+			if( stateNew.equals(m.get(SurveyForm.SURVEY_RELATION))  )
+			{
+				mNewList.add(m);
+			}
+			else if( survey.equals(m.get(SurveyForm.SURVEY_STATUS)) )
 			{
 				mSurveyList.add(m);
 			}
@@ -167,6 +190,7 @@ public class AssetsDataAdapter  extends BaseAdapter
 			h = new Holder();
 			
 			h.order = (TextView) view.findViewById(R.id.order);
+			h.boxNo = (TextView) view.findViewById(R.id.box_no);
 			h.userNO = (TextView) view.findViewById(R.id.user_number);
 			h.state = (TextView) view.findViewById(R.id.state);
 			h.measureNO = (TextView) view.findViewById(R.id.measure_no);
@@ -192,8 +216,15 @@ public class AssetsDataAdapter  extends BaseAdapter
 		if( null != data )
 		{
 			h.order.setText("          "); // 目前为空
+			h.boxNo.setText(data.get(MeterSurvey.ASSET_NO));
 			h.userNO.setText(data.get(MeterSurvey.CONS_NO));
 			h.state.setText(data.get(SurveyForm.SURVEY_STATUS));
+			
+			if( mNewList.contains(data) )
+			{
+				h.state.setText(SurveyForm.SURVEY_RELATION_NEW);
+			}
+			
 			h.measureNO.setText(data.get(MeterSurvey.MP_NO));
 			h.assetNO.setText(data.get(MeterSurvey.D_ASSET_NO));
 			h.rowNO.setText(data.get(MeterSurvey.IN_ROW));
@@ -242,6 +273,8 @@ public class AssetsDataAdapter  extends BaseAdapter
 	private class Holder
 	{
 		TextView order;
+		
+		TextView boxNo;
 		
 		TextView userNO;
 		

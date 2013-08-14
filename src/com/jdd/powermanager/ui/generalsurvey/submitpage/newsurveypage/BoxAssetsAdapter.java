@@ -44,12 +44,21 @@ public class BoxAssetsAdapter extends BaseAdapter
 	
 	public void setRowAndColumn(int r,int c)
 	{
+		if( mRow == r && mColumn == c )
+		{
+			return;
+		}
+		
 		mRow = r;
 		mColumn = c;
 		
 		int count = mRow * mColumn;
 		
 		mList = new String[count];
+		
+		mOkIndexs.clear();
+		
+		mBlockIndexs.clear();
 		
 		notifyDataSetChanged();
 	}
@@ -99,6 +108,8 @@ public class BoxAssetsAdapter extends BaseAdapter
 	public void setBlock(int i)
 	{
 		mBlockIndexs.add(i + "");
+		
+		mOkIndexs.remove(i+"");
 		
 		if( null == mList ||  mSelectedIndex >= mList.length  )
 		{
@@ -243,7 +254,12 @@ public class BoxAssetsAdapter extends BaseAdapter
 			{
 				dialog.dismiss();
 				
-				mList[mSelectedIndex] = et.getText().toString();
+				String code = et.getText().toString();
+				
+				if( null != code && !code.equals("") )
+				{
+					setSelectedOk(code);
+				}
 				
 				notifyDataSetChanged();
 			}

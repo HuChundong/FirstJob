@@ -67,6 +67,7 @@ public class AssetsDetailFragment extends Fragment
 					getString(R.string.all) + "( " +  mAdapter.getAllCount() +" )" ,
 					getString(R.string.state_survey) + "( " +  mAdapter.getCombCount() +" )" ,
 					getString(R.string.state_un_survey) + "( " +  mAdapter.getUnCombCount() +" )" ,
+					getString(R.string.state_new) + "( " +  mAdapter.getNewCount() +" )" ,
 				};
 				
 				sa.setItems(menus);
@@ -91,6 +92,7 @@ public class AssetsDetailFragment extends Fragment
 			getString(R.string.all) + "( " +  mAdapter.getAllCount() +" )" ,
 			getString(R.string.state_survey) + "( " +  mAdapter.getCombCount() +" )" ,
 			getString(R.string.state_un_survey) + "( " +  mAdapter.getUnCombCount() +" )" ,
+			getString(R.string.state_new) + "( " +  mAdapter.getNewCount() +" )" ,
 		};
 		
 		sa.setItems(menus);
@@ -178,6 +180,10 @@ public class AssetsDetailFragment extends Fragment
 			else if( SurveyStateSelectorAdapter.isUnSurveyState(pos) )
 			{
 				mAdapter.switchData(AssetsDataAdapter.UN_COMB);
+			}
+			else if(SurveyStateSelectorAdapter.isNewState(pos))
+			{
+				mAdapter.switchData(AssetsDataAdapter.NEW);
 			}
 			else
 			{

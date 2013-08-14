@@ -144,6 +144,84 @@
 	            android:inputType="number"
 	            android:layout_height="wrap_content"/>
 		</RelativeLayout>
+		
+	    <LinearLayout 
+	        android:id="@+id/lo_la_layout"
+	        android:layout_height="wrap_content"
+	        android:layout_width="match_parent"
+	        android:layout_below="@+id/meter_count_layout"
+	        android:layout_marginLeft="20dp"
+	        android:layout_marginRight="20dp"
+	        android:orientation="horizontal"
+	        android:baselineAligned="false"
+	        android:layout_marginTop="9dp">
+	        
+	        <RelativeLayout 
+		        android:id="@+id/lo_layout"
+		        android:layout_width="0dp"
+		        android:layout_gravity="center_vertical"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="2">
+		        
+		         <TextView 
+		            android:id="@+id/label_lo"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_centerVertical="true"
+		            android:text="@string/label_longitude"/>
+		        
+		        <EditText 
+		            android:id="@+id/lo_edit"
+		            android:layout_marginLeft="10dp"
+		            android:layout_toRightOf="@+id/label_lo"
+		            android:layout_width="match_parent"
+		            android:layout_centerVertical="true"
+		            android:inputType="number"
+		            android:layout_height="wrap_content"/>
+		    </RelativeLayout>
+		    
+		    <RelativeLayout 
+		        android:id="@+id/la_layout"
+		        android:layout_width="0dp"
+		        android:layout_weight="2"
+		        android:layout_gravity="center_vertical"
+		        android:layout_height="wrap_content">
+		        
+		         <TextView 
+		            android:id="@+id/label_la"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_centerVertical="true"
+		            android:text="@string/label_latitude"/>
+		        
+		        <EditText 
+		            android:id="@+id/la_edit"
+		            android:layout_marginLeft="10dp"
+		            android:layout_toRightOf="@+id/label_la"
+		            android:layout_width="100dp"
+		            android:layout_centerHorizontal="true"
+		            android:inputType="number"
+		            android:layout_height="wrap_content"/>
+		    </RelativeLayout>
+		    
+		    <RelativeLayout 
+		        android:id="@+id/btn_layout"
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_gravity="center_vertical"
+		        android:layout_height="wrap_content">
+		        
+		        <Button 
+		            android:id="@+id/gps_btn"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_centerInParent="true"
+		            android:textSize="12sp"
+		            android:text="@string/btn_get"/>
+		        
+		    </RelativeLayout>	    
+		        
+	    </LinearLayout>
         
     </RelativeLayout>
     
