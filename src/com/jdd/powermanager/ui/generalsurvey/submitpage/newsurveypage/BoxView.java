@@ -67,8 +67,6 @@ public class BoxView implements Pager
 	
 	private String mExceptionInfo;
 	
-	private boolean mIsCancelGps;
-	
 	public BoxView(Context context)
 	{
 		mContext = context;
@@ -170,18 +168,23 @@ public class BoxView implements Pager
 			
 			mGpsBtn.setClickable(true);
 			
-			LocationInfo li = (LocationInfo) msg.obj;
+			LocationInfo li = null == msg.obj ? null :  (LocationInfo) msg.obj;
 			
-			mLoEdit.setText(""+li.getLongitude());
-			
-			mLaEdit.setText(""+li.getLatitude());
+			if( null != li )
+			{
+				mLoEdit.setText(""+li.getLongitude());
+				
+				mLaEdit.setText(""+li.getLatitude());
+			}
 		};
 	};
 	
 	private boolean mIsGPSing;
 	
-	private Runnable mRunnable = new Runnable()
+	private class GpsRunnable implements Runnable
 	{
+		private boolean mIsCancelGps;
+		
 		public void run() 
 		{
 			LocationInfo li = GpsHelper.getCurLocation();
@@ -197,15 +200,24 @@ public class BoxView implements Pager
 					e.printStackTrace();
 				}
 				
+				if(mIsCancelGps)
+				{
+					break;
+				}
+				
 				li = GpsHelper.getCurLocation();
+				
+				Log.d("", "zhou  -- boxview -- gps = " + li);
 			}
 			
-			if( null != li && !mIsCancelGps )
+			if( !mIsCancelGps && null != mHander )
 			{
 				mHander.obtainMessage(0, li).sendToTarget();
 			}
 		};
-	};
+	}
+	
+	private GpsRunnable mRunnable = new GpsRunnable();
 	
 	private void gps()
 	{
@@ -222,7 +234,7 @@ public class BoxView implements Pager
 		
 		mGpsBtn.setClickable(false);
 		
-		mIsCancelGps = false;
+		mRunnable.mIsCancelGps = false;
 		
 		new Thread(mRunnable).start();
 	}
@@ -456,11 +468,13 @@ public class BoxView implements Pager
 	@Override
 	public void onDestroy() 
 	{
+		Log.d("", "zhou -- boxview -- ondestroy");
+		
 		mContext = null;
 		
 		mRoot = null;
 		
-		mIsCancelGps = true;
+		mRunnable.mIsCancelGps = true;
 		
 		mHander.removeCallbacksAndMessages(null);
 		
