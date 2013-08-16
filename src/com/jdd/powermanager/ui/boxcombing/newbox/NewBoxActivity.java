@@ -24,6 +24,7 @@ import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.action.combing.CombingActions;
 import com.jdd.powermanager.basic.BaseActivity;
+import com.jdd.powermanager.model.MeterSurvey.BoxSurveyDataManager;
 import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import com.jdd.powermanager.model.MeterSurvey.SurveyForm;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
@@ -121,6 +122,70 @@ public class NewBoxActivity extends BaseActivity
 		BarCodeHelper.addListener(mBarCodeLis);
 	}
 	
+	private void refreshBoxInfo(String assetNo)
+	{
+		if( null == assetNo || !assetNo.equals("") )
+		{
+			return;
+		}
+		
+		HashMap<String, String> data = BoxSurveyDataManager.getInstance().getBoxWithAssetNo(assetNo);
+		
+		String cAddress = mAddressEdit.getText().toString();
+		
+		if( null == cAddress || cAddress.equals("") )
+		{
+			String address = data.get(BoxSurvey.INST_LOC);
+			
+			mAddressEdit.setText( null == address ? "" : address );
+		}
+		
+		String cRow = mRowEdit.getText().toString();
+		
+		if( null == cRow || cRow.equals("") )
+		{
+			String row = data.get(BoxSurvey.BOX_ROWS);
+			
+			mRowEdit.setText( null == row ? "" : row );
+		}
+		
+		String cCol = mColumnEdit.getText().toString();
+		
+		if( null == cCol || cCol.equals("") )
+		{
+			String col = data.get(BoxSurvey.BOX_COLS);
+			
+			mColumnEdit.setText( null == col ? "" : col );
+		}
+		
+		String cMCount = mMeterCountEdit.getText().toString();
+		
+		if( null == cMCount || cMCount.equals("") )
+		{
+			String count = data.get(BoxSurvey.METER_NUM);
+			
+			mMeterCountEdit.setText( null == count ? "" : count );
+		}
+		
+		String clo = mLoEdit.getText().toString();
+		
+		if( null == clo || clo.equals("") )
+		{
+			String lo = data.get(BoxSurvey.LONGITUDE);
+			
+			mLoEdit.setText( null == lo ? "" : lo );
+		}
+		
+		String cla = mLaEdit.getText().toString();
+		
+		if( null == cla || cla.equals("") )
+		{
+			String la = data.get(BoxSurvey.LATITUDE);
+			
+			mLaEdit.setText( null == la ? "" : la );
+		}
+	}
+	
 	@SuppressLint("HandlerLeak")
 	private Handler mHander = new Handler()
 	{
@@ -211,6 +276,8 @@ public class NewBoxActivity extends BaseActivity
 		public void onScaned(String code) 
 		{
 			mBarCodeEdit.setText(code);
+			
+			refreshBoxInfo(code);
 		}
 	};
 	
