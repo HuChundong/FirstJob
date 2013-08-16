@@ -9,6 +9,7 @@ import com.jdd.powermanager.R;
 import com.jdd.powermanager.basic.Pager;
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +37,14 @@ public class BoxAssetsView implements Pager
 			mUserName.setText( null == n ? "" : n );
 			
 			mAddress.setText( null == a ? "" : a );
+		}
+		
+		public void onIndex(int i)
+		{
+			// TODO
+			Log.d("", "zhou -- onIndex -- " + i);
+			
+			mGridView.smoothScrollToPosition(i);
 		}
 	}
 	

@@ -145,14 +145,20 @@ public class BoxAssetsAdapter extends BaseAdapter
 	
 	public void setOk(int i)
 	{
-		mOkIndexs.add(i + "");
+		if( !mOkIndexs.contains(i + "") )
+		{
+			mOkIndexs.add(i + "");
+		}
 		
 		notifyDataSetChanged();
 	}
 	
 	public void setBlock(int i)
 	{
-		mBlockIndexs.add(i + "");
+		if( !mBlockIndexs.contains(i + "") )
+		{
+			mBlockIndexs.add(i + "");
+		}
 		
 		mOkIndexs.remove(i+"");
 		
@@ -177,6 +183,11 @@ public class BoxAssetsAdapter extends BaseAdapter
 	
 	public void setSelected(int i)
 	{
+		if( i >= getCount())
+		{
+			return;
+		}
+		
 		// 保存旧的用户信息
 		if( null != mEdit )
 		{
@@ -239,7 +250,10 @@ public class BoxAssetsAdapter extends BaseAdapter
 			
 			setSelected(i);
 			
-			// TODO
+			if( null != mEdit )
+			{
+				mEdit.onIndex(mSelectedIndex);
+			}
 		}
 	}
 	
