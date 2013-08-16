@@ -63,7 +63,7 @@ public class BoxAssetsView implements Pager
 	
 	private EditText mAddress;
 	
-	private UserInfoEdit mEdit;
+	private UserInfoEdit mEdit = new UserInfoEdit();
 	
 	public BoxAssetsView(Context c)
 	{

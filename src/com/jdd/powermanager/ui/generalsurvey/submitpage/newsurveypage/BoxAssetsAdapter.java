@@ -99,17 +99,17 @@ public class BoxAssetsAdapter extends BaseAdapter
 		mUserInfos.put(code, ui);
 	}
 	
-	public void setSelectedCode(String code)
-	{
-		if( null == mList || mList.length == 0 )
-		{
-			return;
-		}
-		
-		mList[mSelectedIndex] = code;
-		
-		notifyDataSetChanged();
-	}
+//	public void setSelectedCode(String code)
+//	{
+//		if( null == mList || mList.length == 0 )
+//		{
+//			return;
+//		}
+//		
+//		mList[mSelectedIndex] = code;
+//		
+//		notifyDataSetChanged();
+//	}
 	
 	public void delSelectedCode()
 	{
@@ -193,17 +193,24 @@ public class BoxAssetsAdapter extends BaseAdapter
 		
 		String code  = mList[mSelectedIndex];
 		
-		if( null != code  && null != mEdit )
+		if( null != mEdit )
 		{
-			UserInfo ui = mUserInfos.get(code);
-			
-			if( null != ui && ui.userName != null && ui.userAddress != null )
+			if( null != code )
 			{
-				mEdit.setUserInfo(ui.userName, ui.userAddress);
+				UserInfo ui = mUserInfos.get(code);
+				
+				if( null != ui)
+				{
+					mEdit.setUserInfo(ui.userName, ui.userAddress);
+				}
+				else
+				{
+					// TODO
+				}
 			}
 			else
 			{
-				// TODO
+				mEdit.setUserInfo("", "");
 			}
 		}
 		
@@ -225,6 +232,15 @@ public class BoxAssetsAdapter extends BaseAdapter
 		mList[mSelectedIndex] = code;
 		
 		setOk(mSelectedIndex);
+		
+		if( mSelectedIndex < getCount() - 1 )
+		{
+			int i = mSelectedIndex + 1;
+			
+			setSelected(i);
+			
+			// TODO
+		}
 	}
 	
 	public ArrayList<HashMap<String,String>> getCodes()
