@@ -2,7 +2,6 @@ package com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.jdd.common.utils.barcode.BarCodeHelper;
 import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
 import com.jdd.common.utils.toast.ToastHelper;
@@ -13,12 +12,33 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
 public class BoxAssetsView implements Pager
 {
+	public class UserInfoEdit
+	{
+		public String getUserName()
+		{
+			return mUserName.getText().toString();
+		}
+		
+		public String getAddress()
+		{
+			return mAddress.getText().toString();
+		}
+		
+		public void setUserInfo(String n, String a)
+		{
+			mUserName.setText( null == n ? "" : n );
+			
+			mAddress.setText( null == a ? "" : a );
+		}
+	}
+	
 	private Context mContext;
 	
 	private int mRow;
@@ -38,6 +58,12 @@ public class BoxAssetsView implements Pager
 	private TextView mTableBtn;
 	
 	private TextView mBackBtn;
+	
+	private EditText mUserName;
+	
+	private EditText mAddress;
+	
+	private UserInfoEdit mEdit;
 	
 	public BoxAssetsView(Context c)
 	{
@@ -92,7 +118,7 @@ public class BoxAssetsView implements Pager
 	{
 		mGridView = (GridView) mRoot.findViewById(R.id.context_grid);
 		
-		mAdapter = new BoxAssetsAdapter(mContext);
+		mAdapter = new BoxAssetsAdapter(mContext,mEdit);
 		
 		mGridView.setAdapter(mAdapter);
 		
@@ -103,6 +129,10 @@ public class BoxAssetsView implements Pager
 		mTableBtn = (TextView) mRoot.findViewById(R.id.table_btn);
 		
 		mBackBtn = (TextView) mRoot.findViewById(R.id.back_btn);
+		
+		mUserName = (EditText) mRoot.findViewById(R.id.user_name);
+		
+		mAddress = (EditText) mRoot.findViewById(R.id.use_address);
 		
 		mBlockBtn.setOnClickListener(mOnClickLis);
 		

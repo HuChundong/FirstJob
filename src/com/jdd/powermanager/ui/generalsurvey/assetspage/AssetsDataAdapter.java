@@ -199,6 +199,7 @@ public class AssetsDataAdapter  extends BaseAdapter
 			h.columnNO = (TextView) view.findViewById(R.id.column_no);
 			h.userName = (TextView) view.findViewById(R.id.user_name);
 			h.address = (TextView) view.findViewById(R.id.address);
+			h.setAddress = (TextView) view.findViewById(R.id.set_address);
 			h.dristrictId = (TextView) view.findViewById(R.id.dristrict_id);
 			h.userCategory = (TextView) view.findViewById(R.id.user_category);
 			h.wiring = (TextView) view.findViewById(R.id.wiring);
@@ -231,6 +232,7 @@ public class AssetsDataAdapter  extends BaseAdapter
 			h.columnNO.setText(data.get(MeterSurvey.IN_COLUMN));
 			h.userName.setText(data.get(MeterSurvey.USER_NAME));
 			h.address.setText(data.get(MeterSurvey.USER_ADDRESS));
+			h.setAddress.setText(data.get(MeterSurvey.INST_LOC));
 			h.dristrictId.setText(mDristritId);
 			h.userCategory.setText(data.get(MeterSurvey.USER_TYPE));
 			h.wiring.setText(data.get(MeterSurvey.WIRING_METHOD));
@@ -291,6 +293,8 @@ public class AssetsDataAdapter  extends BaseAdapter
 		TextView userName;
 		
 		TextView address;
+		
+		TextView setAddress;
 		
 		TextView dristrictId;
 		

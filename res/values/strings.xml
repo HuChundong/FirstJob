@@ -43,6 +43,7 @@
     <string name="bar_code">条形码</string>
     <string name="user_name">用户名称</string>
     <string name="address">用电地址</string>
+    <string name="set_address">安装地址</string>
     <string name="dristrict_id">台区编号</string>
     <string name="user_category">用户分类</string>
     <string name="wiring">接线方式</string>

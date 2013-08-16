@@ -8,6 +8,8 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +89,28 @@ public class NewBoxActivity extends BaseActivity
 		
 		mBarCodeEdit = (EditText) findViewById(R.id.bar_code_edit);
 		
+		mBarCodeEdit.addTextChangedListener(new TextWatcher() 
+		{
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) 
+			{
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3)
+			{
+			}
+			
+			@Override
+			public void afterTextChanged(Editable arg0) 
+			{
+				Log.d("", "zhou -- afterTextChanged -- " + arg0.toString());
+				
+				refreshBoxInfo(arg0.toString());
+			}
+		});
+		
 		mAddressEdit = (EditText) findViewById(R.id.address_edit);
 		
 		mRowEdit = (EditText) findViewById(R.id.row_edit);
@@ -124,12 +148,17 @@ public class NewBoxActivity extends BaseActivity
 	
 	private void refreshBoxInfo(String assetNo)
 	{
-		if( null == assetNo || !assetNo.equals("") )
+		if( null == assetNo || assetNo.equals("") )
 		{
 			return;
 		}
 		
 		HashMap<String, String> data = BoxSurveyDataManager.getInstance().getBoxWithAssetNo(assetNo);
+		
+		if( null == data || data.isEmpty() )
+		{
+			return;
+		}
 		
 		String cAddress = mAddressEdit.getText().toString();
 		
@@ -277,7 +306,7 @@ public class NewBoxActivity extends BaseActivity
 		{
 			mBarCodeEdit.setText(code);
 			
-			refreshBoxInfo(code);
+//			refreshBoxInfo(code);
 		}
 	};
 	

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
+import com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage.BoxAssetsView.UserInfoEdit;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -23,7 +25,23 @@ import android.widget.TextView;
 
 public class BoxAssetsAdapter extends BaseAdapter
 {
+    private class UserInfo
+    {
+    	String userName;
+    	
+    	String userAddress;
+    	
+    	public UserInfo(String n, String a)
+    	{
+    		userName = n;
+    		
+    		userAddress = a;
+    	}
+    }
+	
 	private String[] mList;
+	
+	private HashMap<String,UserInfo> mUserInfos = new HashMap<String,UserInfo>();
 	
 	private Context mContext;
 	
@@ -37,9 +55,13 @@ public class BoxAssetsAdapter extends BaseAdapter
 	
 	private List<String> mOkIndexs = new ArrayList<String>();
 	
-	public BoxAssetsAdapter(Context context)
+	private UserInfoEdit mEdit;
+	
+	public BoxAssetsAdapter(Context context,UserInfoEdit edit)
 	{
 		mContext = context;
+		
+		mEdit = edit;
 	}
 	
 	public void setRowAndColumn(int r,int c)
@@ -56,11 +78,25 @@ public class BoxAssetsAdapter extends BaseAdapter
 		
 		mList = new String[count];
 		
+		mUserInfos.clear();
+		
 		mOkIndexs.clear();
 		
 		mBlockIndexs.clear();
 		
 		notifyDataSetChanged();
+	}
+	
+	public void setUserInfo(String code,String name,String address)
+	{
+		if( null == code || code.equals("") )
+		{
+			return;
+		}
+		
+		UserInfo ui = new UserInfo(name,address);
+		
+		mUserInfos.put(code, ui);
 	}
 	
 	public void setSelectedCode(String code)
@@ -80,6 +116,15 @@ public class BoxAssetsAdapter extends BaseAdapter
 		if( null == mList ||  mSelectedIndex >= mList.length  )
 		{
 			return;
+		}
+		
+		String code = mList[mSelectedIndex];
+		
+		mUserInfos.remove(code);
+		
+		if( null != mEdit )
+		{
+			mEdit.setUserInfo("", "");
 		}
 		
 		mList[mSelectedIndex] = "";
@@ -116,6 +161,15 @@ public class BoxAssetsAdapter extends BaseAdapter
 			return;
 		}
 		
+		String code = mList[mSelectedIndex];
+		
+		mUserInfos.remove(code);
+		
+		if( null != mEdit )
+		{
+			mEdit.setUserInfo("", "");
+		}
+		
 		mList[mSelectedIndex] = "";
 		
 		notifyDataSetChanged();
@@ -123,7 +177,35 @@ public class BoxAssetsAdapter extends BaseAdapter
 	
 	public void setSelected(int i)
 	{
+		// 保存旧的用户信息
+		if( null != mEdit )
+		{
+			String oldCode = mList[mSelectedIndex];
+			
+			String name = mEdit.getUserName();
+			
+			String address = mEdit.getAddress();
+			
+			setUserInfo(oldCode, name, address);
+		}
+		
 		mSelectedIndex = i;
+		
+		String code  = mList[mSelectedIndex];
+		
+		if( null != code  && null != mEdit )
+		{
+			UserInfo ui = mUserInfos.get(code);
+			
+			if( null != ui && ui.userName != null && ui.userAddress != null )
+			{
+				mEdit.setUserInfo(ui.userName, ui.userAddress);
+			}
+			else
+			{
+				// TODO
+			}
+		}
 		
 		notifyDataSetChanged();
 	}
@@ -172,6 +254,19 @@ public class BoxAssetsAdapter extends BaseAdapter
 				
 				m.put(MeterSurvey.IN_COLUMN, getColumn(i) + "");
 				
+				UserInfo ui = mUserInfos.get(code);
+				
+				if( null != ui )
+				{
+					String name = null == ui.userName ? "" : ui.userName;
+					
+					String address = null == ui.userAddress ? "" : ui.userAddress;
+					
+					m.put(MeterSurvey.USER_NAME, name);
+					
+					m.put(MeterSurvey.USER_ADDRESS, address);
+				}
+				
 				list.add(m);
 			}
 		}
@@ -187,6 +282,8 @@ public class BoxAssetsAdapter extends BaseAdapter
 		}
 		
 		mList = new String[0];
+		
+		mUserInfos.clear();
 		
 		notifyDataSetChanged();
 	}

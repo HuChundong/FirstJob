@@ -118,6 +118,7 @@ public final class MeterSurveyForm extends SurveyForm
 				IN_COLUMN,
 				USER_NAME,
 				USER_ADDRESS,
+				INST_LOC,
 				USER_TYPE,
 				WIRING_METHOD,
 				SurveyForm.SURVEY_STATUS,

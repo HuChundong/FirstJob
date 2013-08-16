@@ -35,6 +35,10 @@ public class BarCodeHelper
 		// 开启所有支持的条码
 		mInstance.mBf.setBarcodeOpenAll();
 		
+		mInstance.mBf.setPrefix("");
+		
+		mInstance.mBf.setSuffix("");
+		
 		mInstance.mBm = new BarcodeManager(context);
 		
 		mInstance.mBm.addListener(mInstance.mBarcodeLis);
@@ -52,6 +56,11 @@ public class BarCodeHelper
 				String barcode = mInstance.mBm.getBarcode();
 				
 				Log.d("", "zhou -- barcodeEvent -- barcode = " + barcode);
+				
+				if( null != barcode && barcode.endsWith("\n") )
+				{
+					barcode = barcode.substring(0, barcode.length()-1);
+				}
 				
 				if( null  !=  mInstance.mLis )
 				{

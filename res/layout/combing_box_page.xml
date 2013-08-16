@@ -176,7 +176,8 @@
 		            android:layout_toRightOf="@+id/label_lo"
 		            android:layout_width="match_parent"
 		            android:layout_centerVertical="true"
-		            android:inputType="number"
+		            android:textSize="12sp"
+		            android:inputType="numberDecimal"
 		            android:layout_height="wrap_content"/>
 		    </RelativeLayout>
 		    
@@ -200,7 +201,8 @@
 		            android:layout_toRightOf="@+id/label_la"
 		            android:layout_width="100dp"
 		            android:layout_centerHorizontal="true"
-		            android:inputType="number"
+		            android:textSize="12sp"
+		            android:inputType="numberDecimal"
 		            android:layout_height="wrap_content"/>
 		    </RelativeLayout>
 		    
