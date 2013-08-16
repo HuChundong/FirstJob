@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -44,7 +45,9 @@ public class BoxAssetsView implements Pager
 			// TODO
 			Log.d("", "zhou -- onIndex -- " + i);
 			
-			mGridView.smoothScrollToPosition(i);
+			mGridView.setSelection(i);
+			
+			isShow(i);
 		}
 	}
 	
@@ -77,6 +80,60 @@ public class BoxAssetsView implements Pager
 	public BoxAssetsView(Context c)
 	{
 		mContext = c;
+	}
+	
+	private void isShow(int i)
+	{
+		mGridView.smoothScrollToPosition(i);
+		
+		int c = i % mGridView.getNumColumns();
+		
+		Log.d("", "zhou -- isShow -- " + " c " + c);
+		
+		HorizontalScrollView hs = (HorizontalScrollView) mRoot.findViewById(R.id.hs);
+		
+		int sx = hs.getScrollX();
+		
+		Log.d("", "zhou -- isShow -- sx " + sx);
+		
+		float w = mContext.getResources().getDimension(R.dimen.box_meter_column_width);
+		
+		Log.d("", "zhou -- isShow -- w " + w);
+		
+		int ws = hs.getWidth();
+		
+		Log.d("", "zhou -- isShow -- ws " + ws);
+		
+		int rl = (int) (  w * c );
+		
+		int rr = (int) (  w * ( c + 1 ) );
+		
+		Log.d("", "zhou -- isShow -- rl " + rl + " rr " + rr);
+		
+		float cx = hs.getScrollX();
+		
+		Log.d("", "zhou -- isShow -- cx " + cx);
+		
+		if( cx <= rl && cx + ws >= rr )
+		{
+			Log.d("", "zhou -- isShow -- true ");
+		}
+		else
+		{
+			Log.d("", "zhou -- isShow -- false " + rl);
+			
+			if( rl + ws > mGridView.getWidth() )
+			{
+				rl = mGridView.getWidth() - ws;
+			}
+			
+			Log.d("", "zhou -- isShow -- w " + mGridView.getWidth());
+			
+			Log.d("", "zhou -- isShow -- x " + rl);
+			
+			hs.scrollTo(rl, 0);
+		}
+		
 	}
 	
 	public void setRowAndColumn(int r,int c)
@@ -168,7 +225,7 @@ public class BoxAssetsView implements Pager
 	
 	private void ok(String code)
 	{
-		mAdapter.setSelectedOk(code);
+		mAdapter.setSelectedOk(code,true);
 	}
 	
 	private void del()

@@ -99,18 +99,6 @@ public class BoxAssetsAdapter extends BaseAdapter
 		mUserInfos.put(code, ui);
 	}
 	
-//	public void setSelectedCode(String code)
-//	{
-//		if( null == mList || mList.length == 0 )
-//		{
-//			return;
-//		}
-//		
-//		mList[mSelectedIndex] = code;
-//		
-//		notifyDataSetChanged();
-//	}
-	
 	public void delSelectedCode()
 	{
 		if( null == mList ||  mSelectedIndex >= mList.length  )
@@ -233,7 +221,7 @@ public class BoxAssetsAdapter extends BaseAdapter
 		setBlock(mSelectedIndex);
 	}
 	
-	public void setSelectedOk(String code)
+	public void setSelectedOk(String code,boolean isNext)
 	{
 		if( null == mList ||  mSelectedIndex >= mList.length || code == null )
 		{
@@ -244,7 +232,7 @@ public class BoxAssetsAdapter extends BaseAdapter
 		
 		setOk(mSelectedIndex);
 		
-		if( mSelectedIndex < getCount() - 1 )
+		if( mSelectedIndex < getCount() - 1 && isNext )
 		{
 			int i = mSelectedIndex + 1;
 			
@@ -385,7 +373,7 @@ public class BoxAssetsAdapter extends BaseAdapter
 				
 				if( null != code && !code.equals("") )
 				{
-					setSelectedOk(code);
+					setSelectedOk(code,false);
 				}
 				
 				notifyDataSetChanged();
@@ -455,7 +443,7 @@ public class BoxAssetsAdapter extends BaseAdapter
 		
 		if( mOkIndexs.contains(pos+"") )
 		{
-			view.setBackgroundColor(Color.GREEN);
+			view.setBackgroundColor(mContext.getResources().getColor(R.color.green_2d8033));
 			
 			h.code.setVisibility(View.VISIBLE);
 		}
