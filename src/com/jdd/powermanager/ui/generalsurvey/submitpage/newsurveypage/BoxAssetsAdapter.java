@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -172,6 +173,8 @@ public class BoxAssetsAdapter extends BaseAdapter
 	
 	public void setSelected(int i)
 	{
+		Log.d("", "zhou -- setSelected -- i " + i );
+		
 		if( i >= getCount())
 		{
 			return;
@@ -182,11 +185,20 @@ public class BoxAssetsAdapter extends BaseAdapter
 		{
 			String oldCode = mList[mSelectedIndex];
 			
+			Log.d("", "zhou -- setSelected -- oldcode " + oldCode );
+			
 			String name = mEdit.getUserName();
 			
 			String address = mEdit.getAddress();
 			
-			setUserInfo(oldCode, name, address);
+			Log.d("", "zhou -- setSelected -- old: name " + name + " address " + address + " index " + mSelectedIndex );
+			
+			if( null != oldCode && !oldCode.equals("") && !( (null == name || name.equals("")) && ( null == address || address.equals("")) )  )
+			{
+				Log.d("", "zhou -- setSelected -- save old " + oldCode );
+				
+				setUserInfo(oldCode, name, address);
+			}
 		}
 		
 		mSelectedIndex = i;
@@ -199,8 +211,12 @@ public class BoxAssetsAdapter extends BaseAdapter
 			{
 				UserInfo ui = mUserInfos.get(code);
 				
+				Log.d("", "zhou -- setSelected -- code " + code );
+				
 				if( null != ui)
 				{
+					Log.d("", "zhou -- setSelected -- new : ui name " + ui.userName + " address " + ui.userAddress + " index " + mSelectedIndex );
+					
 					mEdit.setUserInfo(ui.userName, ui.userAddress);
 				}
 				else
@@ -209,6 +225,8 @@ public class BoxAssetsAdapter extends BaseAdapter
 					 
 					 String name = meter.get(MeterSurvey.USER_NAME);
 					 String address = meter.get(MeterSurvey.USER_ADDRESS);
+					 
+					 Log.d("", "zhou -- setSelected -- new : db name " + name + " address " + address + " index " + mSelectedIndex );
 					 
 					 mEdit.setUserInfo(null == name ? "" : name, null == address ? "" : address);
 				}
@@ -278,17 +296,30 @@ public class BoxAssetsAdapter extends BaseAdapter
 				
 				m.put(MeterSurvey.IN_COLUMN, getColumn(i) + "");
 				
-				UserInfo ui = mUserInfos.get(code);
-				
-				if( null != ui )
+				if( i == mSelectedIndex )
 				{
-					String name = null == ui.userName ? "" : ui.userName;
+					String name = mEdit.getUserName();
 					
-					String address = null == ui.userAddress ? "" : ui.userAddress;
+					String address = mEdit.getAddress();
 					
 					m.put(MeterSurvey.USER_NAME, name);
 					
 					m.put(MeterSurvey.USER_ADDRESS, address);
+				}
+				else
+				{
+					UserInfo ui = mUserInfos.get(code);
+					
+					if( null != ui )
+					{
+						String name = null == ui.userName ? "" : ui.userName;
+						
+						String address = null == ui.userAddress ? "" : ui.userAddress;
+						
+						m.put(MeterSurvey.USER_NAME, name);
+						
+						m.put(MeterSurvey.USER_ADDRESS, address);
+					}
 				}
 				
 				list.add(m);
