@@ -258,6 +258,8 @@ public class BoxView implements Pager
 		
 		m.put(MeterSurvey.BAR_CODE, barcode);
 		
+		m.put(MeterSurvey.ASSET_NO, barcode);
+		
 		String categroy = (String) mCateGorySpinner.getSelectedItem();
 		
 		m.put(MeterSurvey.SORT_CODE, "" + categroy);
