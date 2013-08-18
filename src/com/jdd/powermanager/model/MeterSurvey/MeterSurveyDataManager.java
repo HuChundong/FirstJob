@@ -255,6 +255,31 @@ public class MeterSurveyDataManager extends SurveyDataManager
 		}
 	}
 	
+	/**
+	 * 获取某计量箱内所有电表对象列表
+	 * @return 计量箱内所有电表对象列表,用hashmap表示电表对象
+	 */
+	public ArrayList<HashMap<String, String>> getAllMetersInBox(String boxID)
+	{
+		synchronized(instance)
+		{
+			return mMeterSurveyDBHelper.getAllMetersInBox(boxID);
+		}
+	}
+	
+	/**
+	 * 获取某电表对象
+	 * @param assetNo 电表资产编号
+	 * @return 电表对象
+	 */
+	public HashMap<String, String> getMeterWithAssetNo(String assetNo)
+	{
+		synchronized(instance)
+		{
+			return mMeterSurveyDBHelper.getMeterWithAssetNo(assetNo);
+		}
+	}
+	
 	///////////////////////////////////////////UT test begin/////////////////////////////////////
 	private void test() 
 	{

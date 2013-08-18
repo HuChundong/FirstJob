@@ -400,6 +400,56 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
+	 * 获取某电表对象
+	 * @param assetNo 电表资产编号
+	 * @return 电表对象
+	 */
+	public HashMap<String, String> getMeterWithAssetNo(String assetNo)
+	{
+		String SQL = "SELECT ";
+		int meterColumnLength = MeterSurvey.DBToXLSColumnIndexMeter.length;
+		for (int i = 0 ; i < meterColumnLength - 1 ; i ++)
+		{
+			SQL += MeterSurvey.DBToXLSColumnIndexMeter[i] + COMMA_SEP;
+		}
+		SQL += MeterSurvey.DBToXLSColumnIndexMeter[meterColumnLength - 1] +
+				" FROM " + MeterSurvey.TABLE_NAME +
+				" where " + MeterSurvey.D_ASSET_NO + " = \"" + assetNo +"\"";
+		
+		SQLiteDatabase db = getWritableDatabase();
+		Cursor c = null;
+		HashMap<String, String> meterColumnMap = new HashMap<String, String>();
+		try
+		{
+			c = db.rawQuery(SQL, null);  
+	        while (c.moveToNext())
+	        {
+	        	for (int i = 0; i < meterColumnLength; i ++)
+	        	{
+	        		meterColumnMap.put(MeterSurvey.DBToXLSColumnIndexMeter[i], c.getString(i));	        		
+	        	}
+	        }	
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c != null)
+			{
+				c.close();	
+			}
+			
+			db.close();
+				
+		}
+        
+        return meterColumnMap;  
+	}
+	
+	
+	/**
 	 * 获取数据库内所有信息
 	 * @return 获取数据库内所有信息,用hashmap表示信息行对象
 	 */
