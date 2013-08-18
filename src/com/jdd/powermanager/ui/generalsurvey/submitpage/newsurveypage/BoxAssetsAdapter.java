@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import com.jdd.powermanager.R;
+import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
 import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
 import com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage.BoxAssetsView.UserInfoEdit;
 
@@ -204,7 +205,12 @@ public class BoxAssetsAdapter extends BaseAdapter
 				}
 				else
 				{
-					// TODO
+					 HashMap<String, String> meter = MeterSurveyDataManager.getInstance().getMeterWithAssetNo(code);
+					 
+					 String name = meter.get(MeterSurvey.USER_NAME);
+					 String address = meter.get(MeterSurvey.USER_ADDRESS);
+					 
+					 mEdit.setUserInfo(null == name ? "" : name, null == address ? "" : address);
 				}
 			}
 			else

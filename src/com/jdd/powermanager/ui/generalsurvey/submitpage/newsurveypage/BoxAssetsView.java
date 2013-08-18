@@ -42,7 +42,6 @@ public class BoxAssetsView implements Pager
 		
 		public void onIndex(int i)
 		{
-			// TODO
 			Log.d("", "zhou -- onIndex -- " + i);
 			
 			mGridView.setSelection(i);
