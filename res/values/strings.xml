@@ -20,6 +20,7 @@
     <string name="submit_data">已提交信息</string>
     <string name="assets_details">资产明细</string>
     <string name="combing_assets_details">计量箱资产明细</string>
+    <string name="elimination_assets_details">异常消缺明细</string>
     <string name="device_type">设备类型</string>
     <string name="device_code">条形码</string>
     <string name="query_date">普查时间</string>
@@ -70,11 +71,17 @@
     <string name="survey_info">普查信息</string>
     
     <string name="submit_success_tip">本次提交了%1$s个表箱</string>
+    <string name="submit_success_tip_meter">本次提交了%1$s个电表</string>
     <string name="submit_wait_tip">%1$s个表箱正在提交，请稍后!</string>
+    <string name="submit_wait_tip_meter">%1$s个电表正在提交，请稍后!</string>
     <string name="no_box_to_submit_tip">没有表箱可以提交!</string>
+    <string name="no_meter_to_submit_tip">没有电表可以提交!</string>
     <string name="del_box_wait_tip">%1$s个表箱正在删除，请稍后!</string>
+    <string name="del_meter_wait_tip">%1$s个电表正在删除，请稍后!</string>
 	<string name="no_box_to_del_tip">没有表箱可以删除!</string>
+	<string name="no_meter_to_del_tip">没有电表可以删除!</string>
 	<string name="del_success_tip">本次删除了%1$s个表箱</string>
+	<string name="del_success_tip_meter">本次删除了%1$s个电表</string>
 	<string name="gps_get_location_wait_tip">正在定位，请稍后!</string>
 	<string name="gps_open_guide_tip">请开启GPS!</string>
 	<string name="exception_title">请输入异常信息:</string>
@@ -101,6 +108,7 @@
 	<string name="combing_district_tag">台区标识</string>
 	<string name="combing_district_no">台区编号</string>
 	<string name="combing_box_barcode">计量箱资产编号</string>
+	<string name="box_barcode">计量箱条形码</string>
 	<string name="combing_longitude">经度</string>
     <string name="combing_latitude">纬度</string>
 	<string name="meter_count">表数</string>
@@ -108,4 +116,10 @@
 	<string name="save_sucess">保存成功！</string>
 	<string name="new_meter">新增</string>
 	<string name="get_gps">定位中</string>
+	<string name="abnormal_elimination">异常消缺</string>
+	<string name="phenomenon">异常现象</string>
+	<string name="elimination_result">消缺结果</string>
+	<string name="elimination_method">消缺方法</string>
+	<string name="state_untreated">未处理</string>
+	<string name="state_treated">已处理</string>
 </resources>
