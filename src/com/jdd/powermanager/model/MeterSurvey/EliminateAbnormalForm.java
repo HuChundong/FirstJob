@@ -53,7 +53,8 @@ public class EliminateAbnormalForm extends SurveyForm
 				 IN_COLUMN,	
 				 ABNORMAL_PHENOMENON,	
 				 ELIMINATE_RESULT,	
-				 ELIMINATE_METHOD
+				 ELIMINATE_METHOD,
+				 COMMIT_STATUS
 			};
 	}
 }

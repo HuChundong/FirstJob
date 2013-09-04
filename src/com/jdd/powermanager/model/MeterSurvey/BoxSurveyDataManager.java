@@ -3,16 +3,13 @@ package com.jdd.powermanager.model.MeterSurvey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.ss.usermodel.Cell;
 
 import android.content.ContentValues;
 
 import com.jdd.common.utils.Excel.XLS;
 import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
 
 public class BoxSurveyDataManager extends SurveyDataManager 
 {
