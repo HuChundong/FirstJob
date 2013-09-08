@@ -10,6 +10,8 @@ public class SurveyForm
 	public static final String SURVEY_STATUS_UNSURVEYED = "未普查";
 	public static final String COMMIT_STATUS_UNCOMMITED = "未提交";
 	public static final String COMMIT_STATUS_COMMITED = "已提交";
+	public static final String ELIMINATE_RESULT_ELIMINATED = "已消缺";
+	public static final String ELIMINATE_RESULT_UNELIMINATE = "未消缺";
 	
 	public static final String ABNORMAL_COMMENT_NULL = "无备注";
 	

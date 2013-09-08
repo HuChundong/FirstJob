@@ -3,9 +3,7 @@ package com.jdd.powermanager.model.MeterSurvey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -204,6 +202,295 @@ public class EliminateAbnormalDBHelper extends SQLiteOpenHelper
 		SQL += " where " + EliminateAbnormal.D_ASSET_NO + " = \"" + meterAssetNO +"\"";
 		
 		executeNoDataSetSQL(SQL);
+	}
+	
+	/**
+	 * 提交一组电表的异常消缺数据
+	 * @param meterAssetNOs 电表资产编号数组
+	 */
+	public void commitMeters(String[] meterAssetNOs)
+	{
+		String SQL = "update " + EliminateAbnormal.TABLE_NAME + " set ";
+		SQL += SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_COMMITED + "\"";
+		SQL += " where " + EliminateAbnormal.D_ASSET_NO + " in " + SurveyForm.parseIdArray2SQLIds(meterAssetNOs);
+		
+		executeNoDataSetSQL(SQL);
+	}
+	
+	/**
+	 * 取消提交一个电表的异常消缺数据
+	 * @param meterAssetNO 电表资产编号
+	 */
+	public void uncommitOneMeter(String meterAssetNO)
+	{
+		String SQL = "update " + EliminateAbnormal.TABLE_NAME + " set ";
+		SQL += SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_UNCOMMITED + "\"";
+		SQL += " where " + EliminateAbnormal.D_ASSET_NO + " = \"" + meterAssetNO +"\"";
+		
+		executeNoDataSetSQL(SQL);
+	}
+	
+	/**
+	 * 取消提交一组电表的异常消缺数据
+	 * @param meterAssetNO 电表资产编号数组
+	 */
+	public void uncommitMeters(String[] meterAssetNOs)
+	{
+		String SQL = "update " + EliminateAbnormal.TABLE_NAME + " set ";
+		SQL += SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_UNCOMMITED + "\"";
+		SQL += " where " + EliminateAbnormal.D_ASSET_NO + " in " + SurveyForm.parseIdArray2SQLIds(meterAssetNOs);
+		
+		executeNoDataSetSQL(SQL);
+	}
+	
+	/**
+	 * 提交所有已消缺的任务
+	 */
+	public void commitAllEliminatedTasks()
+	{
+		String SQL = "update " + EliminateAbnormal.TABLE_NAME + " set ";
+		SQL += SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_COMMITED + "\"";
+		SQL += " where " + EliminateAbnormal.ELIMINATE_RESULT + " = \"" + SurveyForm.ELIMINATE_RESULT_ELIMINATED +"\"";
+		
+		executeNoDataSetSQL(SQL);
+	}
+	
+	/**
+	 * 消缺一个电表的异常消缺数据
+	 * @param meterAssetNO 电表资产编号
+	 */
+	public void eliminateOneMeter(String meterAssetNO)
+	{
+		String SQL = "update " + EliminateAbnormal.TABLE_NAME + " set ";
+		SQL += EliminateAbnormal.ELIMINATE_RESULT + " = \"" + SurveyForm.ELIMINATE_RESULT_ELIMINATED + "\"";
+		SQL += " where " + EliminateAbnormal.D_ASSET_NO + " = \"" + meterAssetNO +"\"";
+		
+		executeNoDataSetSQL(SQL);
+	}
+	
+	/**
+	 * 取消消缺一个电表的异常消缺数据
+	 * @param meterAssetNO 电表资产编号
+	 */
+	public void uneliminateOneMeter(String meterAssetNO)
+	{
+		String SQL = "update " + EliminateAbnormal.TABLE_NAME + " set ";
+		SQL += EliminateAbnormal.ELIMINATE_RESULT + " = \"" + SurveyForm.ELIMINATE_RESULT_UNELIMINATE + "\"";
+		SQL += " where " + EliminateAbnormal.D_ASSET_NO + " = \"" + meterAssetNO +"\"";
+		
+		executeNoDataSetSQL(SQL);
+	}
+	
+	/**
+	 * 取消消缺一组电表的异常消缺数据
+	 * @param meterAssetNO 电表资产编号数组
+	 */
+	public void uneliminateMeters(String[] meterAssetNOs)
+	{
+		String SQL = "update " + EliminateAbnormal.TABLE_NAME + " set ";
+		SQL += EliminateAbnormal.ELIMINATE_RESULT + " = \"" + SurveyForm.ELIMINATE_RESULT_UNELIMINATE + "\"";
+		SQL += " where " + EliminateAbnormal.D_ASSET_NO + " in " + SurveyForm.parseIdArray2SQLIds(meterAssetNOs);
+		
+		executeNoDataSetSQL(SQL);
+	}
+	
+	/**
+	 * 根据提交状态返回消缺任务,仅返回已消缺的任务
+	 * @param commitStatus 提交状态 0：返回所有的消缺任务	1：返回已提交消缺任务	2：返回未提交消缺任务
+	 * @return 相应提交状态的任务
+	 */
+	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedCommitStatus(int commitStatus)
+	{
+		String SQL = "SELECT ";
+		int allColumnLength = EliminateAbnormal.DBToXLSColumnIndexAll.length;
+		for (int i = 0 ; i < allColumnLength - 1 ; i ++)
+		{
+			SQL += EliminateAbnormal.DBToXLSColumnIndexAll[i] + COMMA_SEP;
+		}
+		SQL += EliminateAbnormal.DBToXLSColumnIndexAll[allColumnLength - 1] +
+				" FROM " + EliminateAbnormal.TABLE_NAME +
+				" and " + EliminateAbnormal.ELIMINATE_RESULT + " = \"" + SurveyForm.ELIMINATE_RESULT_ELIMINATED + "\"";
+		
+		//增加是否已提交的条件逻辑
+		String commitStatusCondition = "";
+		
+		switch (commitStatus)
+		{
+			case 0:
+				commitStatusCondition = "";
+				break;
+			case 1:
+				commitStatusCondition = " and " + SurveyForm.COMMIT_STATUS + 
+										" = \"" + SurveyForm.COMMIT_STATUS_COMMITED + "\"";
+				
+				break;
+			case 2:
+				commitStatusCondition = " and " + SurveyForm.COMMIT_STATUS + 
+										" = \"" + SurveyForm.COMMIT_STATUS_UNCOMMITED + "\"";
+				
+				break;
+			default:
+				commitStatusCondition = "";
+				break;
+		}
+		
+		SQL += commitStatusCondition;
+		
+		SQLiteDatabase db = getWritableDatabase();
+		ArrayList<HashMap<String, String>> eliminateAbnormalList = new ArrayList<HashMap<String, String>>();
+		Cursor c = null;
+		try
+		{
+			c = db.rawQuery(SQL, null);  
+	        while (c.moveToNext())
+	        {
+	        	HashMap<String, String> eliminateAbnormalColumnMap = new HashMap<String, String>();
+	        	for (int i = 0; i < allColumnLength; i ++)
+	        	{
+	        		eliminateAbnormalColumnMap.put(EliminateAbnormal.DBToXLSColumnIndexAll[i], c.getString(i));	        		
+	        	}
+	        	eliminateAbnormalList.add(eliminateAbnormalColumnMap);
+	        }	
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c != null)
+			{
+				c.close();	
+			}
+			
+			db.close();
+				
+		}
+        
+        return eliminateAbnormalList;  
+	}
+	
+	/**
+	 * 根据消缺状态返回消缺任务
+	 * @param commitStatus 提交状态 0：返回所有的消缺任务	1：返回已消缺消缺任务	2：返回未消缺消缺任务
+	 * @return 相应消缺状态的任务
+	 */
+	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedEliminateStatus(int eliminateStatus)
+	{
+		String SQL = "SELECT ";
+		int allColumnLength = EliminateAbnormal.DBToXLSColumnIndexAll.length;
+		for (int i = 0 ; i < allColumnLength - 1 ; i ++)
+		{
+			SQL += EliminateAbnormal.DBToXLSColumnIndexAll[i] + COMMA_SEP;
+		}
+		SQL += EliminateAbnormal.DBToXLSColumnIndexAll[allColumnLength - 1] +
+				" FROM " + EliminateAbnormal.TABLE_NAME;
+		
+		//增加是否已提交的条件逻辑
+		String eliminateStatusCondition = "";
+		
+		switch (eliminateStatus)
+		{
+			case 0:
+				eliminateStatusCondition = "";
+				break;
+			case 1:
+				eliminateStatusCondition = " where " + EliminateAbnormal.ELIMINATE_RESULT + 
+										" = \"" + SurveyForm.ELIMINATE_RESULT_ELIMINATED + "\"";
+				
+				break;
+			case 2:
+				eliminateStatusCondition = " where " + EliminateAbnormal.ELIMINATE_RESULT + 
+										" = \"" + SurveyForm.ELIMINATE_RESULT_UNELIMINATE + "\"";
+				
+				break;
+			default:
+				eliminateStatusCondition = "";
+				break;
+		}
+		
+		SQL += eliminateStatusCondition;
+		
+		SQLiteDatabase db = getWritableDatabase();
+		ArrayList<HashMap<String, String>> eliminateAbnormalList = new ArrayList<HashMap<String, String>>();
+		Cursor c = null;
+		try
+		{
+			c = db.rawQuery(SQL, null);  
+	        while (c.moveToNext())
+	        {
+	        	HashMap<String, String> eliminateAbnormalColumnMap = new HashMap<String, String>();
+	        	for (int i = 0; i < allColumnLength; i ++)
+	        	{
+	        		eliminateAbnormalColumnMap.put(EliminateAbnormal.DBToXLSColumnIndexAll[i], c.getString(i));	        		
+	        	}
+	        	eliminateAbnormalList.add(eliminateAbnormalColumnMap);
+	        }	
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c != null)
+			{
+				c.close();	
+			}
+			
+			db.close();
+				
+		}
+        
+        return eliminateAbnormalList;  
+	}
+	
+	/**
+	 * 获取某电表的异常消缺信息
+	 * @return 某电表的异常消缺信息
+	 */
+	public HashMap<String, String> getEliminateTaskWithSpecifiedAssetNO(String meterAssetNO)
+	{
+		String SQL = "SELECT ";
+		int allColumnLength = EliminateAbnormal.DBToXLSColumnIndexAll.length;
+		for (int i = 0 ; i < allColumnLength - 1 ; i ++)
+		{
+			SQL += EliminateAbnormal.DBToXLSColumnIndexAll[i] + COMMA_SEP;
+		}
+		SQL += EliminateAbnormal.DBToXLSColumnIndexAll[allColumnLength - 1] +
+				" FROM " + EliminateAbnormal.TABLE_NAME;
+		SQL += " where " + EliminateAbnormal.D_ASSET_NO + " = \"" + meterAssetNO +"\"";
+		
+		SQLiteDatabase db = getWritableDatabase();
+		HashMap<String, String> eliminateAbnormalColumnMap = new HashMap<String, String>();
+		Cursor c = null;
+		try
+		{
+			c = db.rawQuery(SQL, null);  
+	        while (c.moveToNext())
+	        {
+	        	for (int i = 0; i < allColumnLength; i ++)
+	        	{
+	        		eliminateAbnormalColumnMap.put(EliminateAbnormal.DBToXLSColumnIndexAll[i], c.getString(i));	        		
+	        	}
+	        }	
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c != null)
+			{
+				c.close();	
+			}
+			
+			db.close();
+				
+		}
+        
+        return eliminateAbnormalColumnMap;  
 	}
 
 }

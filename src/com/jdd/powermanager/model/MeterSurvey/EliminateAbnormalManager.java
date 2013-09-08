@@ -120,15 +120,96 @@ public class EliminateAbnormalManager extends SurveyDataManager
 			parseDBToXLS();	
 		}		
 	}
-
+	
 	/**
-	 * 保存异常消缺
+	 * 提交一组电表的异常消缺数据
+	 * @param meterAssetNOs 电表资产编号数组
 	 */
-	public void saveEliminateAbnormal()
+	public void commitMeters(String[] meterAssetNOs)
 	{
 		synchronized(instance)
 		{
+			mEliminateAbnormalDBHelper.commitMeters(meterAssetNOs);
+			
+			parseDBToXLS();
+		}
+	}
+
+	/**
+	 * 取消提交一个电表的异常消缺数据
+	 * @param meterAssetNO 电表资产编号
+	 */
+	public void uncommitOneMeter(String meterAssetNO)
+	{
+		synchronized(instance)
+		{
+			mEliminateAbnormalDBHelper.uncommitOneMeter(meterAssetNO);
 			parseDBToXLS();	
+		}	
+	}
+	
+	/**
+	 * 取消提交一组电表的异常消缺数据
+	 * @param meterAssetNO 电表资产编号数组
+	 */
+	public void uncommitMeters(String[] meterAssetNOs)
+	{
+		synchronized(instance)
+		{
+			mEliminateAbnormalDBHelper.uncommitMeters(meterAssetNOs);
+			parseDBToXLS();	
+		}
+	}
+	
+	/**
+	 * 完成本计划
+	 */
+	public void completeThePlan()
+	{
+		synchronized(instance)
+		{
+			mEliminateAbnormalDBHelper.commitAllEliminatedTasks();
+			
+			parseDBToXLS();	
+		}
+	}
+	
+	/**
+	 * 保存异常消缺
+	 * @param meterAssetNO 电表资产编号
+	 */
+	public void saveOneMeter(String meterAssetNO)
+	{
+		synchronized(instance)
+		{
+			mEliminateAbnormalDBHelper.eliminateOneMeter(meterAssetNO);
+			parseDBToXLS();	
+		}
+	}
+	
+	/**
+	 * 取消消缺一个电表的异常消缺数据
+	 * @param meterAssetNO 电表资产编号
+	 */
+	public void uneliminateOneMeter(String meterAssetNO)
+	{
+		synchronized(instance)
+		{
+			mEliminateAbnormalDBHelper.uneliminateOneMeter(meterAssetNO);
+			parseDBToXLS();	
+		}
+	}
+	
+	/**
+	 * 取消消缺一组电表的异常消缺数据
+	 * @param meterAssetNO 电表资产编号数组
+	 */
+	public void uneliminateMeters(String[] meterAssetNOs)
+	{
+		synchronized(instance)
+		{
+			mEliminateAbnormalDBHelper.uneliminateMeters(meterAssetNOs);
+			parseDBToXLS();
 		}
 	}
 	
@@ -165,4 +246,56 @@ public class EliminateAbnormalManager extends SurveyDataManager
 			}
 		}
 	}
+	
+	/**
+	 * 获取所有消缺任务
+	 * @return 所有消缺任务
+	 */
+	public ArrayList<HashMap<String, String>> getAllEliminateTasks()
+	{
+		synchronized(instance)
+		{
+			return mEliminateAbnormalDBHelper.getAllDatas();
+		}
+	}
+	
+	/**
+	 * 根据提交状态返回消缺任务,仅返回已消缺的任务
+	 * @param commitStatus 提交状态 0：返回所有的消缺任务	1：返回已提交消缺任务	2：返回未提交消缺任务
+	 * @return 相应提交状态的任务
+	 */
+	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedCommitStatus(int commitStatus)
+	{
+		synchronized(instance)
+		{
+			return mEliminateAbnormalDBHelper.getEliminateTasksWithSpecifiedCommitStatus(commitStatus);
+		}
+	}
+	
+	/**
+	 * 根据消缺状态返回消缺任务
+	 * @param commitStatus 提交状态 0：返回所有的消缺任务	1：返回已消缺消缺任务	2：返回未消缺消缺任务
+	 * @return 相应消缺状态的任务
+	 */
+	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedEliminateStatus(int eliminateStatus)
+	{
+		synchronized(instance)
+		{
+			return mEliminateAbnormalDBHelper.getEliminateTasksWithSpecifiedEliminateStatus(eliminateStatus);
+		}
+	}
+	
+	/**
+	 * 获取某电表的异常消缺信息
+	 * @return 某电表的异常消缺信息
+	 */
+	public HashMap<String, String> getEliminateTaskWithSpecifiedAssetNO(String meterAssetNO)
+	{
+		synchronized(instance)
+		{
+			return mEliminateAbnormalDBHelper.getEliminateTaskWithSpecifiedAssetNO(meterAssetNO);
+		}
+	}
+	
+	
 }
