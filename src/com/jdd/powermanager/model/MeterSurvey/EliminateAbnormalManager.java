@@ -1,5 +1,6 @@
 package com.jdd.powermanager.model.MeterSurvey;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -85,7 +86,7 @@ public class EliminateAbnormalManager extends SurveyDataManager
 		for (int i = 0; i < allDBRows.size(); i ++)
 		{
 			row = xls.getRow(sheet,i + 1);
-			setRowHashMapToHSSFRow(row, allDBRows.get(i), EliminateAbnormal.DBToXLSColumnIndexAll);
+			setRowHashMapToHSSFRow(row, allDBRows.get(i), EliminateAbnormal.DBToXLSColumnIndexAll, xls);
 		}
 		
 		xls.saveToXlsFile();
@@ -128,6 +129,40 @@ public class EliminateAbnormalManager extends SurveyDataManager
 		synchronized(instance)
 		{
 			parseDBToXLS();	
+		}
+	}
+	
+	/**
+	 * 获取异常消缺电表照片路径
+	 * @param meterAssetNO 电表资产编号（条码）
+	 * @return 照片路径
+	 */
+	public String getMeterAbnormalPhotoPath(String meterAssetNO)
+	{
+		synchronized(instance)
+		{
+			//将相对路径存数据库
+			String relativePath = "./" + meterAssetNO;
+			mEliminateAbnormalDBHelper.updateAColumnValueWithColumnNameAndMeterAssetNO(
+					meterAssetNO, EliminateAbnormal.PHOTO_PATH, relativePath);
+			
+			//拼接绝对路径返回
+			String absolutePath = SD + FOLDER + "/" + meterAssetNO;
+			
+			//生成文件夹
+			try
+			{
+				File dir = new File(absolutePath);
+	            dir.mkdir();
+				
+				return absolutePath;	
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				
+				return null;
+			}
 		}
 	}
 }

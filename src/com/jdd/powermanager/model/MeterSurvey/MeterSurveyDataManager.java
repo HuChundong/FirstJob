@@ -96,7 +96,7 @@ public class MeterSurveyDataManager extends SurveyDataManager
 		for (int i = 0; i < allDBRows.size(); i ++)
 		{
 			row = xls.getRow(sheet,i + 1);
-			setRowHashMapToHSSFRow(row, allDBRows.get(i), MeterSurvey.DBToXLSColumnIndexAll);
+			setRowHashMapToHSSFRow(row, allDBRows.get(i), MeterSurvey.DBToXLSColumnIndexAll, xls);
 		}
 		
 		xls.saveToXlsFile();
