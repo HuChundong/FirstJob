@@ -3,6 +3,7 @@ package com.jdd.powermanager.ui.loginpage;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.action.combing.CombingActions;
+import com.jdd.powermanager.action.elimination.EliminationActions;
 import com.jdd.powermanager.action.survey.SurveyActions;
 import com.jdd.powermanager.basic.BaseActivity;
 import com.jdd.powermanager.ui.mainpage.MainPageActivity;
@@ -106,6 +107,17 @@ public class LoginActivity extends BaseActivity
 		public void onResult(Object o) 
 		{
 			Log.d("", "zhou -- CombingActions -- init sucess !");
+			
+			EliminationActions.init(getApplicationContext(), mInitedLis3);
+		}
+	};
+	
+	private AbsCallback mInitedLis3 = new AbsCallback()
+	{
+		@Override
+		public void onResult(Object o) 
+		{
+			Log.d("", "zhou -- Elimination -- init sucess !");
 			
 			goHome();
 		}
