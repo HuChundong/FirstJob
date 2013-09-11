@@ -6,7 +6,9 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.Cell;
 
+import com.jdd.common.utils.Excel.XLS;
 import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
+import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -99,7 +101,7 @@ public class SurveyDataManager
 	 * @param columnDefine 数据库列定义数组
 	 */
 	protected void setRowHashMapToHSSFRow(HSSFRow row, HashMap<String, String> meterRowMap,
-												String[] columnDefine)
+												String[] columnDefine, XLS xls)
 	{
 		HSSFCell cell = null;
 		for (int i = 0; i < columnDefine.length; i ++)
@@ -113,10 +115,17 @@ public class SurveyDataManager
 			String value = meterRowMap.get(columnDefine[i]);
 			if ( value != null)
 			{
-				//均以字符串方式写入数据，防止出现科学计数法
-				cell.setCellType(Cell.CELL_TYPE_STRING);
-				
-				cell.setCellValue(value);
+				if (EliminateAbnormal.PHOTO_PATH.equals(columnDefine[i]))
+				{
+					xls.setCellHLinkPath(cell, value);
+				}
+				else
+				{
+					//均以字符串方式写入数据，防止出现科学计数法
+					cell.setCellType(Cell.CELL_TYPE_STRING);
+					
+					cell.setCellValue(value);	
+				}
 			}
 			else
 			{

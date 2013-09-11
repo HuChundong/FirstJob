@@ -38,6 +38,8 @@ public class EliminateAbnormalForm extends SurveyForm
 		
 		public static final String ELIMINATE_METHOD = "ELIMINATE_METHOD";
 		
+		public static final String PHOTO_PATH = "PHOTO_PATH";
+		
 		public static String[] DBToXLSColumnIndexAll = 
 			{
 				 CONS_NO,	
@@ -54,6 +56,7 @@ public class EliminateAbnormalForm extends SurveyForm
 				 ABNORMAL_PHENOMENON,	
 				 ELIMINATE_RESULT,	
 				 ELIMINATE_METHOD,
+				 PHOTO_PATH,
 				 COMMIT_STATUS
 			};
 	}

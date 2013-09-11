@@ -6,9 +6,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFHyperlink;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Hyperlink;
 
 import android.util.Log;
 
@@ -295,5 +300,41 @@ public class XLS {
         }
         
         return row;
+    }
+    
+    /**
+     * 获取Excel超链接的样式
+     * @return 样式
+     */
+    public HSSFCellStyle getHLinkStyle()
+    {
+		HSSFCellStyle hlinkStyle = mWb.createCellStyle();
+        HSSFFont hlink_font = mWb.createFont();
+        hlink_font.setUnderline(HSSFFont.U_SINGLE);
+        hlink_font.setColor(HSSFColor.BLUE.index);
+        hlinkStyle.setFont(hlink_font);
+        
+        return hlinkStyle;
+    }
+    
+    /**
+     * 设置单元格的超链接路径
+     * @param cell 单元格对象
+     * @param path 路径
+     */
+    public void setCellHLinkPath(HSSFCell cell, String path)
+    {
+    	if (null == cell || null == path)
+    	{
+    		return;
+    	}
+    	
+    	HSSFCellStyle hlinkStyle = getHLinkStyle();    	
+    	cell.setCellStyle(hlinkStyle);
+    	cell.setCellValue(path);
+    	
+    	HSSFHyperlink hyperlink = new HSSFHyperlink(HSSFHyperlink.LINK_FILE);
+    	hyperlink.setAddress(path);
+		cell.setHyperlink(hyperlink);
     }
 }
