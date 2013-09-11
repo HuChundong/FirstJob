@@ -3,7 +3,9 @@ package com.jdd.powermanager.model.MeterSurvey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
+import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -245,12 +247,14 @@ public class EliminateAbnormalDBHelper extends SQLiteOpenHelper
 	
 	/**
 	 * 提交所有已消缺的任务
+	 * @param districtId 台区id
 	 */
-	public void commitAllEliminatedTasks()
+	public void commitAllEliminatedTasks(String districtId)
 	{
 		String SQL = "update " + EliminateAbnormal.TABLE_NAME + " set ";
 		SQL += SurveyForm.COMMIT_STATUS + " = \"" + SurveyForm.COMMIT_STATUS_COMMITED + "\"";
 		SQL += " where " + EliminateAbnormal.ELIMINATE_RESULT + " = \"" + SurveyForm.ELIMINATE_RESULT_ELIMINATED +"\"";
+		SQL += " and " + EliminateAbnormal.DISTRICT_ID + " = \"" + districtId +"\"";
 		
 		executeNoDataSetSQL(SQL);
 	}
@@ -296,10 +300,11 @@ public class EliminateAbnormalDBHelper extends SQLiteOpenHelper
 	
 	/**
 	 * 根据提交状态返回消缺任务,仅返回已消缺的任务
+	 * @param districtID 台区id
 	 * @param commitStatus 提交状态 0：返回所有的消缺任务	1：返回已提交消缺任务	2：返回未提交消缺任务
 	 * @return 相应提交状态的任务
 	 */
-	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedCommitStatus(int commitStatus)
+	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedCommitStatus(String districtID, int commitStatus)
 	{
 		String SQL = "SELECT ";
 		int allColumnLength = EliminateAbnormal.DBToXLSColumnIndexAll.length;
@@ -309,7 +314,8 @@ public class EliminateAbnormalDBHelper extends SQLiteOpenHelper
 		}
 		SQL += EliminateAbnormal.DBToXLSColumnIndexAll[allColumnLength - 1] +
 				" FROM " + EliminateAbnormal.TABLE_NAME +
-				" and " + EliminateAbnormal.ELIMINATE_RESULT + " = \"" + SurveyForm.ELIMINATE_RESULT_ELIMINATED + "\"";
+				" where " + EliminateAbnormal.DISTRICT_ID + " = \"" + districtID +"\""
+				+ " and " + EliminateAbnormal.ELIMINATE_RESULT + " = \"" + SurveyForm.ELIMINATE_RESULT_ELIMINATED + "\"";
 		
 		//增加是否已提交的条件逻辑
 		String commitStatusCondition = "";
@@ -372,10 +378,11 @@ public class EliminateAbnormalDBHelper extends SQLiteOpenHelper
 	
 	/**
 	 * 根据消缺状态返回消缺任务
+	 * @param districtID 台区id
 	 * @param commitStatus 提交状态 0：返回所有的消缺任务	1：返回已消缺消缺任务	2：返回未消缺消缺任务
 	 * @return 相应消缺状态的任务
 	 */
-	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedEliminateStatus(int eliminateStatus)
+	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedEliminateStatus(String districtID, int eliminateStatus)
 	{
 		String SQL = "SELECT ";
 		int allColumnLength = EliminateAbnormal.DBToXLSColumnIndexAll.length;
@@ -384,7 +391,8 @@ public class EliminateAbnormalDBHelper extends SQLiteOpenHelper
 			SQL += EliminateAbnormal.DBToXLSColumnIndexAll[i] + COMMA_SEP;
 		}
 		SQL += EliminateAbnormal.DBToXLSColumnIndexAll[allColumnLength - 1] +
-				" FROM " + EliminateAbnormal.TABLE_NAME;
+				" FROM " + EliminateAbnormal.TABLE_NAME
+				+ " where " + EliminateAbnormal.DISTRICT_ID + " = \"" + districtID +"\"";
 		
 		//增加是否已提交的条件逻辑
 		String eliminateStatusCondition = "";

@@ -163,12 +163,13 @@ public class EliminateAbnormalManager extends SurveyDataManager
 	
 	/**
 	 * 完成本计划
+	 * @param districtID 台区id
 	 */
-	public void completeThePlan()
+	public void completeThePlan(String districtID)
 	{
 		synchronized(instance)
 		{
-			mEliminateAbnormalDBHelper.commitAllEliminatedTasks();
+			mEliminateAbnormalDBHelper.commitAllEliminatedTasks(districtID);
 			
 			parseDBToXLS();	
 		}
@@ -261,27 +262,29 @@ public class EliminateAbnormalManager extends SurveyDataManager
 	
 	/**
 	 * 根据提交状态返回消缺任务,仅返回已消缺的任务
+	 * @param districtID 台区id
 	 * @param commitStatus 提交状态 0：返回所有的消缺任务	1：返回已提交消缺任务	2：返回未提交消缺任务
 	 * @return 相应提交状态的任务
 	 */
-	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedCommitStatus(int commitStatus)
+	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedCommitStatus(String districtID, int commitStatus)
 	{
 		synchronized(instance)
 		{
-			return mEliminateAbnormalDBHelper.getEliminateTasksWithSpecifiedCommitStatus(commitStatus);
+			return mEliminateAbnormalDBHelper.getEliminateTasksWithSpecifiedCommitStatus(districtID, commitStatus);
 		}
 	}
 	
 	/**
 	 * 根据消缺状态返回消缺任务
+	 * @param districtID 台区id
 	 * @param commitStatus 提交状态 0：返回所有的消缺任务	1：返回已消缺消缺任务	2：返回未消缺消缺任务
 	 * @return 相应消缺状态的任务
 	 */
-	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedEliminateStatus(int eliminateStatus)
+	public ArrayList<HashMap<String, String>> getEliminateTasksWithSpecifiedEliminateStatus(String districtID, int eliminateStatus)
 	{
 		synchronized(instance)
 		{
-			return mEliminateAbnormalDBHelper.getEliminateTasksWithSpecifiedEliminateStatus(eliminateStatus);
+			return mEliminateAbnormalDBHelper.getEliminateTasksWithSpecifiedEliminateStatus(districtID, eliminateStatus);
 		}
 	}
 	
