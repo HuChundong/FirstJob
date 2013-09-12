@@ -2,9 +2,11 @@ package com.jdd.powermanager.ui.abnormalelimination.submitpage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
+import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.elimination.EliminationActions;
+import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,11 +18,11 @@ import android.widget.TextView;
 
 public class SubmitDataAdapter extends BaseAdapter 
 {
-	private List<HashMap<String, String>> mData;
+	private ArrayList<HashMap<String, String>> mData;
 	
 	private Context mContext;
 	
-	private List<HashMap<String, String>> mSelectedSet;
+	private ArrayList<HashMap<String, String>> mSelectedSet;
 	
 	private String mDistrictId;
 	
@@ -41,49 +43,47 @@ public class SubmitDataAdapter extends BaseAdapter
 		
 		ToastHelper.showToastShort(mContext, waitTip);
 		
-		// TODO
+		ArrayList<String> idList = new ArrayList<String>();
 		
-//		List<String> idList = new ArrayList<String>();
-//		
-//		HashMap<String, String> temp;
-//		
-//		String code ;
-//		
-//		while(mSelectedSet.size() > 0)
-//		{
-//			temp = mSelectedSet.remove(0);
-//			
-//			mData.remove(temp);
-//			
-//			if( null != temp )
-//			{
-//				code = temp.get(BoxSurvey.ASSET_NO);
-//				
-//				if( null != code && !code.equals("") )
-//				{
-//					idList.add(code);
-//				}
-//			}
-//		}
-//		
-//		String[] del = new String[idList.size()];
-//		
-//		idList.toArray(del);
-//		
-//		CombingActions.deleteCommitedBox(new AbsCallback() 
-//		{
-//			@Override
-//			public void onResult(Object o) 
-//			{
-//				FullScreenWaitBar.hide();
-//				
-//				String sTip = String.format(mContext.getString(R.string.del_success_tip_meter), ""+size);
-//				
-//				ToastHelper.showToastShort(mContext, sTip);
-//				
-//				notifyDataSetChanged();
-//			}
-//		}, del);
+		HashMap<String, String> temp;
+		
+		String code ;
+		
+		while(mSelectedSet.size() > 0)
+		{
+			temp = mSelectedSet.remove(0);
+			
+			mData.remove(temp);
+			
+			if( null != temp )
+			{
+				code = temp.get(EliminateAbnormal.D_ASSET_NO);
+				
+				if( null != code && !code.equals("") )
+				{
+					idList.add(code);
+				}
+			}
+		}
+		
+		String[] del = new String[idList.size()];
+		
+		idList.toArray(del);
+		
+		EliminationActions.uncommitMeters(del,new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o) 
+			{
+				FullScreenWaitBar.hide();
+				
+				String sTip = String.format(mContext.getString(R.string.del_success_tip_meter), ""+size);
+				
+				ToastHelper.showToastShort(mContext, sTip);
+				
+				notifyDataSetChanged();
+			}
+		});
 	}
 	
 	public SubmitDataAdapter(Context context,String id)
@@ -95,7 +95,7 @@ public class SubmitDataAdapter extends BaseAdapter
 		mSelectedSet = new ArrayList<HashMap<String, String>>();
 	}
 	
-	public void setData(List<HashMap<String, String>> data)
+	public void setData(ArrayList<HashMap<String, String>> data)
 	{
 		mData = data;
 		
@@ -176,28 +176,33 @@ public class SubmitDataAdapter extends BaseAdapter
 		
 		if( null != data )
 		{
-			// TODO
-//			h.order.setText(data.get(BoxSurvey.NO));
-//			
-//			h.systemId.setText(data.get(BoxSurvey.SYSTEM_ID));
-//			
-//			h.address.setText(data.get(BoxSurvey.INST_LOC));
-//			
-//			h.lo.setText(data.get(BoxSurvey.LONGITUDE));
-//			
-//			h.la.setText(data.get(BoxSurvey.LATITUDE));
-//			
-//			h.rows.setText(data.get(BoxSurvey.BOX_ROWS));
-//			
-//			h.columns.setText(data.get(BoxSurvey.BOX_COLS));
-//			
-//			h.meterCount.setText(data.get(BoxSurvey.METER_NUM));
-//			
-//			h.disTag.setText(mDristritLogo);
-//			
-//			h.disId.setText(mDistrictId);
-//			
-//			h.barCode.setText(data.get(BoxSurvey.ASSET_NO));
+			h.userNo.setText(data.get(EliminateAbnormal.CONS_NO));
+			
+			h.mesureNo.setText(data.get(EliminateAbnormal.MP_NO));
+			
+			h.meterBarcode.setText(data.get(EliminateAbnormal.D_ASSET_NO));
+			
+			h.userName.setText(data.get(EliminateAbnormal.USER_NAME));
+			
+			h.address.setText(data.get(EliminateAbnormal.USER_ADDRESS));
+			
+			h.lo.setText(data.get(EliminateAbnormal.LONGITUDE));
+			
+			h.la.setText(data.get(EliminateAbnormal.LATITUDE));
+			
+			h.rows.setText(data.get(EliminateAbnormal.IN_ROW));
+			
+			h.columns.setText(data.get(EliminateAbnormal.IN_COLUMN));
+			
+			h.disId.setText(mDistrictId);
+			
+			h.barCode.setText(data.get(EliminateAbnormal.BAR_CODE));
+			
+			h.phenomenon.setText(data.get(EliminateAbnormal.ABNORMAL_PHENOMENON));
+			
+			h.result.setText(data.get(EliminateAbnormal.ELIMINATE_RESULT));
+			
+			h.method.setText(data.get(EliminateAbnormal.ELIMINATE_METHOD));
 		}
 		
 		view.setOnClickListener(new OnClickListener() 

@@ -1,8 +1,11 @@
 package com.jdd.powermanager.ui.abnormalelimination.unsubmitpage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import com.jdd.powermanager.R;
-import com.jdd.powermanager.ui.boxcombing.newbox.NewBoxActivity;
-import android.content.Intent;
+import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.elimination.EliminationActions;
+import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,8 +24,6 @@ public class UnSubmitFragment extends Fragment
 	
 	private String mDisId;
 	
-	private TextView mAddNew;
-	
 	private TextView mSubmit;
 	
 	private TextView mDel;
@@ -38,22 +39,21 @@ public class UnSubmitFragment extends Fragment
 		
 		mAdapter = new UnSubmitDataAdapter(getActivity(),mDisId);
 		
-		// TODO
-//		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
-//		
-//		CombingActions.getAllSurveyedBoxesInDistrict(new AbsCallback() 
-//		{
-//			@Override
-//			public void onResult(Object o)
-//			{
-//				FullScreenWaitBar.hide();
-//				
-//				@SuppressWarnings("unchecked")
-//				List<HashMap<String, String>> list = null == o ? null : (List<HashMap<String, String>>)o;
-//				
-//				mAdapter.setData(list);
-//			}
-//		}, mDisId, 2);
+		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
+		
+		EliminationActions.getEliminateTasksWithSpecifiedCommitStatus(2, new AbsCallback() 
+		{
+			@Override
+			protected void onResult(Object o)
+			{
+				FullScreenWaitBar.hide();
+				
+				@SuppressWarnings("unchecked")
+				ArrayList<HashMap<String, String>> list = null == o ? null : (ArrayList<HashMap<String, String>>)o;
+				
+				mAdapter.setData(list);
+			}
+		});
 	}
 	
 	@Override
@@ -64,15 +64,11 @@ public class UnSubmitFragment extends Fragment
 		
 		mListView = (ListView) v.findViewById(R.id.list_view);
 		
-		mAddNew = (TextView) v.findViewById(R.id.add_new);
-		
 		mSubmit = (TextView) v.findViewById(R.id.submit);
 		
 		mDel = (TextView) v.findViewById(R.id.del);
 		
 		mBack = (TextView) v.findViewById(R.id.back_btn);
-		
-		mAddNew.setOnClickListener(mOnClickLis);
 		
 		mSubmit.setOnClickListener(mOnClickLis);
 		
@@ -83,17 +79,6 @@ public class UnSubmitFragment extends Fragment
 		mListView.setAdapter(mAdapter);
 		
 		return v;
-	}
-	
-	private void addNew()
-	{
-		Intent i = new Intent();
-		
-		i.setClass(getActivity(), NewBoxActivity.class);// TODO
-		
-		i.putExtra("DistrictId", mDisId);
-		
-		startActivity(i);
 	}
 	
 	private void submit()
@@ -118,12 +103,6 @@ public class UnSubmitFragment extends Fragment
 		{
 			switch(v.getId())
 			{
-				case R.id.add_new:
-					
-					addNew();
-					
-					break;
-					
 				case R.id.submit:
 					
 					submit();

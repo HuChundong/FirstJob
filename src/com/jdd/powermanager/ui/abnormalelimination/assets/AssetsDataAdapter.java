@@ -3,8 +3,9 @@ package com.jdd.powermanager.ui.abnormalelimination.assets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import com.jdd.powermanager.R;
+import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
+import com.jdd.powermanager.model.MeterSurvey.SurveyForm;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +24,13 @@ public class AssetsDataAdapter  extends BaseAdapter
 	
 	private Context mContext;
 	
-	private List<HashMap<String,String>> mCurList;
+	private ArrayList<HashMap<String,String>> mCurList;
 	
-	private List<HashMap<String,String>> mFullList;
+	private ArrayList<HashMap<String,String>> mFullList;
 	
-	private List<HashMap<String,String>> mTreatedList = new ArrayList<HashMap<String,String>>();
+	private ArrayList<HashMap<String,String>> mTreatedList = new ArrayList<HashMap<String,String>>();
 	
-	private List<HashMap<String,String>> munTreatedList= new ArrayList<HashMap<String,String>>();
+	private ArrayList<HashMap<String,String>> munTreatedList= new ArrayList<HashMap<String,String>>();
 	
 	/**
 	 * 1 已处理  2 未处理 0 all  
@@ -95,7 +96,7 @@ public class AssetsDataAdapter  extends BaseAdapter
 		notifyDataSetChanged();
 	}
 	
-	public void setData(List<HashMap<String, String>> data)
+	public void setData(ArrayList<HashMap<String, String>> data)
 	{
 		mFullList = data;
 		
@@ -115,27 +116,23 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		HashMap<String, String> m = null;
 		
-		// TODO
+		String survey = SurveyForm.ELIMINATE_RESULT_ELIMINATED;
 		
-//		String survey = SurveyForm.SURVEY_STATUS_SURVEYED;
-//		
-//		String stateNew = SurveyForm.SURVEY_RELATION_NEW;
-//		
-//		for( int i = 0; i < mFullList.size() ; i++ )
-//		{
-//			m = mFullList.get(i);
-//			
-//			if( survey.equals(m.get(SurveyForm.SURVEY_STATUS)) )
-//			{
-//				mTreatedList.add(m);
-//			}
-//			else
-//			{
-//				munTreatedList.add(m);
-//			}
-//		}
-//		
-//		switchData(mState);
+		for( int i = 0; i < mFullList.size() ; i++ )
+		{
+			m = mFullList.get(i);
+			
+			if( survey.equals(m.get(EliminateAbnormal.ELIMINATE_RESULT)) )
+			{
+				mTreatedList.add(m);
+			}
+			else
+			{
+				munTreatedList.add(m);
+			}
+		}
+		
+		switchData(mState);
 	}
 	
 	@Override
@@ -207,21 +204,33 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		if( null != data )
 		{
-			// TODO
-//			h.order.setText("          "); // 目前为空
-//			h.boxNo.setText(data.get(MeterSurvey.ASSET_NO));
-//			h.userNO.setText(data.get(MeterSurvey.CONS_NO));
-//			h.state.setText(data.get(SurveyForm.SURVEY_STATUS));
-//			h.measureNO.setText(data.get(MeterSurvey.MP_NO));
-//			h.assetNO.setText(data.get(MeterSurvey.D_ASSET_NO));
-//			h.rowNO.setText(data.get(MeterSurvey.IN_ROW));
-//			h.columnNO.setText(data.get(MeterSurvey.IN_COLUMN));
-//			h.userName.setText(data.get(MeterSurvey.USER_NAME));
-//			h.address.setText(data.get(MeterSurvey.USER_ADDRESS));
-//			h.setAddress.setText(data.get(MeterSurvey.INST_LOC));
-//			h.dristrictId.setText(mDristritId);
-//			h.userCategory.setText(data.get(MeterSurvey.USER_TYPE));
-//			h.wiring.setText(data.get(MeterSurvey.WIRING_METHOD));
+			h.userNo.setText(data.get(EliminateAbnormal.CONS_NO));
+			
+			h.mesureNo.setText(data.get(EliminateAbnormal.MP_NO));
+			
+			h.meterBarcode.setText(data.get(EliminateAbnormal.D_ASSET_NO));
+			
+			h.userName.setText(data.get(EliminateAbnormal.USER_NAME));
+			
+			h.address.setText(data.get(EliminateAbnormal.USER_ADDRESS));
+			
+			h.lo.setText(data.get(EliminateAbnormal.LONGITUDE));
+			
+			h.la.setText(data.get(EliminateAbnormal.LATITUDE));
+			
+			h.rows.setText(data.get(EliminateAbnormal.IN_ROW));
+			
+			h.columns.setText(data.get(EliminateAbnormal.IN_COLUMN));
+			
+			h.disId.setText(mDristritId);
+			
+			h.barCode.setText(data.get(EliminateAbnormal.BAR_CODE));
+			
+			h.phenomenon.setText(data.get(EliminateAbnormal.ABNORMAL_PHENOMENON));
+			
+			h.result.setText(data.get(EliminateAbnormal.ELIMINATE_RESULT));
+			
+			h.method.setText(data.get(EliminateAbnormal.ELIMINATE_METHOD));
 		}
 		
 		final String code = (String) h.meterBarcode.getText();

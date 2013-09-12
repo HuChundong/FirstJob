@@ -20,4 +20,110 @@ public class EliminationActions
 			}
 		}.start();
 	}
+	
+	public static void getEliminateTasksWithSpecifiedCommitStatus(final int commitStatus,AbsCallback cb)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				return EliminateAbnormalManager.getInstance().getEliminateTasksWithSpecifiedCommitStatus(commitStatus);
+			}
+		}.start();
+	}
+	
+	public static void commitMeters(final String[] meterAssetNOs,AbsCallback cb)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				EliminateAbnormalManager.getInstance().commitMeters(meterAssetNOs);
+				
+				return null;
+			}
+		}.start();
+	}
+	
+	public static void uneliminateMeters(final String[] meterAssetNOs,AbsCallback cb)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				EliminateAbnormalManager.getInstance().uneliminateMeters(meterAssetNOs);
+				
+				return null;
+			}
+		}.start();
+	}
+	
+	public static void uncommitMeters(final String[] meterAssetNOs,AbsCallback cb)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				EliminateAbnormalManager.getInstance().uncommitMeters(meterAssetNOs);
+				
+				return null;
+			}
+		}.start();
+	}
+	
+	public static void getAllEliminateTasks(AbsCallback cb)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				return EliminateAbnormalManager.getInstance().getAllEliminateTasks();
+			}
+		}.start();
+	}
+	
+	public static void completeThePlan(AbsCallback cb)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				EliminateAbnormalManager.getInstance().completeThePlan();
+				
+				return null;
+			}
+		}.start();
+	}
+	
+	public static void getAllDistrict(AbsCallback cb)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				// TODO
+				
+				return null;
+			}
+		}.start();
+	}
+	
+	public static void getEliminateTaskWithSpecifiedAssetNO(final String no,AbsCallback cb)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				return EliminateAbnormalManager.getInstance().getEliminateTaskWithSpecifiedAssetNO(no);
+			}
+		}.start();
+	}
 }

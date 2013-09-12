@@ -1,5 +1,6 @@
 package com.jdd.powermanager.ui.abnormalelimination;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,9 +8,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import com.jdd.common.utils.barcode.BarCodeHelper;
+import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.basic.BaseFragmentActivity;
 import com.jdd.powermanager.ui.abnormalelimination.assets.AssetsDetailFragment;
+import com.jdd.powermanager.ui.abnormalelimination.elimination.EliminateActivity;
 import com.jdd.powermanager.ui.abnormalelimination.submitpage.SubmitFragment;
 import com.jdd.powermanager.ui.abnormalelimination.unsubmitpage.UnSubmitFragment;
 
@@ -37,6 +41,8 @@ public class EliminationActivity extends BaseFragmentActivity
 		mDistrictId = (String) getIntent().getCharSequenceExtra("DistrictId");
 		
 		initViews();
+		
+		BarCodeHelper.addListener(mBarCodeLis);
 	}
 	
 	private void initViews()
@@ -84,6 +90,30 @@ public class EliminationActivity extends BaseFragmentActivity
 				break;
 		}
 	}
+	
+	private OnBarCodeScanedListener mBarCodeLis = new OnBarCodeScanedListener() 
+	{
+		@Override
+		public void onScaned(final String code) 
+		{
+			Intent i = new Intent();
+				
+			i.setClass(EliminationActivity.this, EliminateActivity.class);
+				
+			i.putExtra("code", code);
+				
+			startActivity(i);
+		}
+	};
+	
+	@Override
+	public void finish() 
+	{
+		super.finish();
+		
+		BarCodeHelper.clearListener();
+	}
+
 	
 	private OnClickListener mOnClickLis = new OnClickListener()
 	{

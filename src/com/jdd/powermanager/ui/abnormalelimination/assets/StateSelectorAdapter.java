@@ -26,19 +26,14 @@ public class StateSelectorAdapter implements SpinnerAdapter
 		mContext = context;
 	}
 	
-	public static boolean isSurveyState(int i)
+	public static boolean isTreatedState(int i)
 	{
 		return i == 1;
 	}
 	
-	public static boolean isUnSurveyState(int i)
+	public static boolean isUnTreatedState(int i)
 	{
 		return i == 2;
-	}
-	
-	public static boolean isNewState(int i)
-	{
-		return i == 3;
 	}
 	
 	@Override

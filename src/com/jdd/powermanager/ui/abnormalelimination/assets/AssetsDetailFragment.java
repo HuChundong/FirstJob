@@ -1,7 +1,11 @@
 package com.jdd.powermanager.ui.abnormalelimination.assets;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
+import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.elimination.EliminationActions;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,35 +42,34 @@ public class AssetsDetailFragment extends Fragment
 		
 		mAdapter = new AssetsDataAdapter(getActivity() , mDistrictId);
 		
-		//TODO
-//		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
-//		
-//		SurveyActions.getAllMetersInDistrict(new AbsCallback() 
-//		{
-//			@Override
-//			public void onResult(Object o) 
-//			{
-//				FullScreenWaitBar.hide();
-//				
-//				@SuppressWarnings("unchecked")
-//				List<HashMap<String, String>> list = null == o ? null : (List<HashMap<String, String>>)o;
-//				
-//				mAdapter.setData(list);
-//				
-//				SurveyStateSelectorAdapter sa = new SurveyStateSelectorAdapter(getActivity());
-//				
-//				String[] menus = 
-//				{
-//					getString(R.string.all) + "( " +  mAdapter.getAllCount() +" )" ,
-//					getString(R.string.state_treated) + "( " +  mAdapter.getSurveyCount() +" )" ,
-//					getString(R.string.state_untreated) + "( " +  mAdapter.getUnSurveyCount() +" )" ,
-//				};
-//				
-//				sa.setItems(menus);
-//				
-//				mSpinner.setAdapter(sa);
-//			}
-//		}, mDistrictId);
+		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
+		
+		EliminationActions.getAllEliminateTasks(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o) 
+			{
+				FullScreenWaitBar.hide();
+				
+				@SuppressWarnings("unchecked")
+				ArrayList<HashMap<String, String>> list = null == o ? null : (ArrayList<HashMap<String, String>>)o;
+				
+				mAdapter.setData(list);
+				
+				StateSelectorAdapter sa = new StateSelectorAdapter(getActivity());
+				
+				String[] menus = 
+				{
+					getString(R.string.all) + "( " +  mAdapter.getAllCount() +" )" ,
+					getString(R.string.state_treated) + "( " +  mAdapter.getTreatedCount() +" )" ,
+					getString(R.string.state_untreated) + "( " +  mAdapter.getUnTreatedCount() +" )" ,
+				};
+				
+				sa.setItems(menus);
+				
+				mSpinner.setAdapter(sa);
+			}
+		});
 	}
 	
 	@Override
@@ -113,20 +116,18 @@ public class AssetsDetailFragment extends Fragment
 		
 		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		
-		// TODO
-		
-//		SurveyActions.commitAllUncommitedBoxMeterSurveyInDistrict(new AbsCallback() 
-//		{
-//			@Override
-//			public void onResult(Object o) 
-//			{
-//				FullScreenWaitBar.hide();
-//				
-//				ToastHelper.showToastShort(getActivity(), getActivity().getString(R.string.complete_sucess));
-//				
-//				back();
-//			}
-//		}, mDistrictId);
+		EliminationActions.completeThePlan(new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o) 
+			{
+				FullScreenWaitBar.hide();
+				
+				ToastHelper.showToastShort(getActivity(), getActivity().getString(R.string.complete_sucess));
+				
+				back();
+			}
+		});
 	}
 	
 	private void back()
@@ -166,23 +167,18 @@ public class AssetsDetailFragment extends Fragment
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int pos,
 				long arg3) 
 		{
-			// TODO
-//			if( SurveyStateSelectorAdapter.isSurveyState(pos) )
-//			{
-//				mAdapter.switchData(AssetsDataAdapter.SURVEY);
-//			}
-//			else if( SurveyStateSelectorAdapter.isUnSurveyState(pos) )
-//			{
-//				mAdapter.switchData(AssetsDataAdapter.UN_SURVEY);
-//			}
-//			else if( SurveyStateSelectorAdapter.isNewState(pos) )
-//			{
-//				mAdapter.switchData(AssetsDataAdapter.NEW);
-//			}
-//			else
-//			{
-//				mAdapter.switchData(AssetsDataAdapter.ALL);
-//			}
+			if( StateSelectorAdapter.isTreatedState(pos) )
+			{
+				mAdapter.switchData(AssetsDataAdapter.TREATED);
+			}
+			else if( StateSelectorAdapter.isUnTreatedState(pos) )
+			{
+				mAdapter.switchData(AssetsDataAdapter.UN_TREATED);
+			}
+			else
+			{
+				mAdapter.switchData(AssetsDataAdapter.ALL);
+			}
 		}
 
 		@Override

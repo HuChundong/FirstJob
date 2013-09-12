@@ -1,10 +1,10 @@
 package com.jdd.powermanager.ui.abnormalelimination.submitpage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
-import com.jdd.powermanager.action.combing.CombingActions;
+import com.jdd.powermanager.action.elimination.EliminationActions;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,22 +37,21 @@ public class SubmitFragment extends Fragment
 		
 		mAdapter = new SubmitDataAdapter(getActivity(),mDisId);
 		
-		// TODO
-//		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
-//		
-//		CombingActions.getAllSurveyedBoxesInDistrict(new AbsCallback() 
-//		{
-//			@Override
-//			public void onResult(Object o)
-//			{
-//				FullScreenWaitBar.hide();
-//				
-//				@SuppressWarnings("unchecked")
-//				List<HashMap<String, String>> list = null == o ? null : (List<HashMap<String, String>>)o;
-//				
-//				mAdapter.setData(list);
-//			}
-//		}, mDisId, 1);
+		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
+		
+		EliminationActions.getEliminateTasksWithSpecifiedCommitStatus(1,new AbsCallback() 
+		{
+			@Override
+			public void onResult(Object o)
+			{
+				FullScreenWaitBar.hide();
+				
+				@SuppressWarnings("unchecked")
+				ArrayList<HashMap<String, String>> list = null == o ? null : (ArrayList<HashMap<String, String>>)o;
+				
+				mAdapter.setData(list);
+			}
+		});
 	}
 	
 	@Override
