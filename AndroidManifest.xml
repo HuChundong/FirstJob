@@ -38,6 +38,9 @@
         <activity android:name="com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage.NewSurveyActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.boxcombing.CombingActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.boxcombing.newbox.NewBoxActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.abnormalelimination.EliminationActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.jdd.powermanager.ui.abnormalelimination.eliminate.EliminateActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.abnormalelimination.viewimage.ViewImageActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

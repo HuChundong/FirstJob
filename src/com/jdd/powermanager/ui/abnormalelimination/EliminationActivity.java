@@ -13,7 +13,7 @@ import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.basic.BaseFragmentActivity;
 import com.jdd.powermanager.ui.abnormalelimination.assets.AssetsDetailFragment;
-import com.jdd.powermanager.ui.abnormalelimination.elimination.EliminateActivity;
+import com.jdd.powermanager.ui.abnormalelimination.eliminate.EliminateActivity;
 import com.jdd.powermanager.ui.abnormalelimination.submitpage.SubmitFragment;
 import com.jdd.powermanager.ui.abnormalelimination.unsubmitpage.UnSubmitFragment;
 
@@ -41,8 +41,6 @@ public class EliminationActivity extends BaseFragmentActivity
 		mDistrictId = (String) getIntent().getCharSequenceExtra("DistrictId");
 		
 		initViews();
-		
-		BarCodeHelper.addListener(mBarCodeLis);
 	}
 	
 	private void initViews()
@@ -89,12 +87,14 @@ public class EliminationActivity extends BaseFragmentActivity
 				
 				break;
 		}
+		
+		BarCodeHelper.addListener(mBarCodeLis);
 	}
 	
 	private OnBarCodeScanedListener mBarCodeLis = new OnBarCodeScanedListener() 
 	{
 		@Override
-		public void onScaned(final String code) 
+		public void onScaned(String code) 
 		{
 			Intent i = new Intent();
 				

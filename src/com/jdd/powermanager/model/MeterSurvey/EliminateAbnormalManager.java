@@ -10,6 +10,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import android.content.ContentValues;
 
 import com.jdd.common.utils.Excel.XLS;
+import com.jdd.powermanager.bean.District;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
 
 public class EliminateAbnormalManager extends SurveyDataManager 
@@ -90,6 +91,18 @@ public class EliminateAbnormalManager extends SurveyDataManager
 		}
 		
 		xls.saveToXlsFile();
+	}
+	
+	/**
+	 * 获取任务内所有台区对象
+	 * @return 获取任务内所有台区对象
+	 */
+	public ArrayList<District> getAllDistrict()
+	{
+		synchronized(instance)
+		{
+			return mEliminateAbnormalDBHelper.getAllDistrict();
+		}
 	}
 	
 	/**

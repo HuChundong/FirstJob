@@ -41,7 +41,7 @@ public class UnSubmitFragment extends Fragment
 		
 		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		
-		EliminationActions.getEliminateTasksWithSpecifiedCommitStatus(2, new AbsCallback() 
+		EliminationActions.getEliminateTasksWithSpecifiedCommitStatus(mDisId,2, new AbsCallback() 
 		{
 			@Override
 			protected void onResult(Object o)

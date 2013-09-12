@@ -44,7 +44,7 @@ public class AssetsDetailFragment extends Fragment
 		
 		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		
-		EliminationActions.getAllEliminateTasks(new AbsCallback() 
+		EliminationActions.getEliminateTasksWithSpecifiedEliminateStatus(mDistrictId,0,new AbsCallback() 
 		{
 			@Override
 			public void onResult(Object o) 
@@ -116,7 +116,7 @@ public class AssetsDetailFragment extends Fragment
 		
 		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		
-		EliminationActions.completeThePlan(new AbsCallback() 
+		EliminationActions.completeThePlan(mDistrictId,new AbsCallback() 
 		{
 			@Override
 			public void onResult(Object o) 

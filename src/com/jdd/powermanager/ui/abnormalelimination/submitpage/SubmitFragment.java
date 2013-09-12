@@ -39,7 +39,7 @@ public class SubmitFragment extends Fragment
 		
 		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
 		
-		EliminationActions.getEliminateTasksWithSpecifiedCommitStatus(1,new AbsCallback() 
+		EliminationActions.getEliminateTasksWithSpecifiedCommitStatus(mDisId,1,new AbsCallback() 
 		{
 			@Override
 			public void onResult(Object o)

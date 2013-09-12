@@ -10,13 +10,14 @@
 	     android:id="@+id/scrollView1"
 	     android:layout_width="match_parent"
 	     android:layout_height="match_parent"
+	     android:background="#66666666"
+	     android:paddingBottom="15dp"
 	     android:layout_above="@+id/bottom_btns" >
     
 	    <RelativeLayout 
 	        android:id="@+id/content"
 	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:background="#66666666">
+	        android:layout_height="wrap_content" >
 	        
 	        <RelativeLayout 
 		        android:id="@+id/user_no_layout"
@@ -31,7 +32,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_centerVertical="true"
-		            android:text="@string/user_number"/>
+		            android:text="@string/user_number_label"/>
 		        
 		        <TextView 
 		            android:id="@+id/user_no_edit"
@@ -39,6 +40,7 @@
 		            android:layout_toRightOf="@+id/label_user_no"
 		            android:layout_width="match_parent"
 		            android:layout_centerVertical="true"
+		            android:gravity="center"
 		            android:layout_height="wrap_content"/>
 		        
 		    </RelativeLayout>
@@ -58,7 +60,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_centerVertical="true"
-		            android:text="@string/measure_no"/>
+		            android:text="@string/measure_no_label"/>
 		        
 		        <TextView 
 		            android:id="@+id/mp_edit"
@@ -66,6 +68,7 @@
 		            android:layout_toRightOf="@+id/label_mp"
 		            android:layout_width="match_parent"
 		            android:layout_centerHorizontal="true"
+		            android:gravity="center"
 		            android:layout_height="wrap_content"/>
 		    </RelativeLayout>
 		    
@@ -83,14 +86,16 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_centerVertical="true"
-		            android:text="@string/meter_asset_no"/>
+		            android:text="@string/meter_asset_no_label"/>
 		        
-		        <TextView 
+		        <EditText 
 		            android:id="@+id/asset_no_edit"
 		            android:layout_marginLeft="10dp"
 		            android:layout_toRightOf="@+id/label_asset_no"
 		            android:layout_width="match_parent"
 		            android:layout_centerVertical="true"
+		            android:inputType="number"
+		            android:gravity="center"
 		            android:layout_height="wrap_content"/>
 		    </RelativeLayout>
 			        
@@ -108,7 +113,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_centerVertical="true"
-		            android:text="@string/user_name"/>
+		            android:text="@string/user_name_label"/>
 		        
 		        <TextView 
 		            android:id="@+id/user_name_edit"
@@ -116,6 +121,7 @@
 		            android:layout_toRightOf="@+id/label_user_name"
 		            android:layout_width="match_parent"
 		            android:layout_centerHorizontal="true"
+		            android:gravity="center"
 		            android:layout_height="wrap_content"/>
 			</RelativeLayout>
 			
@@ -133,7 +139,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_centerVertical="true"
-		            android:text="@string/address"/>
+		            android:text="@string/address_label"/>
 		        
 		        <TextView 
 		            android:id="@+id/address_edit"
@@ -141,6 +147,7 @@
 		            android:layout_toRightOf="@+id/label_address"
 		            android:layout_width="match_parent"
 		            android:layout_centerHorizontal="true"
+		            android:gravity="center"
 		            android:layout_height="wrap_content"/>
 			</RelativeLayout>
 			
@@ -176,6 +183,7 @@
 			            android:layout_width="match_parent"
 			            android:layout_centerVertical="true"
 			            android:textSize="12sp"
+			            android:gravity="center"
 			            android:layout_height="wrap_content"/>
 			    </RelativeLayout>
 			    
@@ -200,6 +208,7 @@
 			            android:layout_width="100dp"
 			            android:layout_centerHorizontal="true"
 			            android:textSize="12sp"
+			            android:gravity="center"
 			            android:layout_height="wrap_content"/>
 			    </RelativeLayout>
 			    
@@ -219,7 +228,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_centerVertical="true"
-		            android:text="@string/box_barcode"/>
+		            android:text="@string/box_barcode_label"/>
 		        
 		        <TextView 
 		            android:id="@+id/barcode_edit"
@@ -227,6 +236,7 @@
 		            android:layout_toRightOf="@+id/label_barcode"
 		            android:layout_width="match_parent"
 		            android:layout_centerHorizontal="true"
+		            android:gravity="center"
 		            android:layout_height="wrap_content"/>
 			</RelativeLayout>
 			
@@ -253,7 +263,7 @@
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
 			            android:layout_centerVertical="true"
-			            android:text="@string/row_no"/>
+			            android:text="@string/row_no_label"/>
 			        
 			        <TextView 
 			            android:id="@+id/row_edit"
@@ -262,6 +272,7 @@
 			            android:layout_width="match_parent"
 			            android:layout_centerVertical="true"
 			            android:textSize="12sp"
+			            android:gravity="center"
 			            android:layout_height="wrap_content"/>
 			    </RelativeLayout>
 			    
@@ -277,7 +288,7 @@
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
 			            android:layout_centerVertical="true"
-			            android:text="@string/column_no"/>
+			            android:text="@string/column_no_label"/>
 			        
 			        <TextView 
 			            android:id="@+id/colum_edit"
@@ -286,6 +297,7 @@
 			            android:layout_width="100dp"
 			            android:layout_centerHorizontal="true"
 			            android:textSize="12sp"
+			            android:gravity="center"
 			            android:layout_height="wrap_content"/>
 			    </RelativeLayout>
 			    
@@ -305,7 +317,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_centerVertical="true"
-		            android:text="@string/phenomenon"/>
+		            android:text="@string/phenomenon_label"/>
 		        
 				 <Spinner 
 				     android:id="@+id/phenomenon_spinner"
@@ -331,7 +343,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_centerVertical="true"
-		            android:text="@string/elimination_method"/>
+		            android:text="@string/elimination_method_label"/>
 		        
 				 <Spinner 
 				     android:id="@+id/method_spinner"
@@ -355,7 +367,9 @@
 		        
 				<Gallery 
 				    android:id="@+id/img_gallery"
-				    android:layout_width="wrap_content"
+				    android:gravity="center_vertical"
+				    android:layout_width="match_parent"
+				    android:spacing="16dp"
 				    android:layout_height="wrap_content"/>
 		        	
 		    </RelativeLayout>	 
@@ -382,22 +396,12 @@
 	    android:layout_height="35dp">
 	    
         <TextView 
-            android:id="@+id/add_new"
-            android:layout_height="30dp"
-            android:layout_width="60dp"
-    		android:textColor="@drawable/survey_bottom_text_color_selector"
-		    android:background="@drawable/survey_bottom_left_btn_selector"
-            android:gravity="center"
-            android:textSize="11sp"
-            android:text="@string/add_new_bar_code"/>
-        
-        <TextView 
             android:id="@+id/save"
             android:layout_height="30dp"
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:gravity="center"
             android:textColor="@drawable/survey_bottom_text_color_selector"
-		    android:background="@drawable/survey_bottom_center_btn_selector"
+		    android:background="@drawable/survey_bottom_left_btn_selector"
 		    android:layout_marginLeft="-1dp"
 		    android:layout_marginRight="-1dp"
 		    android:textSize="11sp"
@@ -406,7 +410,7 @@
         <TextView 
             android:id="@+id/submit"
             android:layout_height="30dp"
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:gravity="center"
             android:textColor="@drawable/survey_bottom_text_color_selector"
 		    android:background="@drawable/survey_bottom_center_btn_selector"
@@ -420,7 +424,7 @@
             android:textColor="@drawable/survey_bottom_text_color_selector"
 		    android:background="@drawable/survey_bottom_right_btn_selector"            
             android:layout_height="30dp"
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:textSize="11sp"
             android:gravity="center"
             android:text="@string/back"/>

@@ -7,8 +7,11 @@ import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.action.elimination.EliminationActions;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
+import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalManager;
+import com.jdd.powermanager.ui.abnormalelimination.viewimage.ViewImageActivity;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -214,6 +217,8 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			
 			h.method = (TextView) view.findViewById(R.id.method);
 			
+			h.photo = (TextView) view.findViewById(R.id.photo);
+			
 			view.setTag(h);
 		}
 		else
@@ -253,6 +258,8 @@ public class UnSubmitDataAdapter extends BaseAdapter
 			h.result.setText(data.get(EliminateAbnormal.ELIMINATE_RESULT));
 			
 			h.method.setText(data.get(EliminateAbnormal.ELIMINATE_METHOD));
+			
+			h.photo.setText(mContext.getString(R.string.click_to_view));
 		}
 		
 		view.setOnClickListener(new OnClickListener() 
@@ -283,6 +290,27 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		{
 			view.setBackgroundColor(mContext.getResources().getColor(R.color.white));
 		}
+		
+		final String code = data.get(EliminateAbnormal.D_ASSET_NO);
+		
+		h.photo.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				String path = EliminateAbnormalManager.getInstance().getMeterAbnormalPhotoPath(code);
+				
+				Intent i = new Intent();
+				
+				i.setClass(mContext, ViewImageActivity.class);
+				
+				i.putExtra("path", path);
+				
+				i.putExtra("index", 0);
+				
+				mContext.startActivity(i);
+			}
+		});
 		
 		return view;
 	}
@@ -316,5 +344,7 @@ public class UnSubmitDataAdapter extends BaseAdapter
 		TextView result;
 		
 		TextView method;
+		
+		TextView photo;
 	}
 }

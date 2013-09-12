@@ -305,8 +305,6 @@ public class NewBoxActivity extends BaseActivity
 		public void onScaned(String code) 
 		{
 			mBarCodeEdit.setText(code);
-			
-//			refreshBoxInfo(code);
 		}
 	};
 	

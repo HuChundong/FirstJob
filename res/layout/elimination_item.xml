@@ -196,4 +196,23 @@
         android:gravity="center"
         android:text="@string/elimination_method"/>
     
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>
+    
+    <TextView 
+        android:id="@+id/photo"
+        android:layout_width="120dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:text="@string/photo"/>
+    
+    <View 
+        android:layout_width="0.1dp"
+        android:layout_height="match_parent"
+        android:background="#66004E98"/>    
+    
 </LinearLayout>

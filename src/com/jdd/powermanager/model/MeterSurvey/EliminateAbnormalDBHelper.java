@@ -3,6 +3,7 @@ package com.jdd.powermanager.model.MeterSurvey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.jdd.powermanager.bean.District;
 import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
 import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
@@ -175,6 +176,48 @@ public class EliminateAbnormalDBHelper extends SQLiteOpenHelper
 		{
 			db.close();
 		}
+	}
+	
+	/**
+	 * 获取任务内所有台区对象
+	 * @return 获取任务内所有台区对象
+	 */
+	public ArrayList<District> getAllDistrict()
+	{
+		String SQL = "SELECT DISTINCT " + EliminateAbnormal.DISTRICT_ID;
+		
+		SQL += " FROM " + EliminateAbnormal.TABLE_NAME;
+		
+		SQLiteDatabase db = getWritableDatabase();
+		
+		ArrayList<District> districtList = new ArrayList<District>();
+    	
+		Cursor c = null;
+		
+		try
+		{
+			c = db.rawQuery(SQL, null);  
+	        while (c.moveToNext())
+	        {
+	        	districtList.add(new District(c.getString(0)));
+	        }	
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c != null)
+			{
+				c.close();	
+			}
+			
+			db.close();
+				
+		}
+        
+        return districtList;  
 	}
 	
 	/**
