@@ -59,5 +59,25 @@ public class EliminateAbnormalForm extends SurveyForm
 				 PHOTO_PATH,
 				 COMMIT_STATUS
 			};
+		
+		public static String[] DBToXLSColumnNameAll = 
+			{
+				 "用户编号（CONS_NO）",	
+				 "计量点编号（MP_NO）",	
+				 "电能表资产号（D_ASSET_NO）",	
+				 "用户名称(USER_NAME)",	
+				 "用电地址(USER_ADDRESS)",	
+				 "台区编号(DISTRICT_ID)",	
+				 "GPS经度坐标（LONGITUDE）",	
+				 "GPS纬度坐标（LATITUDE）",	
+				 "计量箱条形码（BAR_CODE）",	
+				 "所在行（IN_ROW）",	
+				 "所在列（IN_COLUMN）",	
+				 "异常现象(ABNORMAL_PHENOMENON)",	
+				 "消缺结果(ELIMINATE_RESULT)",	
+				 "消缺方法(ELIMINATE_METHOD)",
+				 "相片路径",
+				 "提交状态"
+			};
 	}
 }

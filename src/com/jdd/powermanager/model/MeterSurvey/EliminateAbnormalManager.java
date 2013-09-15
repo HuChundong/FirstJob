@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 
@@ -81,6 +82,13 @@ public class EliminateAbnormalManager extends SurveyDataManager
 		XLS xls = new XLS(getEliminateAbnormalTaskFilePath());
 		HSSFSheet sheet = xls.getSheet(0);
 		HSSFRow row = null;
+		HSSFCell cell = null;
+		
+		parseHeadLine(xls, sheet, EliminateAbnormal.DBToXLSColumnNameAll);
+		
+		row = xls.getRow(sheet, 1);
+        cell = row.getCell(0);
+        xls.saveNormalCellStyle(cell.getCellStyle());
 		
 		ArrayList<HashMap<String, String>> allDBRows = mEliminateAbnormalDBHelper.getAllDatas();
 		

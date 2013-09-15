@@ -13,7 +13,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.Hyperlink;
 
 import android.util.Log;
 
@@ -24,6 +23,12 @@ public class XLS {
 	private String mFilePath = null;
 	
 	HSSFWorkbook mWb = null;
+
+	private HSSFCellStyle mHlinkStyle = null;
+
+	private HSSFCellStyle mHeadLineCellStyle = null;
+	
+	private HSSFCellStyle mNormalCellStyle = null;
 	
 	private XLS()
 	{
@@ -308,13 +313,34 @@ public class XLS {
      */
     public HSSFCellStyle getHLinkStyle()
     {
-		HSSFCellStyle hlinkStyle = mWb.createCellStyle();
-        HSSFFont hlink_font = mWb.createFont();
-        hlink_font.setUnderline(HSSFFont.U_SINGLE);
-        hlink_font.setColor(HSSFColor.BLUE.index);
-        hlinkStyle.setFont(hlink_font);
+    	if (null == mHlinkStyle)
+    	{
+    		mHlinkStyle  = mWb.createCellStyle();
+            HSSFFont hlink_font = mWb.createFont();
+            hlink_font.setUnderline(HSSFFont.U_SINGLE);
+            hlink_font.setColor(HSSFColor.BLUE.index);
+            mHlinkStyle.setFont(hlink_font);	
+    	}
         
-        return hlinkStyle;
+        return mHlinkStyle;
+    }
+    
+    /**
+     * 保存一般的单元格样式
+     * @param normalCellStyle 一般的单元格样式
+     */
+    public void saveNormalCellStyle(HSSFCellStyle normalCellStyle)
+    {
+    	mNormalCellStyle = normalCellStyle;
+    }
+    
+    /**
+     * 保存首行单元格样式
+     * @param headLineCellStyle 首行单元格样式
+     */
+    public void saveHeadLineCellStyle(HSSFCellStyle headLineCellStyle)
+    {
+    	mHeadLineCellStyle = headLineCellStyle;
     }
     
     /**
@@ -336,5 +362,38 @@ public class XLS {
     	HSSFHyperlink hyperlink = new HSSFHyperlink(HSSFHyperlink.LINK_FILE);
     	hyperlink.setAddress(path);
 		cell.setHyperlink(hyperlink);
+		
+    }
+    
+    /**
+     * 设置首行的单元格值
+     * @param cell 单元格对象
+     * @param value 值
+     */
+    public void setHeadLineCellValue(HSSFCell cell, String value)
+    {
+    	if (null == cell || null == value)
+    	{
+    		return;
+    	}
+    	
+    	cell.setCellStyle(mHeadLineCellStyle);
+    	cell.setCellValue(value);    	
+    }
+    
+    /**
+     * 设置普通的单元格值
+     * @param cell 单元格对象
+     * @param value 值
+     */
+    public void setNormalCellValue(HSSFCell cell, String value)
+    {
+    	if (null == cell || null == value)
+    	{
+    		return;
+    	}
+    	
+    	cell.setCellStyle(mNormalCellStyle);
+    	cell.setCellValue(value);    	
     }
 }

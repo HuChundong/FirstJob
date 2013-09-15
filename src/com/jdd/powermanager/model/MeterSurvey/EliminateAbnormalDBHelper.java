@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.jdd.powermanager.bean.District;
-import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
-import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,8 +19,6 @@ public class EliminateAbnormalDBHelper extends SQLiteOpenHelper
     public static final String DATABASE_NAME = "Survey.db";
     
 	private static final String TEXT_TYPE = " TEXT";
-	
-	private static final String INTEGER_TYPE = " INTEGER";
 	
 	private static final String COMMA_SEP = ",";
 	

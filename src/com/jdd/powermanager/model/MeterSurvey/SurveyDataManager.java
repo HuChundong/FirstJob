@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.ss.usermodel.Cell;
 
 import com.jdd.common.utils.Excel.XLS;
-import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
 
 import android.content.ContentValues;
@@ -95,6 +95,32 @@ public class SurveyDataManager
 	}
 	
 	/**
+	 * 解析首行
+	 * @param xls
+	 * @param sheet
+	 */
+	protected void parseHeadLine(XLS xls, HSSFSheet sheet, String[] columnDefine) 
+	{
+		HSSFRow row;
+		HSSFCell cell;
+		row = xls.getRow(sheet, 0);
+        cell = row.getCell(0);
+        xls.saveHeadLineCellStyle(cell.getCellStyle());
+        
+        for (int i = 0; i < columnDefine.length; i ++)
+        {
+        	cell = row.getCell(i);
+        	
+        	if (null == cell || (null != cell && "".equals(cell.toString())))
+        	{
+        		cell = row.createCell(i);
+        		
+        		xls.setHeadLineCellValue(cell, columnDefine[i]);
+        	}
+        }
+	}
+	
+	/**
 	 * 将数据库中一条记录的的所有列写入到HSSFRow对象中
 	 * @param row 
 	 * @param meterRowMap 数据库中一条记录
@@ -124,7 +150,7 @@ public class SurveyDataManager
 					//均以字符串方式写入数据，防止出现科学计数法
 					cell.setCellType(Cell.CELL_TYPE_STRING);
 					
-					cell.setCellValue(value);	
+					xls.setNormalCellValue(cell, value);
 				}
 			}
 			else

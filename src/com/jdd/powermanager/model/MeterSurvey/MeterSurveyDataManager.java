@@ -7,22 +7,16 @@ import java.util.HashMap;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.ss.usermodel.Cell;
 
 import com.jdd.common.utils.Excel.XLS;
 import com.jdd.powermanager.bean.District;
-import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
 
 import android.content.ContentValues;
-import android.content.Context;
-import android.os.Environment;
 
 public class MeterSurveyDataManager extends SurveyDataManager 
 {
 	private static final String METER_SURVEY_FILE = "/meterSurvey.xls";
-	
-	private static final String TAG = "MeterSurveyDataManager";
 	
 	private MeterSurveyDBHelper mMeterSurveyDBHelper = null;
 	
@@ -90,7 +84,14 @@ public class MeterSurveyDataManager extends SurveyDataManager
 		XLS xls = new XLS(getMeterSurveyTaskFilePath());
 		HSSFSheet sheet = xls.getSheet(0);
 		HSSFRow row = null;
+		HSSFCell cell = null;
 		
+		parseHeadLine(xls, sheet, MeterSurvey.DBToXLSColumnNameAll);
+        
+		row = xls.getRow(sheet, 1);
+        cell = row.getCell(0);
+        xls.saveNormalCellStyle(cell.getCellStyle());
+        
 		ArrayList<HashMap<String, String>> allDBRows = mMeterSurveyDBHelper.getAllDatas();
 		
 		for (int i = 0; i < allDBRows.size(); i ++)
@@ -101,6 +102,7 @@ public class MeterSurveyDataManager extends SurveyDataManager
 		
 		xls.saveToXlsFile();
 	}
+
 
 	/**
 	 * 获取所有台区对象列表
@@ -281,74 +283,74 @@ public class MeterSurveyDataManager extends SurveyDataManager
 	}
 	
 	///////////////////////////////////////////UT test begin/////////////////////////////////////
-	private void test() 
-	{
-		HashMap<String, String> box = new HashMap<String, String>();
-		ArrayList<HashMap<String, String>> meterList = new ArrayList<HashMap<String, String>>();
-		
-		int boxColumnLength = MeterSurvey.DBToXLSColumnIndexBox.length;
-		for (int i = 0 ; i < boxColumnLength - 1 ; i ++)
-		{
-			box.put(MeterSurvey.DBToXLSColumnIndexBox[i], "box" + i);
-		}
-		
-		box.put(MeterSurvey.BAR_CODE, "370130005097597");
-		
-		for (int i = 0; i < 6; i ++)
-		{
-			HashMap<String, String> meter = new HashMap<String, String>();
-			
-			int meterColumnLength = MeterSurvey.DBToXLSColumnIndexMeter.length;
-			for (int j = 0 ; j < meterColumnLength - 1 ; j ++)
-			{
-				meter.put(MeterSurvey.DBToXLSColumnIndexMeter[j], "meter" + j);
-			}
-			
-			meterList.add(meter);
-		}
-		meterList.get(0).put(MeterSurvey.D_ASSET_NO, "370110031352058");
-		meterList.get(1).put(MeterSurvey.D_ASSET_NO, "370110031352057");
-		meterList.get(2).put(MeterSurvey.D_ASSET_NO, "370110031351922");
-		meterList.get(3).put(MeterSurvey.D_ASSET_NO, "100000000000004");
-		meterList.get(4).put(MeterSurvey.D_ASSET_NO, "100000000000005");
-		meterList.get(5).put(MeterSurvey.D_ASSET_NO, "100000000000006");
-		
-		saveOneBoxMeterSurvey(box, meterList, "1000001");
-	}
-	
-	private void test2()
-	{
-		commitOneBoxMeterSurvey("370130005097597");
-	}
-	
-	private void test3()
-	{
-		commitAllUncommitedBoxMeterSurveyInDistrict("0000853828");
-	}
-	
-	private void test4()
-	{
-		String[] boxIds = {"370130005097597"};
-		deleteUncommitedBox(boxIds);
-	}
-	
-	private void test5()
-	{
-		String[] boxIds = {"370130005097597"};
-		deleteCommitedBox(boxIds);
-	}
-	
-	private void test6()
-	{
-		addBoxAbnormalComment("370130005097597", "哈哈哈");
-		addBoxSurveyTime("370130005097597", "2013/08/03");
-		parseDBToXLS();
-	}
-	
-	private void test7()
-	{
-		ArrayList<HashMap<String, String>> list = getAllSurveyedBoxesInDistrict("0000853828", 2);
-	}
+//	private void test() 
+//	{
+//		HashMap<String, String> box = new HashMap<String, String>();
+//		ArrayList<HashMap<String, String>> meterList = new ArrayList<HashMap<String, String>>();
+//		
+//		int boxColumnLength = MeterSurvey.DBToXLSColumnIndexBox.length;
+//		for (int i = 0 ; i < boxColumnLength - 1 ; i ++)
+//		{
+//			box.put(MeterSurvey.DBToXLSColumnIndexBox[i], "box" + i);
+//		}
+//		
+//		box.put(MeterSurvey.BAR_CODE, "370130005097597");
+//		
+//		for (int i = 0; i < 6; i ++)
+//		{
+//			HashMap<String, String> meter = new HashMap<String, String>();
+//			
+//			int meterColumnLength = MeterSurvey.DBToXLSColumnIndexMeter.length;
+//			for (int j = 0 ; j < meterColumnLength - 1 ; j ++)
+//			{
+//				meter.put(MeterSurvey.DBToXLSColumnIndexMeter[j], "meter" + j);
+//			}
+//			
+//			meterList.add(meter);
+//		}
+//		meterList.get(0).put(MeterSurvey.D_ASSET_NO, "370110031352058");
+//		meterList.get(1).put(MeterSurvey.D_ASSET_NO, "370110031352057");
+//		meterList.get(2).put(MeterSurvey.D_ASSET_NO, "370110031351922");
+//		meterList.get(3).put(MeterSurvey.D_ASSET_NO, "100000000000004");
+//		meterList.get(4).put(MeterSurvey.D_ASSET_NO, "100000000000005");
+//		meterList.get(5).put(MeterSurvey.D_ASSET_NO, "100000000000006");
+//		
+//		saveOneBoxMeterSurvey(box, meterList, "1000001");
+//	}
+//	
+//	private void test2()
+//	{
+//		commitOneBoxMeterSurvey("370130005097597");
+//	}
+//	
+//	private void test3()
+//	{
+//		commitAllUncommitedBoxMeterSurveyInDistrict("0000853828");
+//	}
+//	
+//	private void test4()
+//	{
+//		String[] boxIds = {"370130005097597"};
+//		deleteUncommitedBox(boxIds);
+//	}
+//	
+//	private void test5()
+//	{
+//		String[] boxIds = {"370130005097597"};
+//		deleteCommitedBox(boxIds);
+//	}
+//	
+//	private void test6()
+//	{
+//		addBoxAbnormalComment("370130005097597", "哈哈哈");
+//		addBoxSurveyTime("370130005097597", "2013/08/03");
+//		parseDBToXLS();
+//	}
+//	
+//	private void test7()
+//	{
+//		ArrayList<HashMap<String, String>> list = getAllSurveyedBoxesInDistrict("0000853828", 2);
+//	}
 	
 	///////////////////////////////////////////UT test end/////////////////////////////////////
 }

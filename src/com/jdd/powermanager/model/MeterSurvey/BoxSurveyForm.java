@@ -57,6 +57,25 @@ public final class BoxSurveyForm extends SurveyForm
 									SurveyForm.SURVEY_RELATION
 								};
 		
+		public static String[] DBToXLSColumnNameAll = 
+								{
+									"序号(NO)",
+									"业务系统ID(SYSTEM_ID)",
+									"安装位置（INST_LOC）",
+									"GPS经度坐标（LONGITUDE）",
+									"GPS纬度坐标（LATITUDE）",									
+									"行数（BOX_ROWS)",
+									"计量箱列数和（BOX_COLS）",
+									"表数",
+									"台区标识(DISTRICT_LOGO)",
+									"台区编号(DISTRICT_ID)",
+									"计量箱资产编号(ASSET_NO)",
+									"异常备注",
+									"提交状态",
+									"普查状态",
+									"关系"
+								};
+		
 		public static String[] DBToXLSColumnIndexDistrict = 
 			{
 				DISTRICT_LOGO,

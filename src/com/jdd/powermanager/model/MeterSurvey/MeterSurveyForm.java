@@ -1,7 +1,5 @@
 package com.jdd.powermanager.model.MeterSurvey;
 
-import java.util.HashMap;
-
 import android.provider.BaseColumns;
 
 /**
@@ -107,6 +105,42 @@ public final class MeterSurveyForm extends SurveyForm
 								SurveyForm.COMMIT_STATUS,
 								SurveyForm.SURVEY_STATUS,
 								SurveyForm.SURVEY_RELATION
+								};
+		
+		public static String[] DBToXLSColumnNameAll = 
+								{
+								"计量箱资产号（ASSET_NO）",
+								"计量箱条形码（BAR_CODE）",
+								"计量箱出厂编号（MADE_NO）",
+								"施封锁",
+								"计量箱业务编码（BUSI_CODE）",
+								"类别（SORT_CODE）",
+								"计量箱列数和（BOX_COLS）",
+								"计量箱行数和（BOX_ROWS）",
+								"管理单位（DEPT_NO）",
+								"产权（PR_CODE）",
+								"产权单位（PR_ORG_NO）",
+								"安装位置（INST_LOC）",
+								"材料类型（DATA_TYPE_CODE）",
+								"制造单位（MANUFACTURER）",
+								"型号（MODEL_CODE）",
+								"GPS经度坐标（LONGITUDE）",
+								"GPS纬度坐标（LATITUDE）",
+								"用户编号（CONS_NO）",
+								"计量点编号（MP_NO）",
+								"电能表资产号（D_ASSET_NO）",
+								"所在行（IN_ROW）",
+								"所在列（IN_COLUMN）",
+								"用户名称(USER_NAME)",
+								"用电地址(USER_ADDRESS)",
+								"台区编号",
+								"用户分类",
+								"接线方式",
+								"普查时间",
+								"备注",
+								"提交状态",
+								"普查状态",
+								"关系"
 								};
 		
 		public static String[] DBToXLSColumnIndexMeter = 

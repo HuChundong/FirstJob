@@ -22,8 +22,6 @@ public class MeterSurveyDBHelper extends SQLiteOpenHelper {
 	
 	private static final String TEXT_TYPE = " TEXT";
 	
-	private static final String INTEGER_TYPE = " INTEGER";
-	
 	private static final String COMMA_SEP = ",";
 	
 	private static String SQL_CREATE_ENTRIES = null;
