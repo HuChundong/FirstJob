@@ -82,6 +82,11 @@ public class BarCodeHelper
 		mInstance.mLis = null;
 	}
 	
+	public static OnBarCodeScanedListener getListener()
+	{
+		return mInstance.mLis;
+	}
+	
 	public static void release()
 	{
 		clearListener();

@@ -21,20 +21,31 @@
 	    android:layout_height="35dp">
 	    
         <TextView 
-            android:id="@+id/submit"
+            android:id="@+id/add_new"
             android:layout_height="30dp"
-            android:layout_width="93dp"
+            android:layout_width="70dp"
     		android:textColor="@drawable/survey_bottom_text_color_selector"
 		    android:background="@drawable/survey_bottom_left_btn_selector"
             android:gravity="center"
             android:textSize="11sp"
+            android:text="@string/add_new_elimination"/>
+           
+        <TextView 
+            android:id="@+id/submit"
+            android:gravity="center"
+            android:layout_height="30dp"
+            android:layout_width="70dp"
+            android:textColor="@drawable/survey_bottom_text_color_selector"
+		    android:background="@drawable/survey_bottom_center_btn_selector"
+			android:layout_marginRight="-1dp"    
+			android:textSize="11sp"      
             android:text="@string/batch_submit"/>
-                
+        
         <TextView 
             android:id="@+id/del"
             android:gravity="center"
             android:layout_height="30dp"
-            android:layout_width="93dp"
+            android:layout_width="70dp"
             android:textColor="@drawable/survey_bottom_text_color_selector"
 		    android:background="@drawable/survey_bottom_center_btn_selector"
 			android:layout_marginRight="-1dp"    
@@ -46,7 +57,7 @@
             android:textColor="@drawable/survey_bottom_text_color_selector"
 		    android:background="@drawable/survey_bottom_right_btn_selector"            
             android:layout_height="30dp"
-            android:layout_width="93dp"
+            android:layout_width="70dp"
             android:textSize="11sp"
             android:gravity="center"
             android:text="@string/back"/>

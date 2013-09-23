@@ -174,6 +174,13 @@ public class EliminateActivity extends BaseActivity
 		
 		mProblem.setAdapter(mProblemAdapter);
 		
+		if( null != problems && problems.length > 0 )
+		{
+			mProblem.setSelection(1);
+			
+			mProblemAdapter.setSelectedIndex(1);
+		}
+		
 		mProblem.setOnItemSelectedListener(new OnItemSelectedListener()
 		{
 			@Override
@@ -205,6 +212,13 @@ public class EliminateActivity extends BaseActivity
 		mMethodAdapter.setItems(methods);
 		
 		mMethod.setAdapter(mMethodAdapter);
+		
+		if( null != methods && methods.length > 0 )
+		{
+			mMethod.setSelection(1);
+			
+			mMethodAdapter.setSelectedIndex(1);
+		}
 		
 		mMethod.setOnItemSelectedListener(new OnItemSelectedListener()
 		{

@@ -2,16 +2,24 @@ package com.jdd.powermanager.ui.abnormalelimination.unsubmitpage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import com.jdd.common.utils.barcode.BarCodeHelper;
+import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.action.elimination.EliminationActions;
+import com.jdd.powermanager.ui.abnormalelimination.eliminate.EliminateActivity;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +37,10 @@ public class UnSubmitFragment extends Fragment
 	private TextView mDel;
 	
 	private TextView mBack;
+	
+	private TextView mAdd;
+	
+	private EditText mCodeEdit;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -70,11 +82,15 @@ public class UnSubmitFragment extends Fragment
 		
 		mBack = (TextView) v.findViewById(R.id.back_btn);
 		
+		mAdd = (TextView) v.findViewById(R.id.add_new);
+		
 		mSubmit.setOnClickListener(mOnClickLis);
 		
 		mDel.setOnClickListener(mOnClickLis);
 		
 		mBack.setOnClickListener(mOnClickLis);
+		
+		mAdd.setOnClickListener(mOnClickLis);
 		
 		mListView.setAdapter(mAdapter);
 		
@@ -96,6 +112,11 @@ public class UnSubmitFragment extends Fragment
 		getActivity().finish();
 	}
 	
+	private void add()
+	{
+		showDiyDialog();
+	}
+	
 	private OnClickListener mOnClickLis = new OnClickListener() 
 	{
 		@Override
@@ -103,6 +124,12 @@ public class UnSubmitFragment extends Fragment
 		{
 			switch(v.getId())
 			{
+				case R.id.add_new:
+				
+					add();
+				
+					break;
+			
 				case R.id.submit:
 					
 					submit();
@@ -127,4 +154,69 @@ public class UnSubmitFragment extends Fragment
 			}
 		}
 	};
+	
+	private OnBarCodeScanedListener mBarCodeLis = new OnBarCodeScanedListener() 
+	{
+		@Override
+		public void onScaned(String code) 
+		{
+			if( null != mCodeEdit )
+			{
+				mCodeEdit.setText(code);
+			}
+		}
+	};
+	
+	private void showDiyDialog()
+	{
+		final OnBarCodeScanedListener backLis = BarCodeHelper.getListener();
+		
+		BarCodeHelper.addListener(mBarCodeLis);
+		
+		View v = LayoutInflater.from(getActivity()).inflate(R.layout.edittext_dialog_view, null);
+		
+		mCodeEdit = (EditText) v.findViewById(R.id.edit_text);
+		
+		AlertDialog.Builder builder = new Builder(getActivity());
+		
+		builder.setView(v);
+		
+		builder.setTitle(this.getString(R.string.eliminate_title));
+		
+		builder.setPositiveButton(this.getString(R.string.ok), new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				dialog.dismiss();
+				
+				String code = mCodeEdit.getText().toString();
+				
+				Intent i = new Intent();
+				
+				i.setClass(getActivity(), EliminateActivity.class);
+					
+				i.putExtra("code", code);
+					
+				startActivity(i);
+			}
+		});
+		
+		builder.setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				dialog.dismiss();
+				
+				mCodeEdit = null;
+				
+				BarCodeHelper.clearListener();
+				
+				BarCodeHelper.addListener(backLis);
+			}
+		});
+
+		builder.create().show();
+	}
 }

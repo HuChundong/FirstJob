@@ -27,6 +27,7 @@
     <string name="please_select_district">请选择准备%1$s的台区</string>
     <string name="no_districts">没有台区可以%1$s</string>
     <string name="add_new">增加普查</string>
+    <string name="add_new_elimination">增加消缺</string>
     <string name="del">删除</string>
     <string name="batch_submit">批量提交</string>
     <string name="back">返回</string>
@@ -94,6 +95,7 @@
 	<string name="exception_title">请输入异常信息:</string>
 	<string name="problem_title">请输入异常现象:</string>
 	<string name="method_title">请输入消缺方法:</string>
+	<string name="eliminate_title">请输入需要消缺的电表资产号:</string>
 	<string name="ok">确定</string>
 	<string name="cancel">取消</string>
 	<string name="barcode_is_null">条码不能为空!</string>
