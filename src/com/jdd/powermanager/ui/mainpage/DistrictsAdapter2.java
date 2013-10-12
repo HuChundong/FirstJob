@@ -1,9 +1,8 @@
 package com.jdd.powermanager.ui.mainpage;
 
-import java.util.HashMap;
 import java.util.List;
 import com.jdd.powermanager.R;
-import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
+import com.jdd.powermanager.action.combing.CombingActions;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
@@ -20,7 +19,7 @@ public class DistrictsAdapter2 implements ListAdapter
 		void onClick(String id,String logo);
 	}
 	
-	private List<HashMap<String, String>> mList;
+	private List<CombingActions.DistrictInfo> mList;
 	
 	private Context mContext;
 	
@@ -33,7 +32,7 @@ public class DistrictsAdapter2 implements ListAdapter
 		mLis = lis;
 	}
 	
-	public void setList(List<HashMap<String, String>> l)
+	public void setList(List<CombingActions.DistrictInfo> l)
 	{
 		mList = l;
 	}
@@ -52,16 +51,30 @@ public class DistrictsAdapter2 implements ListAdapter
 	
 	public String getDistrictId(int pos)
 	{
-		HashMap<String, String> d = null == mList ? null : mList.get(pos);
+		CombingActions.DistrictInfo d = null == mList ? null : mList.get(pos);
 		
-		return null == d ? null : d.get(BoxSurvey.DISTRICT_ID);
+		return null == d ? null : d.dId;
 	}
 	
 	public String getDistrictLogo(int pos)
 	{
-		HashMap<String, String> d = null == mList ? null : mList.get(pos);
+		CombingActions.DistrictInfo d = null == mList ? null : mList.get(pos);
 		
-		return null == d ? null : d.get(BoxSurvey.DISTRICT_LOGO);
+		return null == d ? null : d.dLogo;
+	}
+	
+	public int getAllMetersCount(int pos)
+	{
+		CombingActions.DistrictInfo d = null == mList ? null : mList.get(pos);
+		
+		return null == d ? 0 : d.count;
+	}
+	
+	public int getOkMetersCount(int pos)
+	{
+		CombingActions.DistrictInfo d = null == mList ? null : mList.get(pos);
+		
+		return null == d ? 0 : d.ok;
 	}
 
 	@Override
@@ -102,7 +115,7 @@ public class DistrictsAdapter2 implements ListAdapter
 		
 		final String logo = getDistrictLogo(pos);
 		
-		h.id.setText(id);
+		h.id.setText(id + " ( " + getOkMetersCount(pos) + " / " + getAllMetersCount(pos) + " ) ") ;
 		
 		h.logo.setText(getDistrictLogo(pos));
 		

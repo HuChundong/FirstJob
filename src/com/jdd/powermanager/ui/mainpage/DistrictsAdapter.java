@@ -1,9 +1,8 @@
 package com.jdd.powermanager.ui.mainpage;
 
 import java.util.List;
-
 import com.jdd.powermanager.R;
-import com.jdd.powermanager.bean.District;
+import com.jdd.powermanager.action.survey.SurveyActions;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
@@ -20,7 +19,7 @@ public class DistrictsAdapter implements ListAdapter
 		void onClick(String id);
 	}
 	
-	private List<District> mList;
+	private List<SurveyActions.DistrictInfo> mList;
 	
 	private Context mContext;
 	
@@ -33,7 +32,7 @@ public class DistrictsAdapter implements ListAdapter
 		mLis = lis;
 	}
 	
-	public void setList(List<District> l)
+	public void setList(List<SurveyActions.DistrictInfo> l)
 	{
 		mList = l;
 	}
@@ -52,9 +51,23 @@ public class DistrictsAdapter implements ListAdapter
 	
 	public String getDistrictId(int pos)
 	{
-		District d = (District) getItem(pos);
+		SurveyActions.DistrictInfo d = (SurveyActions.DistrictInfo) getItem(pos);
 		
-		return null == d ? null : d.getID();
+		return null == d || null == d.d ? null : d.d.getID();
+	}
+	
+	public int getAllMeterCount(int pos)
+	{
+		SurveyActions.DistrictInfo d = (SurveyActions.DistrictInfo) getItem(pos);
+		
+		return null == d || null == d.d ? 0 : d.count;
+	}
+	
+	public int getOkMeterCount(int pos)
+	{
+		SurveyActions.DistrictInfo d = (SurveyActions.DistrictInfo) getItem(pos);
+		
+		return null == d || null == d.d ? 0 : d.ok;
 	}
 
 	@Override
@@ -89,9 +102,7 @@ public class DistrictsAdapter implements ListAdapter
 			h = (Holder) view.getTag();
 		}
 		
-		final District d = (District) getItem(pos);
-		
-		h.context.setText(d.getID());
+		h.context.setText(getDistrictId(pos) + " ( " + getOkMeterCount(pos) + " / " + getAllMeterCount(pos) + " ) ");
 		
 		view.setOnClickListener(new OnClickListener() {
 			
@@ -99,7 +110,7 @@ public class DistrictsAdapter implements ListAdapter
 			{
 				if( null != mLis )
 				{
-					mLis.onClick(d.getID());
+					mLis.onClick(getDistrictId(pos));
 				}
 			}
 		});

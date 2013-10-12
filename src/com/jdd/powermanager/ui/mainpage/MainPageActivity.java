@@ -22,7 +22,6 @@ import com.jdd.powermanager.action.combing.CombingActions;
 import com.jdd.powermanager.action.elimination.EliminationActions;
 import com.jdd.powermanager.action.survey.SurveyActions;
 import com.jdd.powermanager.basic.BaseActivity;
-import com.jdd.powermanager.bean.District;
 import com.jdd.powermanager.ui.generalsurvey.SurveyActivity;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import com.jdd.powermanager.ui.abnormalelimination.EliminationActivity;
@@ -113,7 +112,6 @@ public class MainPageActivity extends BaseActivity
 		
 		if( 1 == index )
 		{
-			
 			DistrictsAdapter2.onItemClickListener lis = new DistrictsAdapter2.onItemClickListener() 
 			{
 				public void onClick(String id,String logo) 
@@ -130,7 +128,7 @@ public class MainPageActivity extends BaseActivity
 			DistrictsAdapter2 da = new DistrictsAdapter2(MainPageActivity.this,lis);
 			
 			@SuppressWarnings("unchecked")
-			List<HashMap<String, String>> list = null == o ? null : (List<HashMap<String, String>>) o;
+			List<CombingActions.DistrictInfo> list = null == o ? null : (List<CombingActions.DistrictInfo>) o;
 			
 			if( null == list || list.size() <= 0 )
 			{
@@ -168,7 +166,7 @@ public class MainPageActivity extends BaseActivity
 			DistrictsAdapter da = new DistrictsAdapter(MainPageActivity.this,lis);
 			
 			@SuppressWarnings("unchecked")
-			List<District> list = null == o ? null : (List<District>) o;
+			List<SurveyActions.DistrictInfo> list = null == o ? null : (List<SurveyActions.DistrictInfo>) o;
 			
 			if( null == list || list.size() <= 0 )
 			{

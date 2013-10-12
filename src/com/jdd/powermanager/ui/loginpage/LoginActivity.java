@@ -10,6 +10,7 @@ import com.jdd.powermanager.ui.mainpage.MainPageActivity;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -27,7 +28,7 @@ public class LoginActivity extends BaseActivity
 	
 	private RadioButton mOfflineBtn;
 	
-//	private EditText mUserNoEdit;
+	private EditText mUserNoEdit;
 	
 //	private EditText mUserPsdEdit;
 	
@@ -78,9 +79,36 @@ public class LoginActivity extends BaseActivity
 		initViews();
 	}
 	
+	private void saveLoginNo()
+	{
+		String no = mUserNoEdit.getText().toString();
+		
+		if( null == no )
+		{
+			no = "";
+		}
+		
+		 SharedPreferences settings = this.getSharedPreferences("userInfo", 0);
+		 
+		 SharedPreferences.Editor localEditor = settings.edit();
+		 
+		 localEditor.putString("loginNo", no);
+		 
+		 localEditor.commit();
+	}
+	
+	private String getLoginNo()
+	{
+		 SharedPreferences settings = this.getSharedPreferences("userInfo", 0);
+		 
+		 return settings.getString("loginNo", "");
+	}
+	
 	public void login(View v)
 	{
 		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
+		
+		saveLoginNo();
 		
 		SurveyActions.init(this, mInitedLis);
 	}
@@ -161,7 +189,11 @@ public class LoginActivity extends BaseActivity
 		
 		mOfflineBtn.setChecked(!mIsOnlineLogin);
 		
-//		mUserNoEdit = (EditText) findViewById(R.id.user_no_edit);
+		mUserNoEdit = (EditText) findViewById(R.id.user_no_edit);
+		
+		String no = getLoginNo();
+		
+		mUserNoEdit.setText(no);
 		
 //		mUserPsdEdit = (EditText) findViewById(R.id.user_passwd_edit);
 		

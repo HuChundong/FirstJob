@@ -2,13 +2,26 @@ package com.jdd.powermanager.action.combing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import android.content.Context;
 import com.jdd.powermanager.action.AbsAction;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.model.MeterSurvey.BoxSurveyDataManager;
+import com.jdd.powermanager.model.MeterSurvey.BoxSurveyForm.BoxSurvey;
 
 public class CombingActions 
 {
+	public static class DistrictInfo
+	{
+		public String dId;
+		
+		public String dLogo;
+		
+		public int count;
+		
+		public int ok;
+	}
+	
 	public static void init(final Context c,AbsCallback cb)
 	{
 		new AbsAction(cb) 
@@ -69,7 +82,44 @@ public class CombingActions
 			@Override
 			protected Object doJob() 
 			{
-				return BoxSurveyDataManager.getInstance().getAllDistrict();
+				ArrayList<HashMap<String, String>>  list = BoxSurveyDataManager.getInstance().getAllDistrict();
+				
+				List<DistrictInfo> l = new ArrayList<DistrictInfo>();
+				
+				if( null == list || list.size() == 0 )
+				{
+					return null;
+				}
+				
+				HashMap<String, String> m = null;
+				
+				for( int i = 0 ;  i < list.size() ; i++ )
+				{
+					m = list.get(i);
+					
+					if( null == m || null == m.get(BoxSurvey.DISTRICT_ID) )
+					{
+						continue;
+					}
+					
+					DistrictInfo d = new DistrictInfo();
+					
+					l.add(d);
+					
+					d.dId = m.get(BoxSurvey.DISTRICT_ID);
+					
+					d.dLogo = m.get(BoxSurvey.DISTRICT_LOGO);
+					
+					ArrayList<HashMap<String, String>>  meters = BoxSurveyDataManager.getInstance().getAllBoxesInDistrict(d.dId);
+					
+					d.count = null == meters ? 0 : meters.size();
+							
+					ArrayList<HashMap<String, String>>  metersOK = BoxSurveyDataManager.getInstance().getAllSurveyedBoxesInDistrict(d.dId, 1);
+						
+					d.ok = null == metersOK ? 0 : metersOK.size();
+				}
+				
+				return l;
 			}
 		}.start();
 	}

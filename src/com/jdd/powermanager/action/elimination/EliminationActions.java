@@ -1,8 +1,13 @@
 package com.jdd.powermanager.action.elimination;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import android.content.Context;
 import com.jdd.powermanager.action.AbsAction;
 import com.jdd.powermanager.action.AbsCallback;
+import com.jdd.powermanager.action.survey.SurveyActions;
+import com.jdd.powermanager.bean.District;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalManager;
 
@@ -22,7 +27,7 @@ public class EliminationActions
 		}.start();
 	}
 	
-	public static void updateProblemAndMethodWithMeterAssetNO(final String meterAssetNO,final String problem,final String method,AbsCallback cb)
+	public static void updateProblemAndMethodWithMeterAssetNO(final String meterAssetNO,final String problem,final String method,final String lo,final String la,final String LoginNo,AbsCallback cb)
 	{
 		new AbsAction(cb) 
 		{
@@ -32,6 +37,12 @@ public class EliminationActions
 				EliminateAbnormalManager.getInstance().updateAColumnValueWithColumnNameAndMeterAssetNO(meterAssetNO,EliminateAbnormal.ABNORMAL_PHENOMENON,problem);
 				
 				EliminateAbnormalManager.getInstance().updateAColumnValueWithColumnNameAndMeterAssetNO(meterAssetNO,EliminateAbnormal.ELIMINATE_METHOD,method);
+				
+				EliminateAbnormalManager.getInstance().updateAColumnValueWithColumnNameAndMeterAssetNO(meterAssetNO,EliminateAbnormal.LONGITUDE,lo);
+				
+				EliminateAbnormalManager.getInstance().updateAColumnValueWithColumnNameAndMeterAssetNO(meterAssetNO,EliminateAbnormal.LATITUDE,la);
+				
+				// TODO
 				
 				EliminateAbnormalManager.getInstance().saveOneMeter(meterAssetNO);
 				
@@ -141,7 +152,38 @@ public class EliminationActions
 			@Override
 			protected Object doJob() 
 			{
-				return EliminateAbnormalManager.getInstance().getAllDistrict();
+				List<District> list = EliminateAbnormalManager.getInstance().getAllDistrict();
+				
+				List<SurveyActions.DistrictInfo> l = new ArrayList<SurveyActions.DistrictInfo>();
+				
+				if( null == list || list.size() == 0 )
+				{
+					return null;
+				}
+				
+				for( int i = 0 ;  i < list.size() ; i++ )
+				{
+					SurveyActions.DistrictInfo d = new SurveyActions.DistrictInfo();
+					
+					l.add(d);
+					
+					d.d = list.get(i);
+					
+					if( null == d.d || null == d.d.getID() )
+					{
+						continue;
+					}
+					
+					ArrayList<HashMap<String, String>>  meters = EliminateAbnormalManager.getInstance().getEliminateTasksWithSpecifiedCommitStatus(d.d.getID(),0);
+					
+					d.count = null == meters ? 0 : meters.size();
+							
+					ArrayList<HashMap<String, String>>  metersOK = EliminateAbnormalManager.getInstance().getEliminateTasksWithSpecifiedCommitStatus(d.d.getID(),1);
+						
+					d.ok = null == metersOK ? 0 : metersOK.size();
+				}
+				
+				return l;
 			}
 		}.start();
 	}

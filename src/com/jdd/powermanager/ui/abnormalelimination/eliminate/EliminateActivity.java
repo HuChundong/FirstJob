@@ -2,26 +2,33 @@ package com.jdd.powermanager.ui.abnormalelimination.eliminate;
 
 import java.io.File;
 import java.util.HashMap;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.jdd.common.utils.barcode.BarCodeHelper;
 import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
+import com.jdd.common.utils.gps.GpsHelper;
+import com.jdd.common.utils.gps.LocationInfo;
 import com.jdd.common.utils.property.PropertyHelper;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
@@ -51,9 +58,11 @@ public class EliminateActivity extends BaseActivity
 	
 	private TextView mAddress;
 	
-	private TextView mLo;
+	private EditText mLo;
 	
-	private TextView mLa;
+	private EditText mLa;
+	
+	private Button mGps;
 	
 	private TextView mBarcode;
 	
@@ -154,9 +163,13 @@ public class EliminateActivity extends BaseActivity
 		
 		mAddress = (TextView) findViewById(R.id.address_edit);
 		
-		mLo = (TextView) findViewById(R.id.lo_edit);
+		mLo = (EditText) findViewById(R.id.lo_edit);
 		
-		mLa = (TextView) findViewById(R.id.la_edit);
+		mLa = (EditText) findViewById(R.id.la_edit);
+		
+		mGps = (Button) findViewById(R.id.gps_btn);
+		
+		mGps.setOnClickListener(mOnClickLis);
 		
 		mBarcode = (TextView) findViewById(R.id.barcode_edit);
 		
@@ -422,6 +435,13 @@ public class EliminateActivity extends BaseActivity
 		});
 	}
 	
+	private String getLoginNo()
+	{
+		 SharedPreferences settings = this.getSharedPreferences("userInfo", 0);
+		 
+		 return settings.getString("loginNo", "");
+	}
+	
 	public void save(final boolean isSubmit)
 	{
 		String problem = (String) mProblem.getSelectedItem();
@@ -429,6 +449,12 @@ public class EliminateActivity extends BaseActivity
 		String method = (String) mMethod.getSelectedItem();
 		
 		String code = mAssetNo.getText().toString();
+		
+		String lo = mLo.getText().toString();
+		
+		String la= mLa.getText().toString();
+		
+		String loginNo = getLoginNo();
 		
 		if( null == code || code.equals("") )
 		{
@@ -453,7 +479,7 @@ public class EliminateActivity extends BaseActivity
 		
 		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
 		
-		EliminationActions.updateProblemAndMethodWithMeterAssetNO(code, problem, method, new AbsCallback() 
+		EliminationActions.updateProblemAndMethodWithMeterAssetNO(code, problem, method,lo,la,loginNo, new AbsCallback() 
 		{
 			@Override
 			protected void onResult(Object o) 
@@ -483,6 +509,14 @@ public class EliminateActivity extends BaseActivity
 	public void finish() 
 	{
 		super.finish();
+		
+		mRunnable.mIsCancelGps = true;
+		
+		mHander.removeCallbacksAndMessages(null);
+		
+		mHander = null;
+		
+		mRunnable = null;
 		
 		BarCodeHelper.clearListener();
 	}
@@ -562,6 +596,90 @@ public class EliminateActivity extends BaseActivity
 		builder.create().show();
 	}
 	
+	private boolean mIsGPSing;
+	
+	@SuppressLint("HandlerLeak")
+	private Handler mHander = new Handler()
+	{
+		public void handleMessage(android.os.Message msg) 
+		{
+			mIsGPSing = false;
+			
+			mGps.setClickable(true);
+			
+			mGps.setText(R.string.btn_get);
+			
+			LocationInfo li = null == msg.obj ? null :  (LocationInfo) msg.obj;
+			
+			if( null != li )
+			{
+				mLo.setText(""+li.getLongitude());
+				
+				mLa.setText(""+li.getLatitude());
+			}
+		};
+	};
+	
+	private class GpsRunnable implements Runnable
+	{
+		private boolean mIsCancelGps;
+		
+		public void run() 
+		{
+			LocationInfo li = GpsHelper.getCurLocation();
+			
+			while( null == li  && !mIsCancelGps )
+			{
+				try 
+				{
+					Thread.sleep(5000);
+				} 
+				catch (InterruptedException e) 
+				{
+					e.printStackTrace();
+				}
+				
+				if(mIsCancelGps)
+				{
+					break;
+				}
+				
+				li = GpsHelper.getCurLocation();
+				
+				Log.d("", "zhou  -- boxview -- gps = " + li);
+			}
+			
+			if( !mIsCancelGps && null != mHander )
+			{
+				mHander.obtainMessage(0, li).sendToTarget();
+			}
+		};
+	}
+	
+	private GpsRunnable mRunnable = new GpsRunnable();
+	
+	private void gps()
+	{
+		if(mIsGPSing)
+		{
+			ToastHelper.showToastShort(this, this.getString(R.string.gps_get_location_wait_tip));
+			
+			return;
+		}
+		
+		ToastHelper.showToastShort(this, this.getString(R.string.gps_get_location_wait_tip));
+		
+		mIsGPSing = true;
+		
+		mGps.setClickable(false);
+		
+		mGps.setText(R.string.get_gps);
+		
+		mRunnable.mIsCancelGps = false;
+		
+		new Thread(mRunnable).start();
+	}
+	
 	private OnClickListener mOnClickLis = new OnClickListener() 
 	{
 		@Override
@@ -569,6 +687,12 @@ public class EliminateActivity extends BaseActivity
 		{
 			switch(v.getId())
 			{
+				case R.id.gps_btn:
+				
+					gps();
+				
+					break;
+			
 				case R.id.save:
 					
 					save(false);

@@ -11,6 +11,15 @@ import com.jdd.powermanager.model.MeterSurvey.MeterSurveyDataManager;
 
 public class SurveyActions 
 {
+	public static class DistrictInfo
+	{
+		public District d;
+		
+		public int count;
+		
+		public int ok;
+	}
+	
 	public static void init(final Context c,AbsCallback cb)
 	{
 		new AbsAction(cb) 
@@ -34,7 +43,36 @@ public class SurveyActions
 			{
 				List<District> list = MeterSurveyDataManager.getInstance().getAllDistrict();
 				
-				return list;
+				List<DistrictInfo> l = new ArrayList<DistrictInfo>();
+				
+				if( null == list || list.size() == 0 )
+				{
+					return null;
+				}
+				
+				for( int i = 0 ;  i < list.size() ; i++ )
+				{
+					DistrictInfo d = new DistrictInfo();
+					
+					l.add(d);
+					
+					d.d = list.get(i);
+					
+					if( null == d.d || null == d.d.getID() )
+					{
+						continue;
+					}
+					
+					ArrayList<HashMap<String, String>>  meters = MeterSurveyDataManager.getInstance().getAllMetersInDistrict(d.d.getID());
+					
+					d.count = null == meters ? 0 : meters.size();
+							
+					ArrayList<HashMap<String, String>>  metersOK = MeterSurveyDataManager.getInstance().getAllSurveyedBoxesInDistrict(d.d.getID(),1);
+						
+					d.ok = null == metersOK ? 0 : metersOK.size();
+				}
+				
+				return l;
 			}
 		}.start();
 	}
