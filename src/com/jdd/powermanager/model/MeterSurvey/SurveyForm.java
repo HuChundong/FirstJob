@@ -33,6 +33,21 @@ public class SurveyForm
 	 */
 	public static final String SURVEY_RELATION = "SURVEY_RELATION";
 	
+	/**
+	 * 操作员
+	 */
+	public static final String OPERATER = "OPERATER";
+	
+	/**
+	 * 操作日期
+	 */
+	public static final String OPERATE_DATE = "OPERATE_DATE";
+	
+	/**
+	 * 操作时间
+	 */
+	public static final String OPERATE_TIME = "OPERATE_TIME";
+	
 	public static final String COMMA_SEP = ",";
 	
 	/**

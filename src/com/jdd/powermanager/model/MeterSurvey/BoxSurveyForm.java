@@ -54,7 +54,10 @@ public final class BoxSurveyForm extends SurveyForm
 									SurveyForm.ABNORMAL_COMMENT,
 									SurveyForm.COMMIT_STATUS,
 									SurveyForm.SURVEY_STATUS,
-									SurveyForm.SURVEY_RELATION
+									SurveyForm.SURVEY_RELATION,
+									SurveyForm.OPERATER,
+									SurveyForm.OPERATE_DATE,
+									SurveyForm.OPERATE_TIME									
 								};
 		
 		public static String[] DBToXLSColumnNameAll = 
@@ -73,13 +76,19 @@ public final class BoxSurveyForm extends SurveyForm
 									"异常备注",
 									"提交状态",
 									"普查状态",
-									"关系"
+									"关系",
+									"操作员(OPERATER)",
+									"操作日期(OPERATE_DATE)",
+									"操作时间(OPERATE_TIME)"
 								};
 		
 		public static String[] DBToXLSColumnIndexDistrict = 
 			{
 				DISTRICT_LOGO,
-				DISTRICT_ID
+				DISTRICT_ID,
+				SurveyForm.OPERATER,
+				SurveyForm.OPERATE_DATE,
+				SurveyForm.OPERATE_TIME
 			};
 		
 		public static String[] DBToXLSColumnIndexBox = 

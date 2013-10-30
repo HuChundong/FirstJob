@@ -57,7 +57,10 @@ public class EliminateAbnormalForm extends SurveyForm
 				 ELIMINATE_RESULT,	
 				 ELIMINATE_METHOD,
 				 PHOTO_PATH,
-				 COMMIT_STATUS
+				 COMMIT_STATUS,
+				 SurveyForm.OPERATER,
+				 SurveyForm.OPERATE_DATE,
+				 SurveyForm.OPERATE_TIME
 			};
 		
 		public static String[] DBToXLSColumnNameAll = 
@@ -77,7 +80,10 @@ public class EliminateAbnormalForm extends SurveyForm
 				 "消缺结果(ELIMINATE_RESULT)",	
 				 "消缺方法(ELIMINATE_METHOD)",
 				 "相片路径",
-				 "提交状态"
+				 "提交状态",
+				 "操作员(OPERATER)",
+				 "操作日期(OPERATE_DATE)",
+				 "操作时间(OPERATE_TIME)"
 			};
 	}
 }

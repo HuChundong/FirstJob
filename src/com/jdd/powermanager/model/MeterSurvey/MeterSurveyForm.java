@@ -104,7 +104,10 @@ public final class MeterSurveyForm extends SurveyForm
 								SurveyForm.ABNORMAL_COMMENT,
 								SurveyForm.COMMIT_STATUS,
 								SurveyForm.SURVEY_STATUS,
-								SurveyForm.SURVEY_RELATION
+								SurveyForm.SURVEY_RELATION,
+								SurveyForm.OPERATER,
+								SurveyForm.OPERATE_DATE,
+								SurveyForm.OPERATE_TIME
 								};
 		
 		public static String[] DBToXLSColumnNameAll = 
@@ -140,7 +143,10 @@ public final class MeterSurveyForm extends SurveyForm
 								"备注",
 								"提交状态",
 								"普查状态",
-								"关系"
+								"关系",
+								"操作员(OPERATER)",
+								"操作日期(OPERATE_DATE)",
+								"操作时间(OPERATE_TIME)"
 								};
 		
 		public static String[] DBToXLSColumnIndexMeter = 
@@ -180,7 +186,10 @@ public final class MeterSurveyForm extends SurveyForm
 				LATITUDE,
 				SURVEY_TIME,
 				SurveyForm.ABNORMAL_COMMENT,
-				SurveyForm.COMMIT_STATUS
+				SurveyForm.COMMIT_STATUS,
+				SurveyForm.OPERATER,
+				SurveyForm.OPERATE_DATE,
+				SurveyForm.OPERATE_TIME
 			};
 		
 	}
