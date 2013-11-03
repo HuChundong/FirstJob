@@ -27,9 +27,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import com.jdd.common.utils.barcode.BarCodeHelper;
 import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
+import com.jdd.common.utils.date.DateHelper;
 import com.jdd.common.utils.gps.GpsHelper;
 import com.jdd.common.utils.gps.LocationInfo;
 import com.jdd.common.utils.property.PropertyHelper;
+import com.jdd.common.utils.time.TimeHelper;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
@@ -479,7 +481,15 @@ public class EliminateActivity extends BaseActivity
 		
 		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
 		
-		EliminationActions.updateProblemAndMethodWithMeterAssetNO(code, problem, method,lo,la,loginNo, new AbsCallback() 
+		String date = DateHelper.getDate("-");
+		
+		String time = TimeHelper.getTime(":");
+		
+		String logNo = getLoginNo();
+		
+		logNo = null == logNo ? "" : logNo;
+		
+		EliminationActions.updateProblemAndMethodWithMeterAssetNO(date , time , logNo , code, problem, method,lo,la,loginNo, new AbsCallback() 
 		{
 			@Override
 			protected void onResult(Object o) 

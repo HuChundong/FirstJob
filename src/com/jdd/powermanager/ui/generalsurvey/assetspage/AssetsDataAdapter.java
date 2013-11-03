@@ -203,6 +203,9 @@ public class AssetsDataAdapter  extends BaseAdapter
 			h.dristrictId = (TextView) view.findViewById(R.id.dristrict_id);
 			h.userCategory = (TextView) view.findViewById(R.id.user_category);
 			h.wiring = (TextView) view.findViewById(R.id.wiring);
+			h.oper = (TextView) view.findViewById(R.id.operator);
+			h.date = (TextView) view.findViewById(R.id.op_date);
+			h.time = (TextView) view.findViewById(R.id.op_time);
 			
 			view.setTag(h);
 		}
@@ -236,6 +239,10 @@ public class AssetsDataAdapter  extends BaseAdapter
 			h.dristrictId.setText(mDristritId);
 			h.userCategory.setText(data.get(MeterSurvey.USER_TYPE));
 			h.wiring.setText(data.get(MeterSurvey.WIRING_METHOD));
+			
+			h.oper.setText(data.get(SurveyForm.OPERATER));
+			h.date.setText(data.get(SurveyForm.OPERATE_DATE));
+			h.time.setText(data.get(SurveyForm.OPERATE_TIME));
 		}
 		
 		final String code = (String) h.assetNO.getText();
@@ -301,5 +308,11 @@ public class AssetsDataAdapter  extends BaseAdapter
 		TextView userCategory;
 		
 		TextView wiring;
+		
+		TextView date;
+		
+		TextView time;
+		
+		TextView oper;
 	}
 }

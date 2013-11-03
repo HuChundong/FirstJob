@@ -208,11 +208,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textSize="12sp"
-        android:text="@string/photo"/>
-    
-    <View 
-        android:layout_width="0.1dp"
-        android:layout_height="match_parent"
-        android:background="#66004E98"/>    
+        android:text="@string/photo"/>	
     
 </LinearLayout>

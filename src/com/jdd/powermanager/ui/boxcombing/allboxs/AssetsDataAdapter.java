@@ -217,6 +217,12 @@ public class AssetsDataAdapter  extends BaseAdapter
 			
 			h.barCode = (TextView) view.findViewById(R.id.box_barcode);
 			
+			h.oper = (TextView) view.findViewById(R.id.operator);
+			
+			h.date = (TextView) view.findViewById(R.id.op_date);
+			
+			h.time = (TextView) view.findViewById(R.id.op_time);
+			
 			view.setTag(h);
 		}
 		else
@@ -257,6 +263,12 @@ public class AssetsDataAdapter  extends BaseAdapter
 			h.disId.setText(mDristritId);
 			
 			h.barCode.setText(data.get(BoxSurvey.ASSET_NO));
+			
+			h.oper.setText(data.get(SurveyForm.OPERATER));
+			
+			h.date.setText(data.get(SurveyForm.OPERATE_DATE));
+			
+			h.time.setText(data.get(SurveyForm.OPERATE_TIME));
 		}
 		
 		final String code = (String) h.barCode.getText();
@@ -318,5 +330,11 @@ public class AssetsDataAdapter  extends BaseAdapter
 		TextView disId;
 		
 		TextView barCode;
+		
+		TextView date;
+		
+		TextView time;
+		
+		TextView oper;
 	}
 }

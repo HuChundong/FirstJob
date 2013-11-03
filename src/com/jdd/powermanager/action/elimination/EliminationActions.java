@@ -10,6 +10,7 @@ import com.jdd.powermanager.action.survey.SurveyActions;
 import com.jdd.powermanager.bean.District;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalManager;
+import com.jdd.powermanager.model.MeterSurvey.SurveyForm;
 
 public class EliminationActions 
 {
@@ -27,7 +28,7 @@ public class EliminationActions
 		}.start();
 	}
 	
-	public static void updateProblemAndMethodWithMeterAssetNO(final String meterAssetNO,final String problem,final String method,final String lo,final String la,final String LoginNo,AbsCallback cb)
+	public static void updateProblemAndMethodWithMeterAssetNO(final String date , final String time , final String oper ,final String meterAssetNO,final String problem,final String method,final String lo,final String la,final String LoginNo,AbsCallback cb)
 	{
 		new AbsAction(cb) 
 		{
@@ -42,7 +43,11 @@ public class EliminationActions
 				
 				EliminateAbnormalManager.getInstance().updateAColumnValueWithColumnNameAndMeterAssetNO(meterAssetNO,EliminateAbnormal.LATITUDE,la);
 				
-				// TODO
+				EliminateAbnormalManager.getInstance().updateAColumnValueWithColumnNameAndMeterAssetNO(meterAssetNO,SurveyForm.OPERATER,oper);
+				
+				EliminateAbnormalManager.getInstance().updateAColumnValueWithColumnNameAndMeterAssetNO(meterAssetNO,SurveyForm.OPERATE_TIME,time);
+				
+				EliminateAbnormalManager.getInstance().updateAColumnValueWithColumnNameAndMeterAssetNO(meterAssetNO,SurveyForm.OPERATE_DATE,date);
 				
 				EliminateAbnormalManager.getInstance().saveOneMeter(meterAssetNO);
 				

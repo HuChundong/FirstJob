@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -19,8 +20,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.jdd.common.utils.barcode.BarCodeHelper;
 import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
+import com.jdd.common.utils.date.DateHelper;
 import com.jdd.common.utils.gps.GpsHelper;
 import com.jdd.common.utils.gps.LocationInfo;
+import com.jdd.common.utils.time.TimeHelper;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
@@ -363,6 +366,14 @@ public class NewBoxActivity extends BaseActivity
 		
 		boxList.add(box);
 		
+		String logNo = getLoginNo();
+		
+		mDistrict.put(SurveyForm.OPERATER, null == logNo ? "" : logNo );
+		
+		mDistrict.put(SurveyForm.OPERATE_DATE, DateHelper.getDate("-"));
+		
+		mDistrict.put(SurveyForm.OPERATE_TIME, TimeHelper.getTime(":"));
+		
 		CombingActions.saveBoxSurvey(new AbsCallback() 
 		{
 			@Override
@@ -382,6 +393,13 @@ public class NewBoxActivity extends BaseActivity
 				}
 			}
 		}, mDistrict, boxList);
+	}
+	
+	private String getLoginNo()
+	{
+		 SharedPreferences settings = this.getSharedPreferences("userInfo", 0);
+		 
+		 return settings.getString("loginNo", "");
 	}
 	
 	private void exc()
