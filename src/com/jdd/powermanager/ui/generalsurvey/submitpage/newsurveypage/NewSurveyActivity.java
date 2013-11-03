@@ -3,12 +3,16 @@ package com.jdd.powermanager.ui.generalsurvey.submitpage.newsurveypage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.widget.TextView;
 import com.jdd.common.utils.barcode.BarCodeHelper;
+import com.jdd.common.utils.date.DateHelper;
+import com.jdd.common.utils.time.TimeHelper;
 import com.jdd.common.utils.toast.ToastHelper;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
@@ -16,6 +20,7 @@ import com.jdd.powermanager.action.survey.SurveyActions;
 import com.jdd.powermanager.basic.BaseActivity;
 import com.jdd.powermanager.basic.MyViewPagerAdapter;
 import com.jdd.powermanager.model.MeterSurvey.MeterSurveyForm.MeterSurvey;
+import com.jdd.powermanager.model.MeterSurvey.SurveyForm;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 
 public class NewSurveyActivity extends BaseActivity 
@@ -137,6 +142,14 @@ public class NewSurveyActivity extends BaseActivity
 		
 		box.put(MeterSurvey.LOCKER_NO, null == lock ? "" : lock);
 		
+		String loginNo = getLoginNo();
+		
+		box.put(SurveyForm.OPERATER, null == loginNo ? "" : loginNo );
+		
+		box.put(SurveyForm.OPERATE_DATE, DateHelper.getDate("-") );
+		
+		box.put(SurveyForm.OPERATE_TIME, TimeHelper.getTime(":") );
+		
 		FullScreenWaitBar.show(this, R.layout.full_screen_wait_bar);
 		
 		SurveyActions.saveOneBoxMeterSurvey(new AbsCallback() 
@@ -158,6 +171,13 @@ public class NewSurveyActivity extends BaseActivity
 				}
 			}
 		}, box, meters, mDistrictId);
+	}
+	
+	private String getLoginNo()
+	{
+		 SharedPreferences settings = this.getSharedPreferences("userInfo", 0);
+		 
+		 return settings.getString("loginNo", "");
 	}
 	
 	private OnPageChangeListener mOnPageChangeLis = new OnPageChangeListener()

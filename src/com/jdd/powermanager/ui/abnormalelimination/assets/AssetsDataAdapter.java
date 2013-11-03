@@ -164,7 +164,7 @@ public class AssetsDataAdapter  extends BaseAdapter
 		
 		if( null == view )
 		{
-			view = LayoutInflater.from(mContext).inflate(R.layout.elimination_item, null);
+			view = LayoutInflater.from(mContext).inflate(R.layout.elimination_assets_item, null);
 			
 			h = new Holder();
 			
@@ -197,6 +197,12 @@ public class AssetsDataAdapter  extends BaseAdapter
 			h.method = (TextView) view.findViewById(R.id.method);
 			
 			h.photo = (TextView) view.findViewById(R.id.photo);
+			
+			h.oper = (TextView) view.findViewById(R.id.operator);
+			
+			h.date = (TextView) view.findViewById(R.id.op_date);
+			
+			h.time = (TextView) view.findViewById(R.id.op_time);
 			
 			view.setTag(h);
 		}
@@ -239,6 +245,12 @@ public class AssetsDataAdapter  extends BaseAdapter
 			h.method.setText(data.get(EliminateAbnormal.ELIMINATE_METHOD));
 			
 			h.photo.setText(mContext.getString(R.string.click_to_view));
+			
+			h.oper.setText(data.get(SurveyForm.OPERATER));
+			
+			h.date.setText(data.get(SurveyForm.OPERATE_DATE));
+			
+			h.time.setText(data.get(SurveyForm.OPERATE_TIME));
 		}
 		
 		final String code = (String) h.meterBarcode.getText();
@@ -325,5 +337,11 @@ public class AssetsDataAdapter  extends BaseAdapter
 		TextView method;
 		
 		TextView photo;
+		
+		TextView date;
+		
+		TextView time;
+		
+		TextView oper;
 	}
 }
