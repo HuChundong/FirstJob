@@ -321,5 +321,15 @@ public class EliminateAbnormalManager extends SurveyDataManager
 		}
 	}
 	
-	
+	/**
+	 * 获取任务内所有电表id
+	 * @return 任务内所有电表id
+	 */
+	public String[] getAllMeterAssetNO()
+	{
+		synchronized(instance)
+		{
+			return (String[])mEliminateAbnormalDBHelper.getAllMeterAssetNO().toArray();
+		}
+	}
 }

@@ -217,6 +217,48 @@ public class EliminateAbnormalDBHelper extends SQLiteOpenHelper
 	}
 	
 	/**
+	 * 获取任务内所有电表id
+	 * @return 任务内所有电表id
+	 */
+	public ArrayList<String> getAllMeterAssetNO()
+	{
+		String SQL = "SELECT " + EliminateAbnormal.D_ASSET_NO;
+		
+		SQL += " FROM " + EliminateAbnormal.TABLE_NAME;
+		
+		SQLiteDatabase db = getWritableDatabase();
+		
+		ArrayList<String> meterAssetNO = new ArrayList<String>();
+    	
+		Cursor c = null;
+		
+		try
+		{
+			c = db.rawQuery(SQL, null);  
+	        while (c.moveToNext())
+	        {
+	        	meterAssetNO.add(c.getString(0));
+	        }	
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c != null)
+			{
+				c.close();	
+			}
+			
+			db.close();
+				
+		}
+        
+        return meterAssetNO;  
+	}
+	
+	/**
 	 * 根据电表资产编号，更新某列的值
 	 * @param meterAssetNO 电表资产编号
 	 * @param columnName 列名
