@@ -4,7 +4,7 @@
     android:layout_height="200dp"
     android:layout_gravity="center" >
     
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -12,8 +12,12 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:singleLine="false"
-        android:textSize="20dp"
+        android:textSize="20sp"
+        android:completionThreshold="1"
+        android:dropDownVerticalOffset="2dp"
+        android:dropDownAnchor="@+id/edit_text"
         android:layout_centerInParent="true"
-        android:inputType="text" />
+        android:dropDownHeight="115dp"
+        android:inputType="numberSigned" />
 
 </RelativeLayout>

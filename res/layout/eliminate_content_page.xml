@@ -88,7 +88,7 @@
 		            android:layout_centerVertical="true"
 		            android:text="@string/meter_asset_no_label"/>
 		        
-		        <EditText 
+		        <AutoCompleteTextView 
 		            android:id="@+id/asset_no_edit"
 		            android:layout_marginLeft="10dp"
 		            android:layout_toRightOf="@+id/label_asset_no"
@@ -96,6 +96,10 @@
 		            android:layout_centerVertical="true"
 		            android:inputType="number"
 		            android:gravity="center"
+		            android:completionThreshold="1"
+        			android:dropDownVerticalOffset="2dp"
+        			android:dropDownHeight="120dp"
+       				android:dropDownAnchor="@+id/asset_no_edit"
 		            android:layout_height="wrap_content"/>
 		    </RelativeLayout>
 			        

@@ -7,6 +7,7 @@ import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
 import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.action.elimination.EliminationActions;
+import com.jdd.powermanager.bean.Meters;
 import com.jdd.powermanager.ui.abnormalelimination.eliminate.EliminateActivity;
 import com.jdd.powermanager.ui.widgt.FullScreenWaitBar;
 import android.app.AlertDialog;
@@ -19,7 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,7 +42,7 @@ public class UnSubmitFragment extends Fragment
 	
 	private TextView mAdd;
 	
-	private EditText mCodeEdit;
+	private AutoCompleteTextView mCodeEdit;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -114,7 +116,20 @@ public class UnSubmitFragment extends Fragment
 	
 	private void add()
 	{
-		showDiyDialog();
+		FullScreenWaitBar.show(getActivity(), R.layout.full_screen_wait_bar);
+		
+		EliminationActions.getAllMeterAssetNO( new AbsCallback() 
+		{
+			@Override
+			protected void onResult(Object o)
+			{
+				FullScreenWaitBar.hide();
+				
+				Meters m = (Meters)o;
+				
+				showDiyDialog(m.getAllNos());
+			}
+		});
 	}
 	
 	private OnClickListener mOnClickLis = new OnClickListener() 
@@ -167,7 +182,7 @@ public class UnSubmitFragment extends Fragment
 		}
 	};
 	
-	private void showDiyDialog()
+	private void showDiyDialog(final String[] nos)
 	{
 		final OnBarCodeScanedListener backLis = BarCodeHelper.getListener();
 		
@@ -175,7 +190,14 @@ public class UnSubmitFragment extends Fragment
 		
 		View v = LayoutInflater.from(getActivity()).inflate(R.layout.edittext_dialog_view, null);
 		
-		mCodeEdit = (EditText) v.findViewById(R.id.edit_text);
+		mCodeEdit = (AutoCompleteTextView) v.findViewById(R.id.edit_text);
+		
+		if( null != nos )
+		{
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>( getActivity(),  R.layout.drop_down_list_item,  nos); 
+			
+			mCodeEdit.setAdapter(adapter);
+		}
 		
 		AlertDialog.Builder builder = new Builder(getActivity());
 		
@@ -197,7 +219,7 @@ public class UnSubmitFragment extends Fragment
 				i.setClass(getActivity(), EliminateActivity.class);
 					
 				i.putExtra("code", code);
-					
+				
 				startActivity(i);
 			}
 		});

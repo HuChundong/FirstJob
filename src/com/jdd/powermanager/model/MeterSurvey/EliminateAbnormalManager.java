@@ -329,7 +329,9 @@ public class EliminateAbnormalManager extends SurveyDataManager
 	{
 		synchronized(instance)
 		{
-			return (String[])mEliminateAbnormalDBHelper.getAllMeterAssetNO().toArray();
+			String[] nos = new String[]{};
+			
+			return mEliminateAbnormalDBHelper.getAllMeterAssetNO().toArray(nos);
 		}
 	}
 }

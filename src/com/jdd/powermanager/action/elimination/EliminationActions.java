@@ -8,6 +8,7 @@ import com.jdd.powermanager.action.AbsAction;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.action.survey.SurveyActions;
 import com.jdd.powermanager.bean.District;
+import com.jdd.powermanager.bean.Meters;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalManager;
 import com.jdd.powermanager.model.MeterSurvey.SurveyForm;
@@ -201,6 +202,24 @@ public class EliminationActions
 			protected Object doJob() 
 			{
 				return EliminateAbnormalManager.getInstance().getEliminateTaskWithSpecifiedAssetNO(no);
+			}
+		}.start();
+	}
+	
+	public static void getAllMeterAssetNO(AbsCallback cb)
+	{
+		new AbsAction(cb) 
+		{
+			@Override
+			protected Object doJob() 
+			{
+				String[] no = EliminateAbnormalManager.getInstance().getAllMeterAssetNO();
+				
+				Meters m = new Meters();
+				
+				m.setNos(no);
+				
+				return m;
 			}
 		}.start();
 	}

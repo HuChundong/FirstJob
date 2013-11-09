@@ -20,6 +20,8 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
@@ -37,6 +39,7 @@ import com.jdd.powermanager.R;
 import com.jdd.powermanager.action.AbsCallback;
 import com.jdd.powermanager.action.elimination.EliminationActions;
 import com.jdd.powermanager.basic.BaseActivity;
+import com.jdd.powermanager.bean.Meters;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalManager;
 import com.jdd.powermanager.model.MeterSurvey.EliminateAbnormalForm.EliminateAbnormal;
 import com.jdd.powermanager.ui.abnormalelimination.viewimage.ViewImageActivity;
@@ -54,7 +57,7 @@ public class EliminateActivity extends BaseActivity
 	
 	private TextView mMpNO;
 	
-	private EditText mAssetNo;
+	private AutoCompleteTextView mAssetNo;
 	
 	private TextView mUserName;
 	
@@ -98,20 +101,38 @@ public class EliminateActivity extends BaseActivity
 			@Override
 			protected void onResult(Object o) 
 			{
-				FullScreenWaitBar.hide();
-				
 				@SuppressWarnings("unchecked")
 				HashMap<String, String> meter = null == o ? null : (HashMap<String, String>)o;
 			 	
 				if( null == meter || meter.isEmpty() )
 				{
+					FullScreenWaitBar.hide();
+					
 					ToastHelper.showToastShort(EliminateActivity.this, EliminateActivity.this.getString(R.string.no_need_elimination));
 					
 					finish();
 				}
 				else
 				{
-					mAssetNo.setText(meterCode);
+					EliminationActions.getAllMeterAssetNO( new AbsCallback() 
+					{
+						@Override
+						protected void onResult(Object o)
+						{
+							FullScreenWaitBar.hide();
+							
+							Meters m = (Meters)o;
+							
+							mAssetNo.setText(meterCode);
+							
+							if( null != m.getAllNos() )
+							{
+								ArrayAdapter<String> adapter = new ArrayAdapter<String>( EliminateActivity.this,  R.layout.drop_down_list_item,  m.getAllNos()); 
+								
+								mAssetNo.setAdapter(adapter);
+							}
+						}
+					});
 				}
 			}
 		});
@@ -139,7 +160,7 @@ public class EliminateActivity extends BaseActivity
 		
 		mMpNO = (TextView) findViewById(R.id.mp_edit);
 		
-		mAssetNo = (EditText) findViewById(R.id.asset_no_edit);
+		mAssetNo = (AutoCompleteTextView) findViewById(R.id.asset_no_edit);
 		
 		mAssetNo.addTextChangedListener(new TextWatcher() 
 		{
@@ -350,9 +371,9 @@ public class EliminateActivity extends BaseActivity
 	 	
 		if( null == meter || meter.isEmpty() )
 		{
-			ToastHelper.showToastShort(EliminateActivity.this, EliminateActivity.this.getString(R.string.no_need_elimination));
+//			ToastHelper.showToastShort(EliminateActivity.this, EliminateActivity.this.getString(R.string.no_need_elimination));
 			
-			finish();
+//			finish();
 		}
 		
 		mUserNo.setText(meter.get(EliminateAbnormal.CONS_NO));
