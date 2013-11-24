@@ -22,6 +22,8 @@ public class EliminateAbnormalManager extends SurveyDataManager
 	
 	private static EliminateAbnormalManager instance = new EliminateAbnormalManager();
 	
+	private static String[] ALLMETERNOS = null;
+	
 	private EliminateAbnormalManager()
 	{
 		
@@ -53,6 +55,9 @@ public class EliminateAbnormalManager extends SurveyDataManager
 		
 		//将excel内容导入数据库		
 		parseEliminateAbnormalXLSToDB();
+		
+		//记录表单中的所有任务id
+		ALLMETERNOS = getAllMeterAssetNO();
 	}
 	
 	/**
@@ -333,5 +338,49 @@ public class EliminateAbnormalManager extends SurveyDataManager
 			
 			return mEliminateAbnormalDBHelper.getAllMeterAssetNO().toArray(nos);
 		}
+	}
+	
+	/**
+	 * 根据子字符串，寻找符合的id
+	 * @param subString
+	 * @return
+	 */
+	public String[] getAllMeterAssetNOHasSpecificStrings(String subString)
+	{
+		synchronized(instance)
+		{
+			if (null == ALLMETERNOS)
+			{
+				return null;
+			}
+			
+			ArrayList<String> retStringsArray = new ArrayList<String>();
+			
+			for (int i = 0; i < ALLMETERNOS.length; i ++)
+			{
+				if (ALLMETERNOS[i].contains(subString))
+				{
+					retStringsArray.add(ALLMETERNOS[i]);
+				}				
+			}
+			
+			String[] nos = new String[]{};
+			return retStringsArray.toArray(nos);			
+		}
+	}
+	
+	
+	private void addStringToALLMETERNOS(String assetNo)
+	{
+		ArrayList<String> retStringsArray = new ArrayList<String>();
+		for (int i = 0; i < ALLMETERNOS.length; i ++)
+		{
+			retStringsArray.add(ALLMETERNOS[i]);
+		}
+		
+		retStringsArray.add(assetNo);
+		
+		String[] nos = new String[]{};
+		ALLMETERNOS = retStringsArray.toArray(nos);
 	}
 }
