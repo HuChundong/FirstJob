@@ -1,15 +1,17 @@
 package com.jdd.powermanager.bean;
 
+import java.util.List;
+
 public class Meters 
 {
-	private String[] mNos;
+	private List<String> mNos;
 	
-	public String[] getAllNos()
+	public List<String> getAllNos()
 	{
 		return mNos;
 	}
 	
-	public void setNos(String[] n)
+	public void setNos(List<String> n)
 	{
 		mNos = n;
 	}

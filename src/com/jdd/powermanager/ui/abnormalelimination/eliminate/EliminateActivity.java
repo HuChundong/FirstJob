@@ -20,7 +20,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -127,7 +126,7 @@ public class EliminateActivity extends BaseActivity
 							
 							if( null != m.getAllNos() )
 							{
-								ArrayAdapter<String> adapter = new ArrayAdapter<String>( EliminateActivity.this,  R.layout.drop_down_list_item,  m.getAllNos()); 
+								FilterAdapter adapter = new FilterAdapter( EliminateActivity.this,  R.layout.drop_down_list_item,  m.getAllNos()); 
 								
 								mAssetNo.setAdapter(adapter);
 							}

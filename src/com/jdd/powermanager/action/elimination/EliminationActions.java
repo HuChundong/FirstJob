@@ -215,9 +215,19 @@ public class EliminationActions
 			{
 				String[] no = EliminateAbnormalManager.getInstance().getAllMeterAssetNO();
 				
+				List<String> noList = new ArrayList<String>();
+				
+				if( null != no )
+				{
+					for(int i = 0 ; i < no.length ; i++ )
+					{
+						noList.add(no[i]);
+					}	
+				}
+				
 				Meters m = new Meters();
 				
-				m.setNos(no);
+				m.setNos(noList);
 				
 				return m;
 			}

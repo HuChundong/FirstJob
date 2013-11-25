@@ -2,6 +2,7 @@ package com.jdd.powermanager.ui.abnormalelimination.unsubmitpage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import com.jdd.common.utils.barcode.BarCodeHelper;
 import com.jdd.common.utils.barcode.OnBarCodeScanedListener;
 import com.jdd.powermanager.R;
@@ -20,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -182,7 +182,7 @@ public class UnSubmitFragment extends Fragment
 		}
 	};
 	
-	private void showDiyDialog(final String[] nos)
+	private void showDiyDialog(final List<String> nos)
 	{
 		final OnBarCodeScanedListener backLis = BarCodeHelper.getListener();
 		
@@ -194,7 +194,7 @@ public class UnSubmitFragment extends Fragment
 		
 		if( null != nos )
 		{
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>( getActivity(),  R.layout.drop_down_list_item,  nos); 
+			FilterAdapter adapter = new FilterAdapter( getActivity(),  R.layout.drop_down_list_item,  nos); 
 			
 			mCodeEdit.setAdapter(adapter);
 		}
