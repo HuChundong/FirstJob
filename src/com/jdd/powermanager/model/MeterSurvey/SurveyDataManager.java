@@ -1,5 +1,6 @@
 package com.jdd.powermanager.model.MeterSurvey;
 
+import java.io.File;
 import java.util.HashMap;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -16,10 +17,12 @@ import android.os.Environment;
 
 public class SurveyDataManager 
 {
-//	protected static final String SD = Environment.
-//			getExternalStorageDirectory().getAbsolutePath();
+	protected static final String SD_PHONE = Environment.
+			getExternalStorageDirectory().getAbsolutePath();
 	
-	protected static final String SD = "/mnt/sdcard-ext";
+	protected static final String SD_PDA = "/mnt/sdcard-ext";
+	
+	protected static String SD = SD_PHONE;
 
 	protected static final String FOLDER = "/survey";
 	
@@ -28,6 +31,16 @@ public class SurveyDataManager
 	protected void initSurveyTask()
 	{
 		
+	}
+	
+	static
+	{
+		File file = new File(SD + FOLDER);
+		
+		if (!file.exists())
+		{
+			SD = SD_PDA;
+		}
 	}
 	
 	/**
